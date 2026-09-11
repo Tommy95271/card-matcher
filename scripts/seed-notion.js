@@ -11,14 +11,15 @@ const __dirname = path.dirname(__filename);
 
 const apiKey = process.env.NOTION_API_KEY;
 const parentPageId = process.env.NOTION_PARENT_PAGE_ID;
+const databaseId = process.env.NOTION_DATABASE_ID;
 
 if (!apiKey) {
   console.error('❌ 錯誤：請先在 .env 中設定 NOTION_API_KEY！');
   process.exit(1);
 }
 
-if (!parentPageId) {
-  console.error('❌ 錯誤：請先在 .env 中設定 NOTION_PARENT_PAGE_ID（母頁面 ID）！');
+if (!databaseId && !parentPageId) {
+  console.error('❌ 錯誤：請在 .env 中設定 NOTION_DATABASE_ID（現有資料庫）或 NOTION_PARENT_PAGE_ID（母頁面 ID）！');
   process.exit(1);
 }
 
@@ -31,23 +32,24 @@ const merchants = JSON.parse(rawMerchants);
 
 async function seedNotion() {
   try {
-    console.log('🚀 開始在 Notion 母頁面下建立【2026 信用卡方案與通路回饋庫】資料庫...');
+    let targetDatabaseId = databaseId ? databaseId.replace(/-/g, '') : null;
 
-    // 1. 建立 Notion Database
-    const cleanParentId = parentPageId.replace(/-/g, '');
-    const dbResponse = await notion.databases.create({
-      parent: {
-        type: 'page_id',
-        page_id: cleanParentId
-      },
-      title: [
-        {
-          type: 'text',
-          text: {
-            content: '💳 2026 信用卡方案與通路回饋庫'
+    if (!targetDatabaseId) {
+      console.log('🚀 開始在 Notion 母頁面下建立【2026 信用卡方案與通路回饋庫】資料庫...');
+      const cleanParentId = parentPageId.replace(/-/g, '');
+      const dbResponse = await notion.databases.create({
+        parent: {
+          type: 'page_id',
+          page_id: cleanParentId
+        },
+        title: [
+          {
+            type: 'text',
+            text: {
+              content: '💳 2026 信用卡方案與通路回饋庫'
+            }
           }
-        }
-      ],
+        ],
       properties: {
         '店家名稱': {
           title: {}
@@ -139,21 +141,22 @@ async function seedNotion() {
           }
         }
       }
-    });
+      targetDatabaseId = dbResponse.id;
+      console.log(`✅ 成功建立 Notion 資料庫！Database ID: ${targetDatabaseId}`);
 
-    const newDatabaseId = dbResponse.id;
-    console.log(`✅ 成功建立 Notion 資料庫！Database ID: ${newDatabaseId}`);
-
-    // 更新 .env 中的 NOTION_DATABASE_ID
-    const envPath = path.join(__dirname, '../.env');
-    let envContent = fs.existsSync(envPath) ? fs.readFileSync(envPath, 'utf-8') : '';
-    if (envContent.includes('NOTION_DATABASE_ID=')) {
-      envContent = envContent.replace(/NOTION_DATABASE_ID=.*/, `NOTION_DATABASE_ID=${newDatabaseId}`);
+      // 更新 .env 中的 NOTION_DATABASE_ID
+      const envPath = path.join(__dirname, '../.env');
+      let envContent = fs.existsSync(envPath) ? fs.readFileSync(envPath, 'utf-8') : '';
+      if (envContent.includes('NOTION_DATABASE_ID=')) {
+        envContent = envContent.replace(/NOTION_DATABASE_ID=.*/, `NOTION_DATABASE_ID=${targetDatabaseId}`);
+      } else {
+        envContent += `\nNOTION_DATABASE_ID=${targetDatabaseId}\n`;
+      }
+      fs.writeFileSync(envPath, envContent);
+      console.log('📝 已自動更新 .env 檔案中的 NOTION_DATABASE_ID。');
     } else {
-      envContent += `\nNOTION_DATABASE_ID=${newDatabaseId}\n`;
+      console.log(`🎯 使用現有 Notion 資料庫: ${targetDatabaseId}`);
     }
-    fs.writeFileSync(envPath, envContent);
-    console.log('📝 已自動更新 .env 檔案中的 NOTION_DATABASE_ID。');
 
     // 2. 批次寫入所有店家資料
     console.log(`⏳ 正在批次寫入 ${merchants.length} 筆店家與回饋規則...`);
@@ -165,7 +168,7 @@ async function seedNotion() {
       const megaRate = m.schemes.mega_bt21 ? m.schemes.mega_bt21.rate : 1.0;
 
       await notion.pages.create({
-        parent: { database_id: newDatabaseId },
+        parent: { database_id: targetDatabaseId },
         properties: {
           '店家名稱': {
             title: [{ text: { content: m.name } }]
