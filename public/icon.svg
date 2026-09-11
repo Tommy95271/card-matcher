@@ -1,18 +1,4 @@
-import fs from 'fs';
-import path from 'path';
-import sharp from 'sharp';
-import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const publicDir = path.join(__dirname, '../public');
-
-if (!fs.existsSync(publicDir)) {
-  fs.mkdirSync(publicDir, { recursive: true });
-}
-
-// 專業向量 SVG 設計 (512x512)，具備極致立體感與對比度
-const svgIcon = `
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <!-- 背景漸層 -->
@@ -116,33 +102,3 @@ const svgIcon = `
     <circle cx="0" cy="0" r="4" fill="#FDE047"/>
   </g>
 </svg>
-`;
-
-async function buildIcons() {
-  const svgBuffer = Buffer.from(svgIcon);
-
-  // 1. 輸出標準 512x512 PNG
-  await sharp(svgBuffer)
-    .resize(512, 512)
-    .png()
-    .toFile(path.join(publicDir, 'icon-512.png'));
-
-  // 2. 輸出標準 192x192 PNG
-  await sharp(svgBuffer)
-    .resize(192, 192)
-    .png()
-    .toFile(path.join(publicDir, 'icon-192.png'));
-
-  // 3. 輸出 iOS 專屬 180x180 Apple Touch Icon
-  await sharp(svgBuffer)
-    .resize(180, 180)
-    .png()
-    .toFile(path.join(publicDir, 'apple-touch-icon.png'));
-
-  // 4. 儲存 SVG 向量檔備份
-  fs.writeFileSync(path.join(publicDir, 'icon.svg'), svgIcon);
-
-  console.log('🎉 向量級高解析度 App 圖示（含 180x180、192x192、512x512）已全部精準生成！');
-}
-
-buildIcons();
