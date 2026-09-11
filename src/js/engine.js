@@ -30,47 +30,70 @@ export class Engine {
       // 1. 國泰 CUBE 卡計算邏輯
       if (cardId === 'cathay_cube') {
         const tier = cardDef.tiers.find((t) => t.id === cardConfig.tier) || cardDef.tiers[1];
+        const sName = schemeInfo.schemeName || '';
+        const sId = schemeInfo.schemeId;
         
-        // 判斷是否為固定方案趴數 (如集精選 2%、全支付 2%)
-        if (schemeInfo.schemeId === 'essentials' || schemeInfo.schemeId === 'pxpay' || schemeInfo.schemeId === 'formosa') {
+        let resolvedSchemeId = sId;
+        if (sId === 'essentials' || sName.includes('集精選') || sId === 'pxpay' || sName.includes('全支付') || sId === 'formosa' || sName.includes('台塑家')) {
           effectiveRate = 2.0;
-        } else if (schemeInfo.schemeId === 'digital' || schemeInfo.schemeId === 'dining' || schemeInfo.schemeId === 'travel') {
-          effectiveRate = tier.schemeRate; // Level 1: 2%, Level 2: 3%, Level 3: 3.3%
-        } else if (schemeInfo.schemeId === 'birthday') {
+          resolvedSchemeId = (sId === 'custom' || !sId) ? (sName.includes('集精選') ? 'essentials' : (sName.includes('全支付') ? 'pxpay' : 'formosa')) : sId;
+        } else if (sId === 'digital' || sName.includes('玩數位')) {
+          effectiveRate = tier.schemeRate; // 3.0% / 3.3%
+          resolvedSchemeId = 'digital';
+        } else if (sId === 'dining' || sName.includes('樂饗購')) {
+          effectiveRate = tier.schemeRate; // 3.0% / 3.3%
+          resolvedSchemeId = 'dining';
+        } else if (sId === 'travel' || sName.includes('趣旅行')) {
+          effectiveRate = tier.schemeRate; // 3.0% / 3.3%
+          resolvedSchemeId = 'travel';
+        } else if (sId === 'birthday' || sName.includes('慶生月')) {
           effectiveRate = 10.0;
+          resolvedSchemeId = 'birthday';
         } else {
           effectiveRate = tier.baseRate; // 0.3%
+          resolvedSchemeId = 'general';
         }
 
         // 今日鎖定方案模擬
-        isTodayMatch = (cardConfig.todayScheme === schemeInfo.schemeId);
+        isTodayMatch = (cardConfig.todayScheme === resolvedSchemeId);
         if (isTodayMatch) {
           actualTodayRate = effectiveRate;
         } else {
-          actualTodayRate = (schemeInfo.schemeId === 'essentials') ? 2.0 : tier.baseRate;
+          actualTodayRate = (resolvedSchemeId === 'essentials') ? 2.0 : tier.baseRate;
         }
       }
 
       // 2. 台新 Richart 卡系列計算邏輯
       else if (cardId === 'taishin_richart') {
         const isLevel2 = (cardConfig.tier === 'level2');
+        const sName = schemeInfo.schemeName || '';
+        const sId = schemeInfo.schemeId;
+        let resolvedSchemeId = sId;
 
-        if (isLevel2) {
-          if (schemeInfo.schemeId === 'chill') {
-            effectiveRate = 10.0;
-          } else if (schemeInfo.schemeId === 'pay') {
-            effectiveRate = 3.8;
-          } else if (schemeInfo.schemeId === 'holiday') {
-            effectiveRate = 2.0;
-          } else {
-            effectiveRate = 3.3; // 天天刷、大筆刷、好饗刷、數趣刷、玩旅刷
-          }
+        if (sId === 'chill' || sName.includes('Chill') || sName.includes('10%')) {
+          effectiveRate = isLevel2 ? 10.0 : 0.3;
+          resolvedSchemeId = 'chill';
+        } else if (sId === 'pay' || sName.includes('Pay') || sName.includes('3.8%')) {
+          effectiveRate = isLevel2 ? 3.8 : 0.3;
+          resolvedSchemeId = 'pay';
+        } else if (sId === 'holiday' || sName.includes('假日') || sName.includes('2%')) {
+          effectiveRate = isLevel2 ? 2.0 : 0.3;
+          resolvedSchemeId = 'holiday';
+        } else if (sName.includes('一般消費') || sId === 'general') {
+          effectiveRate = 0.3;
+          resolvedSchemeId = 'general';
         } else {
-          effectiveRate = 0.3; // Level 1 未扣繳僅享基礎 0.3%
+          effectiveRate = isLevel2 ? 3.3 : 0.3; // 天天刷、大筆刷、好饗刷、數趣刷、玩旅刷
+          if (sName.includes('天天')) resolvedSchemeId = 'daily';
+          else if (sName.includes('大筆')) resolvedSchemeId = 'big_spending';
+          else if (sName.includes('好饗')) resolvedSchemeId = 'gourmet';
+          else if (sName.includes('數趣')) resolvedSchemeId = 'digital_fun';
+          else if (sName.includes('玩旅')) resolvedSchemeId = 'travel_fun';
+          else resolvedSchemeId = sId || 'daily';
         }
 
         // 今日鎖定方案模擬
-        isTodayMatch = (cardConfig.todayScheme === schemeInfo.schemeId);
+        isTodayMatch = (cardConfig.todayScheme === resolvedSchemeId);
         if (isTodayMatch) {
           actualTodayRate = effectiveRate;
         } else {

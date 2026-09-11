@@ -76,6 +76,25 @@ async function syncNotion() {
       const pitfallWarning = getRichText(props['避坑防呆警語']);
       const isPitfall = props['是否為雷區通路']?.checkbox ?? false;
 
+      let cubeSchemeId = 'general';
+      if (cubeSchemeName.includes('玩數位')) cubeSchemeId = 'digital';
+      else if (cubeSchemeName.includes('樂饗購')) cubeSchemeId = 'dining';
+      else if (cubeSchemeName.includes('趣旅行')) cubeSchemeId = 'travel';
+      else if (cubeSchemeName.includes('集精選')) cubeSchemeId = 'essentials';
+      else if (cubeSchemeName.includes('慶生月')) cubeSchemeId = 'birthday';
+      else if (cubeSchemeName.includes('全支付')) cubeSchemeId = 'pxpay';
+      else if (cubeSchemeName.includes('台塑家')) cubeSchemeId = 'formosa';
+
+      let taishinSchemeId = 'daily';
+      if (taishinSchemeName.includes('Chill') || taishinSchemeName.includes('10%')) taishinSchemeId = 'chill';
+      else if (taishinSchemeName.includes('Pay') || taishinSchemeName.includes('3.8%')) taishinSchemeId = 'pay';
+      else if (taishinSchemeName.includes('好饗')) taishinSchemeId = 'gourmet';
+      else if (taishinSchemeName.includes('大筆')) taishinSchemeId = 'big_spending';
+      else if (taishinSchemeName.includes('數趣')) taishinSchemeId = 'digital_fun';
+      else if (taishinSchemeName.includes('玩旅')) taishinSchemeId = 'travel_fun';
+      else if (taishinSchemeName.includes('假日')) taishinSchemeId = 'holiday';
+      else if (taishinSchemeName.includes('一般消費')) taishinSchemeId = 'general';
+
       // 生成標準 Merchant 物件
       newMerchants.push({
         id: `m_${page.id.replace(/-/g, '').slice(0, 8)}`,
@@ -88,15 +107,15 @@ async function syncNotion() {
         paymentAdvice,
         schemes: {
           cathay_cube: {
-            schemeId: 'custom',
+            schemeId: cubeSchemeId,
             schemeName: cubeSchemeName,
-            rate: cubeSchemeName.includes('2%') ? 2.0 : 3.0,
+            rate: (cubeSchemeId === 'essentials' || cubeSchemeId === 'pxpay' || cubeSchemeId === 'formosa') ? 2.0 : (cubeSchemeId === 'birthday' ? 10.0 : 3.0),
             notes: `${cubeSchemeName}`
           },
           taishin_richart: {
-            schemeId: 'custom',
+            schemeId: taishinSchemeId,
             schemeName: taishinSchemeName,
-            rate: taishinSchemeName.includes('10%') ? 10.0 : 3.3,
+            rate: taishinSchemeId === 'chill' ? 10.0 : (taishinSchemeId === 'pay' ? 3.8 : (taishinSchemeId === 'holiday' ? 2.0 : 3.3)),
             notes: `${taishinSchemeName}`
           },
           esun_ubear: {

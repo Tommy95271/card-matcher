@@ -200,10 +200,13 @@ export class UI {
           ${otherCards.map((c) => `
             <div class="other-card-item">
               <div class="other-card-item-header">
-                <span class="other-card-name">${c.bank} ${c.cardName}</span>
+                <span class="other-card-name">${c.icon || '💳'} ${c.bank} ${c.cardName}</span>
                 <span class="other-card-rate">${c.rate}%</span>
               </div>
-              <div class="other-card-scheme">方案：${c.schemeName}</div>
+              <div class="other-card-scheme">
+                <span>適用：<strong>${c.schemeName}</strong></span>
+                ${(!c.isTodayMatch && (c.cardId === 'cathay_cube' || c.cardId === 'taishin_richart')) ? `<span class="other-card-today-tag" style="color: var(--warning-color, #f59e0b); margin-left: 6px; font-size: 0.8rem;">(今日未切換: ${c.actualTodayRate}%)</span>` : ''}
+              </div>
             </div>
           `).join('')}
         </div>
