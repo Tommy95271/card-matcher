@@ -1,0 +1,10 @@
+node_modules
+dist
+.env
+.env.local
+.DS_Store
+Thumbs.db
+
+# 排除歷史備份檔案進入 Git 發布包 (依個人版控策略選擇是否追蹤)
+src/data/backups/*.json
+!src/data/backups/data-init.json

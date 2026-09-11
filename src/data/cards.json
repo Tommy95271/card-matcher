@@ -1,0 +1,280 @@
+[
+  {
+    "id": "cathay_cube",
+    "bank": "國泰世華",
+    "bankCode": "cathay",
+    "name": "CUBE 卡",
+    "type": "scheme_switch",
+    "icon": "💳",
+    "color": "#008853",
+    "accentColor": "rgba(0, 136, 83, 0.15)",
+    "description": "國泰世華 CUBE App 每日切換方案，小樹點回饋",
+    "defaultTier": "level2",
+    "tiers": [
+      {
+        "id": "level1",
+        "name": "Level 1 (基礎持卡)",
+        "condition": "持 CUBE 正卡，未綁定帳戶扣繳",
+        "schemeRate": 2.0,
+        "baseRate": 0.3
+      },
+      {
+        "id": "level2",
+        "name": "Level 2 (自動扣繳加碼)",
+        "condition": "以 CUBE App 繳納卡費或申請帳戶自動扣繳",
+        "schemeRate": 3.0,
+        "baseRate": 0.3
+      },
+      {
+        "id": "level3",
+        "name": "Level 3 (財富管理貴賓)",
+        "condition": "國泰世華財富管理貴賓 (資產 300 萬以上)",
+        "schemeRate": 3.3,
+        "baseRate": 0.3
+      }
+    ],
+    "schemes": [
+      {
+        "id": "digital",
+        "name": "玩數位",
+        "icon": "💻",
+        "description": "網購電商、數位串流、AI 工具訂閱",
+        "highlight": "蝦皮 / momo / PChome / Netflix / Spotify / ChatGPT / Gemini"
+      },
+      {
+        "id": "dining",
+        "name": "樂饗購",
+        "icon": "🍽️",
+        "description": "國內百貨、全台餐廳、外送平台、藥妝店",
+        "highlight": "新光三越 / SOGO / Uber Eats / Foodpanda / 康是美 / 屈臣氏"
+      },
+      {
+        "id": "travel",
+        "name": "趣旅行",
+        "icon": "✈️",
+        "description": "海外實體消費、高鐵機票、旅行社、國內外訂房",
+        "highlight": "日韓歐美實體刷卡 / 高鐵 / 華航 / 長榮 / 星宇 / Agoda / Booking"
+      },
+      {
+        "id": "essentials",
+        "name": "集精選",
+        "icon": "🛒",
+        "description": "四大超商、量販超市、中油直營、全聯 (指定活動)",
+        "highlight": "7-11 / 全家 / 家樂福 / 全聯 / 台灣中油直營 (全等級固定 2.0%)",
+        "fixedRate": 2.0
+      },
+      {
+        "id": "birthday",
+        "name": "慶生月",
+        "icon": "🎂",
+        "description": "當月壽星專屬，指定慶生餐廳、百貨與娛樂通路最高 10%",
+        "highlight": "壽星專屬星級飯店、指定燒肉餐廳 (最高 10.0%)"
+      },
+      {
+        "id": "pxpay",
+        "name": "全支付",
+        "icon": "📱",
+        "description": "綁定全支付 App 消費 (全等級 2.0%)",
+        "highlight": "全支付適用通路 (2.0%)",
+        "fixedRate": 2.0
+      },
+      {
+        "id": "formosa",
+        "name": "台塑家",
+        "icon": "⛽",
+        "description": "台塑體系加油站與生醫通路 (全等級 2.0%)",
+        "highlight": "台塑加油站、台亞石油 (2.0%)",
+        "fixedRate": 2.0
+      }
+    ]
+  },
+  {
+    "id": "taishin_richart",
+    "bank": "台新銀行",
+    "bankCode": "taishin",
+    "name": "Richart 卡 (切換刷系列)",
+    "type": "scheme_switch",
+    "icon": "🐶",
+    "color": "#e60012",
+    "accentColor": "rgba(230, 0, 18, 0.15)",
+    "description": "Richart Life App 每日自由切換 7+1 大權益方案，台新 Point 回饋無上限",
+    "defaultTier": "level2",
+    "tiers": [
+      {
+        "id": "level1",
+        "name": "Level 1 (一般卡友)",
+        "condition": "未設定台新帳戶自動扣繳",
+        "schemeRate": 0.3,
+        "baseRate": 0.3
+      },
+      {
+        "id": "level2",
+        "name": "Level 2 (Richart 帳戶扣繳加碼)",
+        "condition": "設定台新/Richart 帳戶自動扣繳信用卡帳款",
+        "schemeRate": 3.3,
+        "baseRate": 0.3
+      }
+    ],
+    "schemes": [
+      {
+        "id": "chill",
+        "name": "Chill 刷 (限時加碼)",
+        "icon": "🔥",
+        "rate": 10.0,
+        "description": "指定人氣火鍋燒肉、連鎖手搖飲、影音運動",
+        "highlight": "海底撈 / 屋馬 / 50嵐 / 麻古 / Netflix / 健身工廠 (最高 10.0%)"
+      },
+      {
+        "id": "pay",
+        "name": "Pay 著刷",
+        "icon": "📲",
+        "rate": 3.8,
+        "description": "行動支付專用：台新 Pay 3.8% / LINE Pay 2.3%",
+        "highlight": "台新 Pay (3.8%) / LINE Pay (2.3%) / 街口 / 全盈+Pay"
+      },
+      {
+        "id": "daily",
+        "name": "天天刷",
+        "icon": "🏪",
+        "rate": 3.3,
+        "description": "四大超商、全聯、量販超市、高鐵計程車、加油充電、藥妝",
+        "highlight": "7-11 / 全家 / 全聯 / 家樂福 / 高鐵 / 台灣大車隊 / 中油 / 康是美"
+      },
+      {
+        "id": "big_spending",
+        "name": "大筆刷",
+        "icon": "🛍️",
+        "rate": 3.3,
+        "description": "指定各大百貨、Outlet、居家裝修裝潢、時尚名品",
+        "highlight": "新光三越 / 遠東百貨 / 華泰名品城 / IKEA / 特力屋 / Zara"
+      },
+      {
+        "id": "gourmet",
+        "name": "好饗刷",
+        "icon": "🍜",
+        "rate": 3.3,
+        "description": "全台各級餐飲美食、外送平台、星級飯店、KTV、購票娛樂",
+        "highlight": "全台餐廳 / Uber Eats / Foodpanda / 錢櫃 / 威秀影城 / Klook"
+      },
+      {
+        "id": "digital_fun",
+        "name": "數趣刷",
+        "icon": "🎮",
+        "rate": 3.3,
+        "description": "主流網購電商、線上學習課程、電玩遊戲、AI 科技服務訂閱",
+        "highlight": "蝦皮 / momo / PChome / Steam / PS Store / ChatGPT / Hahow"
+      },
+      {
+        "id": "travel_fun",
+        "name": "玩旅刷",
+        "icon": "🛫",
+        "rate": 3.3,
+        "description": "海外實體/國外線上消費、主流航空公司、旅行社與國外訂房",
+        "highlight": "日韓歐美海外消費 / 華航 / 長榮 / 星宇 / Agoda / Trip.com"
+      },
+      {
+        "id": "holiday",
+        "name": "假日刷",
+        "icon": "🎉",
+        "rate": 2.0,
+        "description": "國內國定節假日不限通路一般消費 (保費 1.3% + 12 期 0 利率)",
+        "highlight": "國內週六週日及國定假日全通路 (2.0%)"
+      }
+    ]
+  },
+  {
+    "id": "esun_ubear",
+    "bank": "玉山銀行",
+    "bankCode": "esun",
+    "name": "UBear 信用卡",
+    "type": "fixed_rules",
+    "icon": "🐻",
+    "color": "#005c8a",
+    "accentColor": "rgba(0, 92, 138, 0.15)",
+    "description": "網購與指定行動支付 3%、指定影音娛樂/AI 訂閱 10%，直接折抵帳單",
+    "defaultTier": "level2",
+    "tiers": [
+      {
+        "id": "level1",
+        "name": "Level 1 (未扣繳)",
+        "condition": "未設定玉山帳戶自動扣繳",
+        "schemeRate": 2.5,
+        "baseRate": 0.5
+      },
+      {
+        "id": "level2",
+        "name": "Level 2 (e化帳單+自動扣繳)",
+        "condition": "申請帳單 e 化 + 設定玉山帳戶自動扣繳卡費",
+        "schemeRate": 3.0,
+        "baseRate": 1.0
+      }
+    ],
+    "specialCategories": [
+      {
+        "id": "online_shopping",
+        "name": "網路消費 / 行動支付",
+        "rate": 3.0,
+        "cap": "每期加碼上限 150 元 (滿 7,500 元封頂)",
+        "description": "momo、蝦皮、淘寶、LINE Pay、街口支付、全支付等線上消費 (實體刷 Apple Pay 不計)"
+      },
+      {
+        "id": "entertainment_ai",
+        "name": "指定影音/遊戲/AI平台",
+        "rate": 10.0,
+        "cap": "每期加碼上限 100 元 (滿 1,000 元封頂)",
+        "description": "Netflix、Spotify、ChatGPT、Gemini、Steam、PlayStation、Nintendo、Google One"
+      }
+    ]
+  },
+  {
+    "id": "mega_bt21",
+    "bank": "兆豐銀行",
+    "bankCode": "mega",
+    "name": "宇宙明星 BT21 信用卡",
+    "type": "fixed_rules",
+    "icon": "⭐",
+    "color": "#6f42c1",
+    "accentColor": "rgba(111, 66, 193, 0.15)",
+    "description": "指定行動支付 (Apple Pay / LINE Pay / 街口) 加碼 2%，最高 3% ~ 5.5%",
+    "defaultTier": "level2",
+    "tiers": [
+      {
+        "id": "level1",
+        "name": "Level 1 (一般)",
+        "condition": "紙本帳單",
+        "schemeRate": 2.3,
+        "baseRate": 0.3
+      },
+      {
+        "id": "level2",
+        "name": "Level 2 (電子帳單+自動扣繳)",
+        "condition": "申請電子帳單並設定帳戶自動扣繳",
+        "schemeRate": 3.0,
+        "baseRate": 1.0
+      }
+    ],
+    "specialCategories": [
+      {
+        "id": "mobile_pay",
+        "name": "指定行動支付加碼",
+        "rate": 3.0,
+        "cap": "每期加碼上限 200 元 (滿 10,000 元封頂)",
+        "description": "Apple Pay、Google Pay、LINE Pay、街口支付、台灣 Pay 綁定消費"
+      },
+      {
+        "id": "taiwan_pay",
+        "name": "台灣 Pay 掃碼加碼",
+        "rate": 4.5,
+        "cap": "每期加碼上限 100 元",
+        "description": "使用台灣 Pay 掃碼購物付款"
+      },
+      {
+        "id": "overseas",
+        "name": "國外消費",
+        "rate": 2.0,
+        "cap": "無上限",
+        "description": "國外實體與外幣線上交易"
+      }
+    ]
+  }
+]

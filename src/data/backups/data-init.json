@@ -1,0 +1,7 @@
+{
+  "version": "1.0.0",
+  "timestamp": "2026-09-11T15:30:00.000Z",
+  "description": "初始 2026 信用卡回饋方案與通路資料基準備份",
+  "bankCount": 4,
+  "merchantCount": 24
+}

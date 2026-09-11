@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>2026 信用卡最佳方案與商店查詢系統 | 國泰 CUBE • 台新 Richart • 玉山 • 兆豐</title>
+  
+  <!-- SEO & Social Meta -->
+  <meta name="description" content="2026 信用卡方案切換與回饋速查系統：即時查詢全家、7-11、全聯、蝦皮、UberEats、星巴克等店家適用國泰 CUBE、台新 Richart、玉山 UBear、兆豐 BT21 最佳回饋方案與避坑指南。">
+  <meta name="theme-color" content="#090d16">
+
+  <!-- PWA Manifest & Apple Touch Icon -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="刷卡指南">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./src/css/reset.css">
+  <link rel="stylesheet" href="./src/css/variables.css">
+  <link rel="stylesheet" href="./src/css/components.css">
+  <link rel="stylesheet" href="./src/css/main.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-area">
+        <div class="logo-icon">💳</div>
+        <div class="logo-text">
+          <h1>信用卡方案速查</h1>
+          <p>2026 國泰 CUBE • 台新 Richart • 玉山 • 兆豐</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="theme-toggle-btn" class="icon-btn" title="切換深淺色主題" aria-label="切換主題">🌙</button>
+        <button id="settings-btn" class="icon-btn" title="設定我的卡片與等級" aria-label="設定">⚙️</button>
+      </div>
+    </header>
+
+    <!-- Hero Tagline -->
+    <section class="hero-section">
+      <div class="hero-tagline">消費前搜一下，秒知刷哪張回饋最高！</div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-container">
+      <div class="search-input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          id="search-input" 
+          class="search-input" 
+          placeholder="搜尋店家、外送、日韓、網購或關鍵字 (例：全家、蝦皮、星巴克)..." 
+          autocomplete="off"
+          autofocus
+        />
+        <button id="search-clear-btn" class="search-clear-btn" title="清除搜尋">✕</button>
+      </div>
+    </section>
+
+    <!-- Category Pills -->
+    <nav class="category-pills-container" id="category-pills" aria-label="消費分類">
+      <button class="category-pill active" data-category="all">✨ 全部通路</button>
+      <button class="category-pill" data-category="四大超商">🏪 四大超商</button>
+      <button class="category-pill" data-category="量販超市">🛒 量販超市</button>
+      <button class="category-pill" data-category="網購電商">💻 網購電商</button>
+      <button class="category-pill" data-category="美食餐飲">🍽️ 美食餐飲</button>
+      <button class="category-pill" data-category="外送平台">🛵 外送平台</button>
+      <button class="category-pill" data-category="百貨商場">🛍️ 百貨商場</button>
+      <button class="category-pill" data-category="交通旅遊">🚄 交通旅遊</button>
+      <button class="category-pill" data-category="海外消費">🛫 海外日韓</button>
+      <button class="category-pill" data-category="影音娛樂">🎬 影音娛樂</button>
+      <button class="category-pill" data-category="生活繳費">💧 生活繳費</button>
+    </nav>
+
+    <!-- Today's Scheme Lock Status Bar -->
+    <section class="today-status-bar" aria-label="今日方案鎖定狀態">
+      <div class="today-status-title">
+        <span>⚡ 今日已鎖定方案：</span>
+      </div>
+      <div class="today-selectors">
+        <div class="today-selector-group">
+          <span>國泰 CUBE:</span>
+          <select id="cube-today-scheme">
+            <option value="digital">玩數位</option>
+            <option value="dining">樂饗購</option>
+            <option value="travel">趣旅行</option>
+            <option value="essentials">集精選</option>
+            <option value="birthday">慶生月</option>
+          </select>
+        </div>
+        <div class="today-selector-group">
+          <span>台新 Richart:</span>
+          <select id="taishin-today-scheme">
+            <option value="daily">天天刷 (3.3%)</option>
+            <option value="chill">Chill 刷 (10%)</option>
+            <option value="pay">Pay 著刷 (3.8%)</option>
+            <option value="big_spending">大筆刷 (3.3%)</option>
+            <option value="gourmet">好饗刷 (3.3%)</option>
+            <option value="digital_fun">數趣刷 (3.3%)</option>
+            <option value="travel_fun">玩旅刷 (3.3%)</option>
+            <option value="holiday">假日刷 (2.0%)</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Header -->
+    <div class="results-header">
+      <span class="results-count" id="results-count">載入中...</span>
+    </div>
+
+    <!-- Results List -->
+    <main id="results-container" class="results-container">
+      <!-- 搜尋結果由 ui.js 動態渲染 -->
+    </main>
+  </div>
+
+  <!-- Settings Modal Drawer -->
+  <div id="settings-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">⚙️ 我的卡片與等級設定</h2>
+        <button id="modal-close-btn" class="modal-close-btn" aria-label="關閉">✕</button>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+        勾選您擁有的信用卡並選擇目前的帳戶扣繳與會員等級，系統將自動為您精算出專屬最高回饋率。
+      </p>
+      <div id="cards-config-list">
+        <!-- 由 ui.js 動態產生卡片勾選與等級下拉選單 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="./src/js/app.js"></script>
+</body>
+</html>
