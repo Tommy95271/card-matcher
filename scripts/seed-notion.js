@@ -33,6 +33,94 @@ const merchants = JSON.parse(rawMerchants);
 async function seedNotion() {
   try {
     let targetDatabaseId = databaseId ? databaseId.replace(/-/g, '') : null;
+    const nonTitleProperties = {
+      '搜尋別名': {
+        rich_text: {}
+      },
+      '消費分類': {
+        select: {
+          options: [
+            { name: '四大超商', color: 'blue' },
+            { name: '量販超市', color: 'green' },
+            { name: '網購電商', color: 'orange' },
+            { name: '美食餐飲', color: 'red' },
+            { name: '外送平台', color: 'yellow' },
+            { name: '手搖飲料', color: 'pink' },
+            { name: '百貨商場', color: 'purple' },
+            { name: '居家生活', color: 'brown' },
+            { name: '交通旅遊', color: 'blue' },
+            { name: '航空機票', color: 'blue' },
+            { name: '海外消費', color: 'purple' },
+            { name: '旅遊訂房', color: 'green' },
+            { name: '加油充電', color: 'yellow' },
+            { name: '影音娛樂', color: 'red' },
+            { name: 'AI 服務', color: 'purple' },
+            { name: '藥妝美妝', color: 'pink' },
+            { name: '生活百貨', color: 'green' },
+            { name: '生活繳費', color: 'gray' },
+            { name: '政府稅款', color: 'gray' },
+            { name: '公立醫療', color: 'gray' }
+          ]
+        }
+      },
+      '國泰 CUBE 方案': {
+        select: {
+          options: [
+            { name: '玩數位', color: 'blue' },
+            { name: '樂饗購', color: 'red' },
+            { name: '趣旅行', color: 'purple' },
+            { name: '集精選', color: 'green' },
+            { name: '慶生月', color: 'pink' },
+            { name: '全支付', color: 'orange' },
+            { name: '台塑家', color: 'yellow' },
+            { name: '一般消費', color: 'default' }
+          ]
+        }
+      },
+      '台新 Richart 方案': {
+        select: {
+          options: [
+            { name: 'Chill 刷 (10%)', color: 'red' },
+            { name: 'Pay 著刷 (3.8%)', color: 'orange' },
+            { name: '天天刷 (3.3%)', color: 'blue' },
+            { name: '大筆刷 (3.3%)', color: 'purple' },
+            { name: '好饗刷 (3.3%)', color: 'yellow' },
+            { name: '數趣刷 (3.3%)', color: 'green' },
+            { name: '玩旅刷 (3.3%)', color: 'blue' },
+            { name: '假日刷 (2.0%)', color: 'pink' },
+            { name: '一般消費', color: 'default' }
+          ]
+        }
+      },
+      '玉山 UBear 回饋%': {
+        number: {
+          format: 'number'
+        }
+      },
+      '兆豐 BT21 回饋%': {
+        number: {
+          format: 'number'
+        }
+      },
+      '最佳支付建議': {
+        rich_text: {}
+      },
+      '避坑防呆警語': {
+        rich_text: {}
+      },
+      '是否為雷區通路': {
+        checkbox: {}
+      },
+      '資料狀態': {
+        select: {
+          options: [
+            { name: '有效', color: 'green' },
+            { name: '已過期備份', color: 'gray' },
+            { name: '草稿', color: 'yellow' }
+          ]
+        }
+      }
+    };
 
     if (!targetDatabaseId) {
       console.log('🚀 開始在 Notion 母頁面下建立【2026 信用卡方案與通路回饋庫】資料庫...');
@@ -50,97 +138,11 @@ async function seedNotion() {
             }
           }
         ],
-      properties: {
-        '店家名稱': {
-          title: {}
-        },
-        '搜尋別名': {
-          rich_text: {}
-        },
-        '消費分類': {
-          select: {
-            options: [
-              { name: '四大超商', color: 'blue' },
-              { name: '量販超市', color: 'green' },
-              { name: '網購電商', color: 'orange' },
-              { name: '美食餐飲', color: 'red' },
-              { name: '外送平台', color: 'yellow' },
-              { name: '手搖飲料', color: 'pink' },
-              { name: '百貨商場', color: 'purple' },
-              { name: '居家生活', color: 'brown' },
-              { name: '交通旅遊', color: 'blue' },
-              { name: '航空機票', color: 'blue' },
-              { name: '海外消費', color: 'purple' },
-              { name: '旅遊訂房', color: 'green' },
-              { name: '加油充電', color: 'yellow' },
-              { name: '影音娛樂', color: 'red' },
-              { name: 'AI 服務', color: 'purple' },
-              { name: '藥妝美妝', color: 'pink' },
-              { name: '生活百貨', color: 'green' },
-              { name: '生活繳費', color: 'gray' },
-              { name: '政府稅款', color: 'gray' },
-              { name: '公立醫療', color: 'gray' }
-            ]
-          }
-        },
-        '國泰 CUBE 方案': {
-          select: {
-            options: [
-              { name: '玩數位', color: 'blue' },
-              { name: '樂饗購', color: 'red' },
-              { name: '趣旅行', color: 'purple' },
-              { name: '集精選', color: 'green' },
-              { name: '慶生月', color: 'pink' },
-              { name: '全支付', color: 'orange' },
-              { name: '台塑家', color: 'yellow' },
-              { name: '一般消費', color: 'default' }
-            ]
-          }
-        },
-        '台新 Richart 方案': {
-          select: {
-            options: [
-              { name: 'Chill 刷 (10%)', color: 'red' },
-              { name: 'Pay 著刷 (3.8%)', color: 'orange' },
-              { name: '天天刷 (3.3%)', color: 'blue' },
-              { name: '大筆刷 (3.3%)', color: 'purple' },
-              { name: '好饗刷 (3.3%)', color: 'yellow' },
-              { name: '數趣刷 (3.3%)', color: 'green' },
-              { name: '玩旅刷 (3.3%)', color: 'blue' },
-              { name: '假日刷 (2.0%)', color: 'pink' },
-              { name: '一般消費', color: 'default' }
-            ]
-          }
-        },
-        '玉山 UBear 回饋%': {
-          number: {
-            format: 'number'
-          }
-        },
-        '兆豐 BT21 回饋%': {
-          number: {
-            format: 'number'
-          }
-        },
-        '最佳支付建議': {
-          rich_text: {}
-        },
-        '避坑防呆警語': {
-          rich_text: {}
-        },
-        '是否為雷區通路': {
-          checkbox: {}
-        },
-        '資料狀態': {
-          select: {
-            options: [
-              { name: '有效', color: 'green' },
-              { name: '已過期備份', color: 'gray' },
-              { name: '草稿', color: 'yellow' }
-            ]
-          }
+        properties: {
+          '店家名稱': { title: {} },
+          ...nonTitleProperties
         }
-      }
+      });
       targetDatabaseId = dbResponse.id;
       console.log(`✅ 成功建立 Notion 資料庫！Database ID: ${targetDatabaseId}`);
 
@@ -155,7 +157,22 @@ async function seedNotion() {
       fs.writeFileSync(envPath, envContent);
       console.log('📝 已自動更新 .env 檔案中的 NOTION_DATABASE_ID。');
     } else {
-      console.log(`🎯 使用現有 Notion 資料庫: ${targetDatabaseId}`);
+      console.log(`🎯 正在檢查現有 Notion 資料庫欄位結構: ${targetDatabaseId}...`);
+      const existingDb = await notion.databases.retrieve({ database_id: targetDatabaseId });
+      const existingTitleProp = Object.keys(existingDb.properties).find(k => existingDb.properties[k].type === 'title') || 'Name';
+      
+      const updateProperties = {
+        [existingTitleProp]: {
+          name: '店家名稱'
+        },
+        ...nonTitleProperties
+      };
+
+      await notion.databases.update({
+        database_id: targetDatabaseId,
+        properties: updateProperties
+      });
+      console.log('✅ 現有資料庫欄位結構已更新就緒！');
     }
 
     // 2. 批次寫入所有店家資料
