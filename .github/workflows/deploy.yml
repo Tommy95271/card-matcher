@@ -5,8 +5,8 @@ on:
     branches:
       - main
   schedule:
-    # 每天清晨 04:00 (UTC 20:00) 自動同步 Notion 最新資料並更新佈署
-    - cron: '0 20 * * *'
+    # 每月 1 號清晨 04:00 (UTC 20:00) 自動同步 Notion 最新資料並更新佈署
+    - cron: '0 20 1 * *'
   workflow_dispatch: # 支援手動在 GitHub 後台一鍵點擊執行
 
 # 設定 GitHub Pages 發布權限
