@@ -37,9 +37,17 @@ export class Tracker {
 
       // 2. 開啟 Firestore 即時雙向監聽 (Live Sync)
       firebaseService.subscribeUserExpenses(user.uid, (cloudList) => {
-        this.expenses = cloudList;
+        // 保留本機已知但雲端尚未及時寫入的 notionPageId
+        this.expenses = cloudList.map((cloudItem) => {
+          const localItem = this.expenses.find((e) => e.id === cloudItem.id);
+          if (localItem && localItem.notionPageId && !cloudItem.notionPageId) {
+            cloudItem.notionPageId = localItem.notionPageId;
+            cloudItem.syncStatus = localItem.syncStatus;
+          }
+          return cloudItem;
+        });
         this.saveExpenses();
-        this.notifySyncUpdate({ type: 'firebase_sync', user, count: cloudList.length });
+        this.notifySyncUpdate({ type: 'firebase_sync', user, count: this.expenses.length });
       });
     } else {
       // 登出時載入本機 LocalStorage
@@ -160,9 +168,6 @@ export class Tracker {
   /**
    * 背景非同步同步單筆消費至 Google Apps Script
    */
-  /**
-   * 背景非同步同步單筆消費至 Google Apps Script
-   */
   async syncExpenseToCloud(entry) {
     const profile = store.getProfile();
     const webhookUrl = (profile.gasWebhookUrl || DEFAULT_PUBLIC_GAS_WEBHOOK || '').trim();
@@ -189,6 +194,10 @@ export class Tracker {
         entry.notionPageId = result.result.notionPageId;
         entry.syncStatus = 'synced';
         this.saveExpenses();
+        // 若有 Google 登入，將 notionPageId 回寫至 Firestore
+        if (this.firebaseUser) {
+          firebaseService.saveExpense(this.firebaseUser.uid, entry).catch((e) => console.warn('Firestore 保存 notionPageId 失敗:', e));
+        }
         this.notifySyncUpdate({ type: 'synced', expenseId: entry.id, notionPageId: entry.notionPageId });
       } else {
         entry.syncStatus = 'error';
@@ -223,9 +232,11 @@ export class Tracker {
       firebaseService.updateExpenseStatus(this.firebaseUser.uid, expenseId, expense.status, expense.actualPoints).catch((e) => console.warn('Firestore 狀態更新失敗:', e));
     }
 
-    // 若該紀錄已存在 Notion Page ID，即時背景同步更新狀態
+    // 若該紀錄已存在 Notion Page ID，即時背景同步更新狀態；若無，嘗試重新新增同步
     if (expense.notionPageId) {
       this.updateStatusInCloud(expense);
+    } else {
+      this.syncExpenseToCloud(expense);
     }
 
     return expense;
@@ -237,7 +248,7 @@ export class Tracker {
     if (!webhookUrl || !expense.notionPageId) return;
 
     try {
-      await fetch(webhookUrl, {
+      const response = await fetch(webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
@@ -249,6 +260,10 @@ export class Tracker {
           actualPoints: expense.actualPoints
         })
       });
+      const data = await response.json();
+      if (!data.success) {
+        console.warn('更新 Notion 狀態失敗:', data.error);
+      }
     } catch (err) {
       console.warn('更新 Notion 狀態失敗:', err);
     }
@@ -275,7 +290,7 @@ export class Tracker {
     if (!webhookUrl || !notionPageId) return;
 
     try {
-      await fetch(webhookUrl, {
+      const response = await fetch(webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
@@ -285,6 +300,10 @@ export class Tracker {
           notionPageId
         })
       });
+      const data = await response.json();
+      if (!data.success) {
+        console.warn('刪除 Notion 紀錄失敗:', data.error);
+      }
     } catch (err) {
       console.warn('刪除 Notion 紀錄失敗:', err);
     }
