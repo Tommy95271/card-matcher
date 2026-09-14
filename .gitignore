@@ -8,3 +8,7 @@ Thumbs.db
 # 排除歷史備份檔案進入 Git 發布包 (依個人版控策略選擇是否追蹤)
 src/data/backups/*.json
 !src/data/backups/data-init.json
+
+# Google Clasp 設定檔與憑證
+.clasprc.json
+gas-backend/.clasp.json

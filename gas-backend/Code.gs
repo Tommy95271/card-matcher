@@ -10,9 +10,9 @@
  * 完美解決瀏覽器端 CORS 限制，並實現手機/電腦即時寫入 Notion 雲端資料庫。
  */
 
-// 預設 Notion 設定 (請於 GAS「專案設定」>「指令碼屬性」中設定 NOTION_API_KEY 與 NOTION_EXPENSES_DB_ID)
+// 預設 Notion 設定 (請於 GAS「專案設定」>「指令碼屬性」中設定 NOTION_API_KEY 與 NOTION_EXPENSES_DB_ID，或直接填入您的金鑰)
 const DEFAULT_CONFIG = {
-  NOTION_API_KEY: 'YOUR_NOTION_API_KEY', // 請在 GAS 指令碼屬性中設定，或在此替換為您的金鑰
+  NOTION_API_KEY: 'YOUR_NOTION_API_KEY', // 請填入您的 Notion API 金鑰
   NOTION_EXPENSES_DB_ID: '3dbdc85d79dc817e823dd77bcdb424e2',
   NOTION_VERSION: '2022-06-28'
 };
