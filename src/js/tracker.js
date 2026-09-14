@@ -1,4 +1,4 @@
-import { store } from './store.js';
+import { store, DEFAULT_PUBLIC_GAS_WEBHOOK } from './store.js';
 import { firebaseService } from './firebase.js';
 
 const STORAGE_KEY = 'card_matcher_expenses_v1';
@@ -160,9 +160,12 @@ export class Tracker {
   /**
    * 背景非同步同步單筆消費至 Google Apps Script
    */
+  /**
+   * 背景非同步同步單筆消費至 Google Apps Script
+   */
   async syncExpenseToCloud(entry) {
     const profile = store.getProfile();
-    const webhookUrl = (profile.gasWebhookUrl || '').trim();
+    const webhookUrl = (profile.gasWebhookUrl || DEFAULT_PUBLIC_GAS_WEBHOOK || '').trim();
     if (!webhookUrl) return;
 
     entry.syncStatus = 'syncing';
@@ -230,7 +233,7 @@ export class Tracker {
 
   async updateStatusInCloud(expense) {
     const profile = store.getProfile();
-    const webhookUrl = (profile.gasWebhookUrl || '').trim();
+    const webhookUrl = (profile.gasWebhookUrl || DEFAULT_PUBLIC_GAS_WEBHOOK || '').trim();
     if (!webhookUrl || !expense.notionPageId) return;
 
     try {
@@ -268,7 +271,7 @@ export class Tracker {
 
   async deleteExpenseInCloud(notionPageId) {
     const profile = store.getProfile();
-    const webhookUrl = (profile.gasWebhookUrl || '').trim();
+    const webhookUrl = (profile.gasWebhookUrl || DEFAULT_PUBLIC_GAS_WEBHOOK || '').trim();
     if (!webhookUrl || !notionPageId) return;
 
     try {
@@ -292,7 +295,7 @@ export class Tracker {
    */
   async pullFromCloud() {
     const profile = store.getProfile();
-    const webhookUrl = (profile.gasWebhookUrl || '').trim();
+    const webhookUrl = (profile.gasWebhookUrl || DEFAULT_PUBLIC_GAS_WEBHOOK || '').trim();
     if (!webhookUrl) throw new Error('尚未設定 Google Apps Script Webhook 網址');
 
     const response = await fetch(webhookUrl, {
@@ -325,7 +328,7 @@ export class Tracker {
    */
   async testConnection(url, apiKey, dbId) {
     const profile = store.getProfile();
-    const targetUrl = (url || profile.gasWebhookUrl || '').trim();
+    const targetUrl = (url || profile.gasWebhookUrl || DEFAULT_PUBLIC_GAS_WEBHOOK || '').trim();
     if (!targetUrl) throw new Error('請輸入 Google Apps Script 網頁應用程式網址');
 
     const targetApiKey = (apiKey !== undefined ? apiKey : profile.notionApiKey) || '';
