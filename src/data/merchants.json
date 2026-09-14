@@ -1,21 +1,34 @@
 [
   {
     "id": "m_3dbdc85d",
-    "name": "壽司郎 (Sushiro)",
+    "name": "全台實體餐飲美食 (獨立店面/一般餐廳/咖啡廳/居酒屋)",
     "aliases": [
-      "壽司郎 (Sushiro)",
-      "壽司郎",
-      "Sushiro",
-      "スシロー",
-      "台灣壽司郎"
+      "全台實體餐飲美食 (獨立店面/一般餐廳/咖啡廳/居酒屋)",
+      "餐飲",
+      "餐廳",
+      "美食",
+      "拉麵",
+      "壽司",
+      "火鍋",
+      "燒肉",
+      "牛排",
+      "義大利麵",
+      "居酒屋",
+      "咖啡廳",
+      "早午餐",
+      "便當",
+      "小吃",
+      "甜點",
+      "下午茶",
+      "全台餐廳"
     ],
     "categories": [
       "general"
     ],
     "categoryName": "美食餐飲",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🍣 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% (或 CUBE 童樂匯 5%) 或 兆豐 BT21 (LINE Pay 3.0%)",
+    "isPitfall": true,
+    "pitfallWarning": "⚠️ 【餐飲 2 大常見例外避坑】：\n1. 若餐廳開在「百貨公司/Outlet/美食街內」，刷卡機常為百貨公司統開（台新需切換為【大筆刷】；國泰 CUBE 同屬【樂饗購】無影響）。\n2. 速食連鎖或小吃若屬「NCCC 小額支付平台」，實體刷卡常被排除，建議一律「綁定 LINE Pay / 街口 / Apple Pay」以確保拿滿回饋！",
+    "paymentAdvice": "🍽️ 獨立街邊門市刷實體卡享好饗刷/樂饗購 3.0%~3.3%；百貨店內請切換大筆刷；支援行動支付優先使用 LINE Pay / 街口 (玉山 3.0% / 兆豐 3.0%)",
     "schemes": {
       "cathay_cube": {
         "schemeId": "dining",
@@ -25,15 +38,15 @@
       },
       "taishin_richart": {
         "schemeId": "gourmet",
-        "schemeName": "好饗刷 (3.3%)",
+        "schemeName": "好饗刷",
         "rate": 3.3,
-        "notes": "好饗刷 (3.3%)"
+        "notes": "好饗刷"
       },
       "esun_ubear": {
-        "schemeId": "general",
+        "schemeId": "online_shopping",
         "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
+        "rate": 3,
+        "notes": "回饋 3%"
       },
       "mega_bt21": {
         "schemeId": "mobile_pay",
@@ -45,14 +58,14 @@
   },
   {
     "id": "m_3dbdc85d",
-    "name": "藏壽司 (Kura Sushi)",
+    "name": "壽司郎 (Sushiro 台灣スシロー)",
     "aliases": [
-      "藏壽司 (Kura Sushi)",
-      "藏壽司",
-      "Kura",
-      "Kura Sushi",
-      "扭蛋壽司",
-      "迴轉壽司"
+      "壽司郎 (Sushiro 台灣スシロー)",
+      "壽司郎",
+      "Sushiro",
+      "スシロー",
+      "迴轉壽司",
+      "壽司"
     ],
     "categories": [
       "general"
@@ -70,15 +83,15 @@
       },
       "taishin_richart": {
         "schemeId": "gourmet",
-        "schemeName": "好饗刷 (3.3%)",
+        "schemeName": "好饗刷",
         "rate": 3.3,
-        "notes": "好饗刷 (3.3%)"
+        "notes": "好饗刷"
       },
       "esun_ubear": {
-        "schemeId": "general",
+        "schemeId": "online_shopping",
         "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
+        "rate": 3,
+        "notes": "回饋 3%"
       },
       "mega_bt21": {
         "schemeId": "mobile_pay",
@@ -90,18 +103,14 @@
   },
   {
     "id": "m_3dbdc85d",
-    "name": "瓦城泰統集團 (瓦城/非常泰/大心/1010湘/時時香/樂子/BO BO)",
+    "name": "藏壽司 (Kura Sushi くら寿司)",
     "aliases": [
-      "瓦城泰統集團 (瓦城/非常泰/大心/1010湘/時時香/樂子/BO BO)",
-      "瓦城",
-      "瓦城泰統",
-      "非常泰",
-      "大心",
-      "1010湘",
-      "時時香",
-      "樂子the Diner",
-      "BO BO",
-      "泰式料理"
+      "藏壽司 (Kura Sushi くら寿司)",
+      "藏壽司",
+      "Kura Sushi",
+      "くら寿司",
+      "扭蛋壽司",
+      "迴轉壽司"
     ],
     "categories": [
       "general"
@@ -109,7 +118,51 @@
     "categoryName": "美食餐飲",
     "isPitfall": false,
     "pitfallWarning": "",
-    "paymentAdvice": "🍛 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (LINE Pay 3.0%)",
+    "paymentAdvice": "🍣 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 3.0%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "gourmet",
+        "schemeName": "好饗刷",
+        "rate": 3.3,
+        "notes": "好饗刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "鼎泰豐 (Din Tai Fung)",
+    "aliases": [
+      "鼎泰豐 (Din Tai Fung)",
+      "鼎泰豐",
+      "小籠包",
+      "Din Tai Fung",
+      "DTF"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "美食餐飲",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🥟 推薦 台新好饗刷 3.3% 或 CUBE 樂饗購 3.0%~3.3%",
     "schemes": {
       "cathay_cube": {
         "schemeId": "dining",
@@ -139,20 +192,16 @@
   },
   {
     "id": "m_3dbdc85d",
-    "name": "饗賓餐旅 (饗食天堂/饗饗/旭集/果然匯/小福利/開飯川食堂/饗泰多)",
+    "name": "饗食天堂 / 饗饗 / 旭集 (饗賓餐旅集團)",
     "aliases": [
-      "饗賓餐旅 (饗食天堂/饗饗/旭集/果然匯/小福利/開飯川食堂/饗泰多)",
-      "饗賓",
+      "饗食天堂 / 饗饗 / 旭集 (饗賓餐旅集團)",
       "饗食天堂",
       "饗饗",
-      "INPARADISE",
       "旭集",
-      "果然匯",
-      "小福利",
-      "開飯川食堂",
-      "饗泰多",
-      "真珠",
-      "朵頤"
+      "饗賓",
+      "INPARADISE",
+      "Buffet",
+      "吃到飽"
     ],
     "categories": [
       "general"
@@ -160,7 +209,7 @@
     "categoryName": "美食餐飲",
     "isPitfall": false,
     "pitfallWarning": "",
-    "paymentAdvice": "🍽️ 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (LINE Pay 3.0%)",
+    "paymentAdvice": "🍤 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 3.0%",
     "schemes": {
       "cathay_cube": {
         "schemeId": "dining",
@@ -170,111 +219,9 @@
       },
       "taishin_richart": {
         "schemeId": "gourmet",
-        "schemeName": "好饗刷 (3.3%)",
+        "schemeName": "好饗刷",
         "rate": 3.3,
-        "notes": "好饗刷 (3.3%)"
-      },
-      "esun_ubear": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3dbdc85d",
-    "name": "王品集團 (王品/西堤/陶板屋/石二鍋/肉次方/初瓦/響辣/聚)",
-    "aliases": [
-      "王品集團 (王品/西堤/陶板屋/石二鍋/肉次方/初瓦/響辣/聚)",
-      "王品",
-      "王品集團",
-      "西堤",
-      "陶板屋",
-      "石二鍋",
-      "肉次方",
-      "初瓦",
-      "向辣",
-      "聚日式鍋物",
-      "品田牧場",
-      "青花驕",
-      "和牛涮",
-      "享鴨",
-      "丰禾",
-      "THE WANG",
-      "王品牛排"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "美食餐飲",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🥩 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (LINE Pay 3.0%)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "gourmet",
-        "schemeName": "好饗刷 (3.3%)",
-        "rate": 3.3,
-        "notes": "好饗刷 (3.3%)"
-      },
-      "esun_ubear": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3dbdc85d",
-    "name": "智慧停車 (車麻吉 / uTagGo)",
-    "aliases": [
-      "智慧停車 (車麻吉 / uTagGo)",
-      "車麻吉",
-      "uTagGo",
-      "停車",
-      "智慧停車",
-      "停車大聲公",
-      "路邊停車"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "交通旅遊",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🅿️ 推薦 台新天天刷 3.3%、CUBE 集精選 2.0% 或 玉山 UBear / 兆豐 BT21 (Apple Pay/LINE Pay) 3.0%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "essentials",
-        "schemeName": "集精選",
-        "rate": 2,
-        "notes": "集精選"
-      },
-      "taishin_richart": {
-        "schemeId": "daily",
-        "schemeName": "天天刷 (3.3%)",
-        "rate": 3.3,
-        "notes": "天天刷 (3.3%)"
+        "notes": "好饗刷"
       },
       "esun_ubear": {
         "schemeId": "online_shopping",
@@ -292,38 +239,35 @@
   },
   {
     "id": "m_3dbdc85d",
-    "name": "電動車充電站 (EVOASIS / U-POWER / EVALUE / TAIL)",
+    "name": "路易莎咖啡 (Louisa Coffee)",
     "aliases": [
-      "電動車充電站 (EVOASIS / U-POWER / EVALUE / TAIL)",
-      "EVOASIS",
-      "U-POWER",
-      "EVALUE",
-      "TAIL",
-      "特爾電力",
-      "充電樁",
-      "電動車充電",
-      "源點科技",
-      "華城電能"
+      "路易莎咖啡 (Louisa Coffee)",
+      "路易莎",
+      "Louisa",
+      "Louisa Coffee",
+      "露易莎",
+      "咖啡廳",
+      "早餐"
     ],
     "categories": [
       "general"
     ],
-    "categoryName": "加油充電",
+    "categoryName": "美食餐飲",
     "isPitfall": false,
     "pitfallWarning": "",
-    "paymentAdvice": "⚡ 推薦 台新天天刷 3.3%、CUBE 集精選 2.0% 或 兆豐 BT21 / 玉山 UBear 3.0%",
+    "paymentAdvice": "☕ 推薦 台新 Chill 刷 (最高 10%) 或 好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (LINE Pay 3.0%)",
     "schemes": {
       "cathay_cube": {
-        "schemeId": "essentials",
-        "schemeName": "集精選",
-        "rate": 2,
-        "notes": "集精選"
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
       },
       "taishin_richart": {
-        "schemeId": "daily",
-        "schemeName": "天天刷 (3.3%)",
-        "rate": 3.3,
-        "notes": "天天刷 (3.3%)"
+        "schemeId": "chill",
+        "schemeName": "Chill 刷",
+        "rate": 10,
+        "notes": "Chill 刷"
       },
       "esun_ubear": {
         "schemeId": "online_shopping",
@@ -341,22 +285,22 @@
   },
   {
     "id": "m_3dbdc85d",
-    "name": "LOPIA 台灣 (日系連鎖超市)",
+    "name": "7-ELEVEN (統一超商)",
     "aliases": [
-      "LOPIA 台灣 (日系連鎖超市)",
-      "LOPIA",
-      "台灣LOPIA",
-      "樂比亞",
-      "日系超市",
-      "LOPIA超市"
+      "7-ELEVEN (統一超商)",
+      "7-11",
+      "711",
+      "小七",
+      "統一超商",
+      "Seven"
     ],
     "categories": [
       "general"
     ],
-    "categoryName": "量販超市",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🥩 推薦 台新天天刷 3.3%、CUBE 集精選 2.0%",
+    "categoryName": "四大超商",
+    "isPitfall": true,
+    "pitfallWarning": "多數信用卡實體刷卡列入「超商排除條款」0% 回饋！請務必依照本系統建議方案或指定行動支付結帳。",
+    "paymentAdvice": "📱 優先使用 台新 Pay (天天刷/Pay著刷 3.3%~3.8%)、LINE Pay / Apple Pay 綁兆豐 BT21 (3.0%) 或 CUBE 集精選 (2.0%)",
     "schemes": {
       "cathay_cube": {
         "schemeId": "essentials",
@@ -366,42 +310,85 @@
       },
       "taishin_richart": {
         "schemeId": "daily",
-        "schemeName": "天天刷 (3.3%)",
+        "schemeName": "天天刷",
         "rate": 3.3,
-        "notes": "天天刷 (3.3%)"
+        "notes": "天天刷"
       },
       "esun_ubear": {
         "schemeId": "general",
         "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
+        "rate": 0,
+        "notes": "回饋 0%"
       },
       "mega_bt21": {
-        "schemeId": "general",
+        "schemeId": "mobile_pay",
         "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
+        "rate": 3,
+        "notes": "回饋 3%"
       }
     }
   },
   {
     "id": "m_3dbdc85d",
-    "name": "大全聯 (原大潤發 / 全聯量販)",
+    "name": "全家便利商店 (FamilyMart)",
     "aliases": [
-      "大全聯 (原大潤發 / 全聯量販)",
-      "大全聯",
-      "大潤發",
-      "RT-MART",
-      "大潤發量販",
-      "全聯大潤發"
+      "全家便利商店 (FamilyMart)",
+      "全家",
+      "FamilyMart",
+      "全家超商"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "四大超商",
+    "isPitfall": true,
+    "pitfallWarning": "超商門市直接刷實體卡多數銀行不回饋！請使用指定切換方案或行動支付。",
+    "paymentAdvice": "📱 優先使用 台新 Pay / 全盈+Pay (天天刷 3.3%)、CUBE 集精選 (2.0%) 或 兆豐 BT21 (3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "essentials",
+        "schemeName": "集精選",
+        "rate": 2,
+        "notes": "集精選"
+      },
+      "taishin_richart": {
+        "schemeId": "daily",
+        "schemeName": "天天刷",
+        "rate": 3.3,
+        "notes": "天天刷"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 0,
+        "notes": "回饋 0%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "全聯福利中心 (PX Mart)",
+    "aliases": [
+      "全聯福利中心 (PX Mart)",
+      "全聯",
+      "PX Mart",
+      "全聯超市",
+      "PXPay",
+      "全支付"
     ],
     "categories": [
       "general"
     ],
     "categoryName": "量販超市",
-    "isPitfall": false,
-    "pitfallWarning": "⚠️ 【大全聯/大潤發支付注意】：原大潤發已整併為大全聯生態系，刷卡推薦使用台新天天刷或綁定全支付享加碼回饋。",
-    "paymentAdvice": "🛒 推薦 台新天天刷 (實體/PX Pay) 3.3%、國泰全支付 2.0% 或 兆豐 BT21",
+    "isPitfall": true,
+    "pitfallWarning": "⚠️ 全聯是全台最大刷卡雷區！實體刷卡或 Apple Pay 幾乎 100% 排除回饋，請切換至台新天天刷或使用全支付/PX Pay。",
+    "paymentAdvice": "📱 唯一推薦：台新 Richart 天天刷 3.3%、CUBE 全支付方案 (2.0%) 或 玉山 UBear 綁全支付 (儲值/消費依活動)",
     "schemes": {
       "cathay_cube": {
         "schemeId": "pxpay",
@@ -411,15 +398,104 @@
       },
       "taishin_richart": {
         "schemeId": "daily",
-        "schemeName": "天天刷 (3.3%)",
+        "schemeName": "天天刷",
         "rate": 3.3,
-        "notes": "天天刷 (3.3%)"
+        "notes": "天天刷"
       },
       "esun_ubear": {
         "schemeId": "general",
         "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
+        "rate": 0,
+        "notes": "回饋 0%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 0,
+        "notes": "回饋 0%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "家樂福 (Carrefour)",
+    "aliases": [
+      "家樂福 (Carrefour)",
+      "家樂福",
+      "Carrefour",
+      "家樂福超市",
+      "家樂福線上購物"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "量販超市",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "💳 實體刷卡或行動支付均可，推薦台新天天刷 3.3%、CUBE 集精選 2.0% 或 兆豐 BT21 3.0%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "essentials",
+        "schemeName": "集精選",
+        "rate": 2,
+        "notes": "集精選"
+      },
+      "taishin_richart": {
+        "schemeId": "daily",
+        "schemeName": "天天刷",
+        "rate": 3.3,
+        "notes": "天天刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "蝦皮購物 (Shopee)",
+    "aliases": [
+      "蝦皮購物 (Shopee)",
+      "蝦皮",
+      "Shopee",
+      "蝦皮商城",
+      "蝦皮拍賣",
+      "蝦皮直送"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "網購電商",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "💻 推薦 CUBE 玩數位 (3.0%~3.3%)、台新數趣刷 (3.3%) 或 玉山 UBear (3.0% 現金折抵)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "digital",
+        "schemeName": "玩數位",
+        "rate": 3,
+        "notes": "玩數位"
+      },
+      "taishin_richart": {
+        "schemeId": "digital_fun",
+        "schemeName": "數趣刷",
+        "rate": 3.3,
+        "notes": "數趣刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
       },
       "mega_bt21": {
         "schemeId": "general",
@@ -431,13 +507,1511 @@
   },
   {
     "id": "m_3dbdc85d",
-    "name": "宏匯廣場 (HONHUI PLAZA)",
+    "name": "momo 購物網",
     "aliases": [
-      "宏匯廣場 (HONHUI PLAZA)",
-      "宏匯廣場",
-      "宏匯",
-      "新莊宏匯",
-      "HONHUI PLAZA"
+      "momo 購物網",
+      "momo",
+      "富邦媒",
+      "momo購物",
+      "momo摩天商城"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "網購電商",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "💻 推薦 CUBE 玩數位 (3.0%~3.3%)、台新數趣刷 (3.3%) 或 玉山 UBear (3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "digital",
+        "schemeName": "玩數位",
+        "rate": 3,
+        "notes": "玩數位"
+      },
+      "taishin_richart": {
+        "schemeId": "digital_fun",
+        "schemeName": "數趣刷",
+        "rate": 3.3,
+        "notes": "數趣刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 1,
+        "notes": "回饋 1%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "PChome 24h 購物",
+    "aliases": [
+      "PChome 24h 購物",
+      "PChome",
+      "PChome24h",
+      "披西轟",
+      "網路家庭"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "網購電商",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "💻 推薦 CUBE 玩數位 (3.0%~3.3%)、台新數趣刷 (3.3%) 或 玉山 UBear (3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "digital",
+        "schemeName": "玩數位",
+        "rate": 3,
+        "notes": "玩數位"
+      },
+      "taishin_richart": {
+        "schemeId": "digital_fun",
+        "schemeName": "數趣刷",
+        "rate": 3.3,
+        "notes": "數趣刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 1,
+        "notes": "回饋 1%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "Uber Eats (優食外送)",
+    "aliases": [
+      "Uber Eats (優食外送)",
+      "Uber Eats",
+      "UberEats",
+      "吳伯毅",
+      "外送",
+      "Uber外送"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "外送平台",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🛵 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 玉山 UBear 3.0%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "gourmet",
+        "schemeName": "好饗刷",
+        "rate": 3.3,
+        "notes": "好饗刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "Foodpanda (熊貓外送)",
+    "aliases": [
+      "Foodpanda (熊貓外送)",
+      "Foodpanda",
+      "熊貓",
+      "空腹熊貓",
+      "熊貓超市"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "外送平台",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🛵 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 玉山 UBear 3.0%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "gourmet",
+        "schemeName": "好饗刷",
+        "rate": 3.3,
+        "notes": "好饗刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "星巴克 (Starbucks)",
+    "aliases": [
+      "星巴克 (Starbucks)",
+      "星巴克",
+      "Starbucks",
+      "星爺",
+      "星巴克咖啡"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "美食餐飲",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "☕ 推薦 台新 Chill 刷 (最高 10%) 或 好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (LINE Pay 3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "chill",
+        "schemeName": "Chill 刷",
+        "rate": 10,
+        "notes": "Chill 刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "麥當勞 (McDonald's)",
+    "aliases": [
+      "麥當勞 (McDonald's)",
+      "麥當勞",
+      "McDonalds",
+      "Mcdonald",
+      "大麥克",
+      "金拱門"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "美食餐飲",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🍔 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (Apple Pay/LINE Pay 3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "gourmet",
+        "schemeName": "好饗刷",
+        "rate": 3.3,
+        "notes": "好饗刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "海底撈火鍋 (Haidilao)",
+    "aliases": [
+      "海底撈火鍋 (Haidilao)",
+      "海底撈",
+      "Haidilao",
+      "火鍋",
+      "海底撈麻辣鍋"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "美食餐飲",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🍲 首選推薦：台新 Chill 刷 (最高 10%) 或 好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "chill",
+        "schemeName": "Chill 刷",
+        "rate": 10,
+        "notes": "Chill 刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "屋馬燒肉 (Umai)",
+    "aliases": [
+      "屋馬燒肉 (Umai)",
+      "屋馬",
+      "屋馬燒肉",
+      "台中屋馬",
+      "Umai"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "美食餐飲",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🥩 首選推薦：台新 Chill 刷 (最高 10%) 或 好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "chill",
+        "schemeName": "Chill 刷",
+        "rate": 10,
+        "notes": "Chill 刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "50嵐 (連鎖茶飲)",
+    "aliases": [
+      "50嵐 (連鎖茶飲)",
+      "50嵐",
+      "五十嵐",
+      "手搖飲",
+      "珍奶",
+      "四季春"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "手搖飲料",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🧋 推薦 台新 Chill 刷 (最高 10%)、兆豐 BT21 (LINE Pay/街口 3.0%) 或 玉山 UBear (LINE Pay 3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "chill",
+        "schemeName": "Chill 刷",
+        "rate": 10,
+        "notes": "Chill 刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "新光三越百貨",
+    "aliases": [
+      "新光三越百貨",
+      "新光三越",
+      "新光",
+      "Mitsukoshi",
+      "信義新天地",
+      "南西店",
+      "台中中港"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "百貨商場",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🛍️ 推薦 台新大筆刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (Apple Pay 3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "big_spending",
+        "schemeName": "大筆刷",
+        "rate": 3.3,
+        "notes": "大筆刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "遠東 SOGO 百貨",
+    "aliases": [
+      "遠東 SOGO 百貨",
+      "SOGO",
+      "遠東SOGO",
+      "太平洋SOGO",
+      "復興館",
+      "忠孝館",
+      "敦化館"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "百貨商場",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🛍️ 推薦 台新大筆刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 3.0%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "big_spending",
+        "schemeName": "大筆刷",
+        "rate": 3.3,
+        "notes": "大筆刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "IKEA 宜家家居",
+    "aliases": [
+      "IKEA 宜家家居",
+      "IKEA",
+      "宜家",
+      "宜家家居",
+      "肉丸",
+      "家具"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "居家生活",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🛋️ 推薦 台新大筆刷 3.3% 或 兆豐 BT21 (Apple Pay 3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "general",
+        "schemeName": "一般消費",
+        "rate": 0.3,
+        "notes": "一般消費"
+      },
+      "taishin_richart": {
+        "schemeId": "big_spending",
+        "schemeName": "大筆刷",
+        "rate": 3.3,
+        "notes": "大筆刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "台灣高鐵 (THSR)",
+    "aliases": [
+      "台灣高鐵 (THSR)",
+      "高鐵",
+      "台灣高鐵",
+      "THSR",
+      "高鐵購票",
+      "T-EX行動購票"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "交通旅遊",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🚄 推薦 台新天天刷 3.3%、CUBE 趣旅行 3.0%~3.3% 或 玉山 UBear 3.0%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "travel",
+        "schemeName": "趣旅行",
+        "rate": 3,
+        "notes": "趣旅行"
+      },
+      "taishin_richart": {
+        "schemeId": "daily",
+        "schemeName": "天天刷",
+        "rate": 3.3,
+        "notes": "天天刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "日本海外實體消費 (Japan In-store)",
+    "aliases": [
+      "日本海外實體消費 (Japan In-store)",
+      "日本",
+      "日本實體",
+      "日幣",
+      "日本旅遊",
+      "東京",
+      "大阪",
+      "Bic Camera",
+      "唐吉訶德",
+      "Donki"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "海外消費",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🇯🇵 推薦 台新玩旅刷 3.3% 或 CUBE 趣旅行 3.0%~3.3% (海外實體刷卡無上限)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "travel",
+        "schemeName": "趣旅行",
+        "rate": 3,
+        "notes": "趣旅行"
+      },
+      "taishin_richart": {
+        "schemeId": "travel_fun",
+        "schemeName": "玩旅刷",
+        "rate": 3.3,
+        "notes": "玩旅刷"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 1,
+        "notes": "回饋 1%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 2,
+        "notes": "回饋 2%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "韓國海外實體消費 (Korea In-store)",
+    "aliases": [
+      "韓國海外實體消費 (Korea In-store)",
+      "韓國",
+      "首爾",
+      "釜山",
+      "韓幣",
+      "Olive Young",
+      "明洞",
+      "弘大"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "海外消費",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🇰🇷 推薦 台新玩旅刷 3.3% 或 CUBE 趣旅行 3.0%~3.3%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "travel",
+        "schemeName": "趣旅行",
+        "rate": 3,
+        "notes": "趣旅行"
+      },
+      "taishin_richart": {
+        "schemeId": "travel_fun",
+        "schemeName": "玩旅刷",
+        "rate": 3.3,
+        "notes": "玩旅刷"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 1,
+        "notes": "回饋 1%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 2,
+        "notes": "回饋 2%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "Agoda (線上訂房)",
+    "aliases": [
+      "Agoda (線上訂房)",
+      "Agoda",
+      "安可達",
+      "訂房",
+      "飯店預訂",
+      "住宿"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "旅遊訂房",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🏨 推薦 CUBE 趣旅行 3.0%~3.3%、台新玩旅刷 3.3% 或 玉山 UBear 3.0%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "travel",
+        "schemeName": "趣旅行",
+        "rate": 3,
+        "notes": "趣旅行"
+      },
+      "taishin_richart": {
+        "schemeId": "travel_fun",
+        "schemeName": "玩旅刷",
+        "rate": 3.3,
+        "notes": "玩旅刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 2,
+        "notes": "回饋 2%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "星宇航空 (STARLUX Airlines)",
+    "aliases": [
+      "星宇航空 (STARLUX Airlines)",
+      "星宇",
+      "星宇航空",
+      "STARLUX",
+      "機票",
+      "K董"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "航空機票",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "✈️ 推薦 CUBE 趣旅行 3.0%~3.3%、台新玩旅刷 3.3% 或 玉山 UBear 3.0%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "travel",
+        "schemeName": "趣旅行",
+        "rate": 3,
+        "notes": "趣旅行"
+      },
+      "taishin_richart": {
+        "schemeId": "travel_fun",
+        "schemeName": "玩旅刷",
+        "rate": 3.3,
+        "notes": "玩旅刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 1,
+        "notes": "回饋 1%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "台灣中油 (直營加油站)",
+    "aliases": [
+      "台灣中油 (直營加油站)",
+      "中油",
+      "台灣中油",
+      "中油直營",
+      "加油",
+      "中油Pay",
+      "CPC"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "加油充電",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "⛽ 推薦 台新天天刷 3.3%、CUBE 集精選 2.0% 或 兆豐 BT21 3.0%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "essentials",
+        "schemeName": "集精選",
+        "rate": 2,
+        "notes": "集精選"
+      },
+      "taishin_richart": {
+        "schemeId": "daily",
+        "schemeName": "天天刷",
+        "rate": 3.3,
+        "notes": "天天刷"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 1,
+        "notes": "回饋 1%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "Netflix (網飛串流影音)",
+    "aliases": [
+      "Netflix (網飛串流影音)",
+      "Netflix",
+      "網飛",
+      "追劇",
+      "影音串流"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "影音娛樂",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🎬 首選推薦：玉山 UBear (最高 10.0% 現金回饋) 或 台新 Chill刷/數趣刷 3.3%~10%、CUBE 玩數位 3.0%~3.3%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "digital",
+        "schemeName": "玩數位",
+        "rate": 3,
+        "notes": "玩數位"
+      },
+      "taishin_richart": {
+        "schemeId": "chill",
+        "schemeName": "Chill 刷",
+        "rate": 10,
+        "notes": "Chill 刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 10,
+        "notes": "回饋 10%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 2,
+        "notes": "回饋 2%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "Spotify (音樂串流平台)",
+    "aliases": [
+      "Spotify (音樂串流平台)",
+      "Spotify",
+      "KKBOX",
+      "音樂串流",
+      "聽歌"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "影音娛樂",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🎵 首選推薦：玉山 UBear (最高 10.0%) 或 台新數趣刷 3.3%、CUBE 玩數位 3.0%~3.3%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "digital",
+        "schemeName": "玩數位",
+        "rate": 3,
+        "notes": "玩數位"
+      },
+      "taishin_richart": {
+        "schemeId": "digital_fun",
+        "schemeName": "數趣刷",
+        "rate": 3.3,
+        "notes": "數趣刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 10,
+        "notes": "回饋 10%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 2,
+        "notes": "回饋 2%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "ChatGPT / OpenAI (AI 工具訂閱)",
+    "aliases": [
+      "ChatGPT / OpenAI (AI 工具訂閱)",
+      "ChatGPT",
+      "OpenAI",
+      "GPT4",
+      "GPT Plus",
+      "AI訂閱",
+      "Claude"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "AI 服務",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🤖 首選推薦：玉山 UBear (最高 10.0%) 或 台新數趣刷 3.3%、CUBE 玩數位 3.0%~3.3%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "digital",
+        "schemeName": "玩數位",
+        "rate": 3,
+        "notes": "玩數位"
+      },
+      "taishin_richart": {
+        "schemeId": "digital_fun",
+        "schemeName": "數趣刷",
+        "rate": 3.3,
+        "notes": "數趣刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 10,
+        "notes": "回饋 10%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 2,
+        "notes": "回饋 2%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "Steam (電玩遊戲平台)",
+    "aliases": [
+      "Steam (電玩遊戲平台)",
+      "Steam",
+      "Valve",
+      "G胖",
+      "蒸氣平台",
+      "遊戲特賣",
+      "PC Game"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "影音娛樂",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🎮 首選推薦：玉山 UBear (最高 10.0%) 或 台新數趣刷 3.3%、CUBE 玩數位 3.0%~3.3%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "digital",
+        "schemeName": "玩數位",
+        "rate": 3,
+        "notes": "玩數位"
+      },
+      "taishin_richart": {
+        "schemeId": "digital_fun",
+        "schemeName": "數趣刷",
+        "rate": 3.3,
+        "notes": "數趣刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 10,
+        "notes": "回饋 10%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 2,
+        "notes": "回饋 2%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "水費 / 電費 / 瓦斯費 (公用事業代扣繳)",
+    "aliases": [
+      "水費 / 電費 / 瓦斯費 (公用事業代扣繳)",
+      "水費",
+      "電費",
+      "瓦斯費",
+      "公用事業",
+      "台電",
+      "自來水",
+      "瓦斯",
+      "生活繳費"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "生活繳費",
+    "isPitfall": true,
+    "pitfallWarning": "⚠️ 水電瓦斯費屬於「非一般消費」，信用卡直接刷卡或自動扣繳 99% 無任何回饋！",
+    "paymentAdvice": "💧 推薦避坑解法：使用 台新 Richart 假日刷 (1.3%~2.0%) 或透過 街口支付 / 全支付 綁定指定加碼卡扣繳",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "general",
+        "schemeName": "一般消費",
+        "rate": 0.3,
+        "notes": "一般消費"
+      },
+      "taishin_richart": {
+        "schemeId": "holiday",
+        "schemeName": "假日刷",
+        "rate": 2,
+        "notes": "假日刷"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 0,
+        "notes": "回饋 0%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 0,
+        "notes": "回饋 0%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "個人綜合所得稅 / 房屋稅 / 地價稅 / 牌照稅",
+    "aliases": [
+      "個人綜合所得稅 / 房屋稅 / 地價稅 / 牌照稅",
+      "所得稅",
+      "房屋稅",
+      "地價稅",
+      "牌照稅",
+      "綜所稅",
+      "繳稅",
+      "國稅局"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "政府稅款",
+    "isPitfall": true,
+    "pitfallWarning": "⚠️ 繳納政府稅款在全台灣所有信用卡一律排除一般回饋！需留意每年 4~5 月各大銀行推出的專屬繳稅活動（登錄送刷卡金或分期 0 利率）。",
+    "paymentAdvice": "🏛️ 推薦避坑解法：依當年度銀行繳稅專案登錄（如國泰/台新滿額登錄回饋 0.2%~0.5% 或 12 期 0 利率）",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "general",
+        "schemeName": "年度活動",
+        "rate": 0.3,
+        "notes": "年度活動"
+      },
+      "taishin_richart": {
+        "schemeId": "daily",
+        "schemeName": "年度活動",
+        "rate": 3.3,
+        "notes": "年度活動"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 0,
+        "notes": "回饋 0%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 0,
+        "notes": "回饋 0%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "公立醫院與健保醫療費",
+    "aliases": [
+      "公立醫院與健保醫療費",
+      "醫院",
+      "診所",
+      "掛號費",
+      "健保費",
+      "醫療費",
+      "台大醫院",
+      "榮總",
+      "長庚"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "公立醫療",
+    "isPitfall": true,
+    "pitfallWarning": "⚠️ 透過「公務人員或公立醫院醫指付 (E-Bill)」繳交醫療掛號費，全台信用卡一律排除一般消費回饋。",
+    "paymentAdvice": "🏥 醫療費絕大多數無回饋，部分私立醫美診所若使用一般刷卡機則可能依「一般消費」計入。",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "general",
+        "schemeName": "一般消費",
+        "rate": 0.3,
+        "notes": "一般消費"
+      },
+      "taishin_richart": {
+        "schemeId": "general",
+        "schemeName": "一般消費",
+        "rate": 0.3,
+        "notes": "一般消費"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 0,
+        "notes": "回饋 0%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 0,
+        "notes": "回饋 0%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "屈臣氏 (Watsons)",
+    "aliases": [
+      "屈臣氏 (Watsons)",
+      "屈臣氏",
+      "Watsons",
+      "小屈",
+      "藥妝"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "藥妝美妝",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "💄 推薦 台新天天刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (LINE Pay 3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "daily",
+        "schemeName": "天天刷",
+        "rate": 3.3,
+        "notes": "天天刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "康是美 (COSMED)",
+    "aliases": [
+      "康是美 (COSMED)",
+      "康是美",
+      "COSMED",
+      "藥妝",
+      "彩妝"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "藥妝美妝",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "💄 推薦 台新天天刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 3.0%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "daily",
+        "schemeName": "天天刷",
+        "rate": 3.3,
+        "notes": "天天刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "寶雅 (POYA)",
+    "aliases": [
+      "寶雅 (POYA)",
+      "寶雅",
+      "POYA",
+      "生活百貨",
+      "寶雅線上買"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "生活百貨",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "✨ 推薦 台新大筆刷/天天刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 3.0%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "daily",
+        "schemeName": "天天刷",
+        "rate": 3.3,
+        "notes": "天天刷"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "統一時代百貨 (台北店 / 高雄店 / 夢時代)",
+    "aliases": [
+      "統一時代百貨 (台北店 / 高雄店 / 夢時代)",
+      "統一時代",
+      "時代百貨",
+      "統一阪急",
+      "阪急",
+      "夢時代",
+      "高雄夢時代",
+      "統一時代台北店",
+      "統一時代高雄店"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "百貨商場",
+    "isPitfall": false,
+    "pitfallWarning": "⚠️ 【百貨刷卡避坑】：1. 百貨內餐廳若為百貨統開發票，國泰 CUBE 需切【樂饗購】，台新請切【大筆刷】；2. 部分快閃特賣櫃位若屬獨立發票可能排除百貨加碼。",
+    "paymentAdvice": "🛍️ 推薦 台新大筆刷 3.3% 或 CUBE 樂饗購 3.0%~3.3%；行動支付支援 LINE Pay/Apple Pay 享 3.0%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "big_spending",
+        "schemeName": "大筆刷 (3.3%)",
+        "rate": 3.3,
+        "notes": "大筆刷 (3.3%)"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 1,
+        "notes": "回饋 1%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "博客來 (Books.com.tw)",
+    "aliases": [
+      "博客來 (Books.com.tw)",
+      "博客來",
+      "博客來網路書店",
+      "Books.com.tw",
+      "買書",
+      "網路書店"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "網購電商",
+    "isPitfall": true,
+    "pitfallWarning": "⚠️ 【CUBE 避坑】：國泰世華 CUBE 卡的「玩數位」官方加碼名單排除博客來網路書店！博客來僅計一般消費 0.3%，建議切換至台新數趣刷 3.3% 或使用玉山 UBear 3.0%。",
+    "paymentAdvice": "📚 首選推薦：台新數趣刷 3.3% 或 玉山 UBear 3.0%（⚠️ 國泰 CUBE 玩數位不包含博客來，僅 0.3% 一般消費）",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "general",
+        "schemeName": "一般消費",
+        "rate": 0.3,
+        "notes": "一般消費"
+      },
+      "taishin_richart": {
+        "schemeId": "digital_fun",
+        "schemeName": "數趣刷 (3.3%)",
+        "rate": 3.3,
+        "notes": "數趣刷 (3.3%)"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 2,
+        "notes": "回饋 2%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "Coupang 酷澎",
+    "aliases": [
+      "Coupang 酷澎",
+      "酷澎",
+      "Coupang",
+      "火箭跨境",
+      "火箭速配",
+      "酷朋"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "網購電商",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🚀 推薦 台新數趣刷 3.3%、CUBE 玩數位 3.0%~3.3% 或 玉山 UBear 3.0%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "digital",
+        "schemeName": "玩數位",
+        "rate": 3,
+        "notes": "玩數位"
+      },
+      "taishin_richart": {
+        "schemeId": "digital_fun",
+        "schemeName": "數趣刷 (3.3%)",
+        "rate": 3.3,
+        "notes": "數趣刷 (3.3%)"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 2,
+        "notes": "回饋 2%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "淘寶網 / 天貓 (Taobao / Tmall)",
+    "aliases": [
+      "淘寶網 / 天貓 (Taobao / Tmall)",
+      "淘寶",
+      "淘寶網",
+      "天貓",
+      "Taobao",
+      "Tmall",
+      "大陸集運"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "網購電商",
+    "isPitfall": true,
+    "pitfallWarning": "⚠️ 【CUBE 避坑】：淘寶/天貓不屬於 CUBE 玩數位加碼通路，刷 CUBE 僅享 0.3% 一般消費；請改刷台新數趣刷 3.3% 或玉山 UBear 3.0%。",
+    "paymentAdvice": "📦 推薦 台新數趣刷 3.3% 或 玉山 UBear 3.0%（⚠️ 國泰 CUBE 玩數位不支援淘寶）",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "general",
+        "schemeName": "一般消費",
+        "rate": 0.3,
+        "notes": "一般消費"
+      },
+      "taishin_richart": {
+        "schemeId": "digital_fun",
+        "schemeName": "數趣刷 (3.3%)",
+        "rate": 3.3,
+        "notes": "數趣刷 (3.3%)"
+      },
+      "esun_ubear": {
+        "schemeId": "online_shopping",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 2,
+        "notes": "回饋 2%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "台茂購物中心 (TaiMall)",
+    "aliases": [
+      "台茂購物中心 (TaiMall)",
+      "台茂",
+      "TaiMall",
+      "桃園台茂",
+      "南崁台茂",
+      "台茂影城"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "百貨商場",
+    "isPitfall": false,
+    "pitfallWarning": "⚠️ 【百貨刷卡避坑】：1. 百貨內餐廳若為商場統開發票，CUBE 切【樂饗購】/ 台新切【大筆刷】適用；2. 特賣獨立開票櫃位可能排除加碼。",
+    "paymentAdvice": "🛍️ 推薦 台新大筆刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (Apple Pay 3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "big_spending",
+        "schemeName": "大筆刷 (3.3%)",
+        "rate": 3.3,
+        "notes": "大筆刷 (3.3%)"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 1,
+        "notes": "回饋 1%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "南紡購物中心 (T.S. Mall)",
+    "aliases": [
+      "南紡購物中心 (T.S. Mall)",
+      "南紡",
+      "台南南紡",
+      "TS Mall",
+      "南紡夢時代",
+      "南紡購物"
     ],
     "categories": [
       "general"
@@ -475,14 +2049,103 @@
   },
   {
     "id": "m_3dbdc85d",
-    "name": "華泰名品城 (GLORIA OUTLETS)",
+    "name": "Big City 遠東巨城購物中心",
     "aliases": [
-      "華泰名品城 (GLORIA OUTLETS)",
-      "華泰名品城",
-      "華泰",
-      "GLORIA OUTLETS",
-      "桃園華泰",
-      "青埔華泰"
+      "Big City 遠東巨城購物中心",
+      "巨城",
+      "遠東巨城",
+      "新竹巨城",
+      "Big City",
+      "巨城購物中心"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "百貨商場",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🛍️ 推薦 台新大筆刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (Apple Pay 3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "big_spending",
+        "schemeName": "大筆刷 (3.3%)",
+        "rate": 3.3,
+        "notes": "大筆刷 (3.3%)"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 1,
+        "notes": "回饋 1%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "新店裕隆城 (誠品生活裕隆城)",
+    "aliases": [
+      "新店裕隆城 (誠品生活裕隆城)",
+      "裕隆城",
+      "新店裕隆城",
+      "誠品裕隆城",
+      "誠品生活新店",
+      "裕隆城威秀"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "百貨商場",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🛍️ 推薦 台新大筆刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (Apple Pay 3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "big_spending",
+        "schemeName": "大筆刷 (3.3%)",
+        "rate": 3.3,
+        "notes": "大筆刷 (3.3%)"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 1,
+        "notes": "回饋 1%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "大江國際購物中心 (MetroWalk)",
+    "aliases": [
+      "大江國際購物中心 (MetroWalk)",
+      "大江",
+      "大江購物中心",
+      "MetroWalk",
+      "中壢大江"
     ],
     "categories": [
       "general"
@@ -568,13 +2231,14 @@
   },
   {
     "id": "m_3dbdc85d",
-    "name": "大江國際購物中心 (MetroWalk)",
+    "name": "華泰名品城 (GLORIA OUTLETS)",
     "aliases": [
-      "大江國際購物中心 (MetroWalk)",
-      "大江",
-      "大江購物中心",
-      "MetroWalk",
-      "中壢大江"
+      "華泰名品城 (GLORIA OUTLETS)",
+      "華泰名品城",
+      "華泰",
+      "GLORIA OUTLETS",
+      "桃園華泰",
+      "青埔華泰"
     ],
     "categories": [
       "general"
@@ -612,14 +2276,13 @@
   },
   {
     "id": "m_3dbdc85d",
-    "name": "新店裕隆城 (誠品生活裕隆城)",
+    "name": "宏匯廣場 (HONHUI PLAZA)",
     "aliases": [
-      "新店裕隆城 (誠品生活裕隆城)",
-      "裕隆城",
-      "新店裕隆城",
-      "誠品裕隆城",
-      "誠品生活新店",
-      "裕隆城威秀"
+      "宏匯廣場 (HONHUI PLAZA)",
+      "宏匯廣場",
+      "宏匯",
+      "新莊宏匯",
+      "HONHUI PLAZA"
     ],
     "categories": [
       "general"
@@ -657,1698 +2320,22 @@
   },
   {
     "id": "m_3dbdc85d",
-    "name": "Big City 遠東巨城購物中心",
+    "name": "大全聯 (原大潤發 / 全聯量販)",
     "aliases": [
-      "Big City 遠東巨城購物中心",
-      "巨城",
-      "遠東巨城",
-      "新竹巨城",
-      "Big City",
-      "巨城購物中心"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "百貨商場",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🛍️ 推薦 台新大筆刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (Apple Pay 3.0%)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "big_spending",
-        "schemeName": "大筆刷 (3.3%)",
-        "rate": 3.3,
-        "notes": "大筆刷 (3.3%)"
-      },
-      "esun_ubear": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3dbdc85d",
-    "name": "南紡購物中心 (T.S. Mall)",
-    "aliases": [
-      "南紡購物中心 (T.S. Mall)",
-      "南紡",
-      "台南南紡",
-      "TS Mall",
-      "南紡夢時代",
-      "南紡購物"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "百貨商場",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🛍️ 推薦 台新大筆刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (Apple Pay 3.0%)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "big_spending",
-        "schemeName": "大筆刷 (3.3%)",
-        "rate": 3.3,
-        "notes": "大筆刷 (3.3%)"
-      },
-      "esun_ubear": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3dbdc85d",
-    "name": "台茂購物中心 (TaiMall)",
-    "aliases": [
-      "台茂購物中心 (TaiMall)",
-      "台茂",
-      "TaiMall",
-      "桃園台茂",
-      "南崁台茂",
-      "台茂影城"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "百貨商場",
-    "isPitfall": false,
-    "pitfallWarning": "⚠️ 【百貨刷卡避坑】：1. 百貨內餐廳若為商場統開發票，CUBE 切【樂饗購】/ 台新切【大筆刷】適用；2. 特賣獨立開票櫃位可能排除加碼。",
-    "paymentAdvice": "🛍️ 推薦 台新大筆刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (Apple Pay 3.0%)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "big_spending",
-        "schemeName": "大筆刷 (3.3%)",
-        "rate": 3.3,
-        "notes": "大筆刷 (3.3%)"
-      },
-      "esun_ubear": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3dbdc85d",
-    "name": "淘寶網 / 天貓 (Taobao / Tmall)",
-    "aliases": [
-      "淘寶網 / 天貓 (Taobao / Tmall)",
-      "淘寶",
-      "淘寶網",
-      "天貓",
-      "Taobao",
-      "Tmall",
-      "大陸集運"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "網購電商",
-    "isPitfall": true,
-    "pitfallWarning": "⚠️ 【CUBE 避坑】：淘寶/天貓不屬於 CUBE 玩數位加碼通路，刷 CUBE 僅享 0.3% 一般消費；請改刷台新數趣刷 3.3% 或玉山 UBear 3.0%。",
-    "paymentAdvice": "📦 推薦 台新數趣刷 3.3% 或 玉山 UBear 3.0%（⚠️ 國泰 CUBE 玩數位不支援淘寶）",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "general",
-        "schemeName": "一般消費",
-        "rate": 0.3,
-        "notes": "一般消費"
-      },
-      "taishin_richart": {
-        "schemeId": "digital_fun",
-        "schemeName": "數趣刷 (3.3%)",
-        "rate": 3.3,
-        "notes": "數趣刷 (3.3%)"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 2,
-        "notes": "回饋 2%"
-      }
-    }
-  },
-  {
-    "id": "m_3dbdc85d",
-    "name": "Coupang 酷澎",
-    "aliases": [
-      "Coupang 酷澎",
-      "酷澎",
-      "Coupang",
-      "火箭跨境",
-      "火箭速配",
-      "酷朋"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "網購電商",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🚀 推薦 台新數趣刷 3.3%、CUBE 玩數位 3.0%~3.3% 或 玉山 UBear 3.0%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "digital",
-        "schemeName": "玩數位",
-        "rate": 3,
-        "notes": "玩數位"
-      },
-      "taishin_richart": {
-        "schemeId": "digital_fun",
-        "schemeName": "數趣刷 (3.3%)",
-        "rate": 3.3,
-        "notes": "數趣刷 (3.3%)"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 2,
-        "notes": "回饋 2%"
-      }
-    }
-  },
-  {
-    "id": "m_3dbdc85d",
-    "name": "博客來 (Books.com.tw)",
-    "aliases": [
-      "博客來 (Books.com.tw)",
-      "博客來",
-      "博客來網路書店",
-      "Books.com.tw",
-      "買書",
-      "網路書店"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "網購電商",
-    "isPitfall": true,
-    "pitfallWarning": "⚠️ 【CUBE 避坑】：國泰世華 CUBE 卡的「玩數位」官方加碼名單排除博客來網路書店！博客來僅計一般消費 0.3%，建議切換至台新數趣刷 3.3% 或使用玉山 UBear 3.0%。",
-    "paymentAdvice": "📚 首選推薦：台新數趣刷 3.3% 或 玉山 UBear 3.0%（⚠️ 國泰 CUBE 玩數位不包含博客來，僅 0.3% 一般消費）",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "general",
-        "schemeName": "一般消費",
-        "rate": 0.3,
-        "notes": "一般消費"
-      },
-      "taishin_richart": {
-        "schemeId": "digital_fun",
-        "schemeName": "數趣刷 (3.3%)",
-        "rate": 3.3,
-        "notes": "數趣刷 (3.3%)"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 2,
-        "notes": "回饋 2%"
-      }
-    }
-  },
-  {
-    "id": "m_3dbdc85d",
-    "name": "統一時代百貨 (台北店 / 高雄店 / 夢時代)",
-    "aliases": [
-      "統一時代百貨 (台北店 / 高雄店 / 夢時代)",
-      "統一時代",
-      "時代百貨",
-      "統一阪急",
-      "阪急",
-      "夢時代",
-      "高雄夢時代",
-      "統一時代台北店",
-      "統一時代高雄店"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "百貨商場",
-    "isPitfall": false,
-    "pitfallWarning": "⚠️ 【百貨刷卡避坑】：1. 百貨內餐廳若為百貨統開發票，國泰 CUBE 需切【樂饗購】，台新請切【大筆刷】；2. 部分快閃特賣櫃位若屬獨立發票可能排除百貨加碼。",
-    "paymentAdvice": "🛍️ 推薦 台新大筆刷 3.3% 或 CUBE 樂饗購 3.0%~3.3%；行動支付支援 LINE Pay/Apple Pay 享 3.0%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "big_spending",
-        "schemeName": "大筆刷 (3.3%)",
-        "rate": 3.3,
-        "notes": "大筆刷 (3.3%)"
-      },
-      "esun_ubear": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "寶雅 (POYA)",
-    "aliases": [
-      "寶雅 (POYA)",
-      "寶雅",
-      "POYA",
-      "生活百貨",
-      "寶雅線上買"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "生活百貨",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "✨ 推薦 台新大筆刷/天天刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 3.0%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "daily",
-        "schemeName": "天天刷",
-        "rate": 3.3,
-        "notes": "天天刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "康是美 (COSMED)",
-    "aliases": [
-      "康是美 (COSMED)",
-      "康是美",
-      "COSMED",
-      "藥妝",
-      "彩妝"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "藥妝美妝",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "💄 推薦 台新天天刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 3.0%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "daily",
-        "schemeName": "天天刷",
-        "rate": 3.3,
-        "notes": "天天刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "屈臣氏 (Watsons)",
-    "aliases": [
-      "屈臣氏 (Watsons)",
-      "屈臣氏",
-      "Watsons",
-      "小屈",
-      "藥妝"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "藥妝美妝",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "💄 推薦 台新天天刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (LINE Pay 3.0%)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "daily",
-        "schemeName": "天天刷",
-        "rate": 3.3,
-        "notes": "天天刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "公立醫院與健保醫療費",
-    "aliases": [
-      "公立醫院與健保醫療費",
-      "醫院",
-      "診所",
-      "掛號費",
-      "健保費",
-      "醫療費",
-      "台大醫院",
-      "榮總",
-      "長庚"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "公立醫療",
-    "isPitfall": true,
-    "pitfallWarning": "⚠️ 透過「公務人員或公立醫院醫指付 (E-Bill)」繳交醫療掛號費，全台信用卡一律排除一般消費回饋。",
-    "paymentAdvice": "🏥 醫療費絕大多數無回饋，部分私立醫美診所若使用一般刷卡機則可能依「一般消費」計入。",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "general",
-        "schemeName": "一般消費",
-        "rate": 0.3,
-        "notes": "一般消費"
-      },
-      "taishin_richart": {
-        "schemeId": "general",
-        "schemeName": "一般消費",
-        "rate": 0.3,
-        "notes": "一般消費"
-      },
-      "esun_ubear": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 0,
-        "notes": "回饋 0%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 0,
-        "notes": "回饋 0%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "個人綜合所得稅 / 房屋稅 / 地價稅 / 牌照稅",
-    "aliases": [
-      "個人綜合所得稅 / 房屋稅 / 地價稅 / 牌照稅",
-      "所得稅",
-      "房屋稅",
-      "地價稅",
-      "牌照稅",
-      "綜所稅",
-      "繳稅",
-      "國稅局"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "政府稅款",
-    "isPitfall": true,
-    "pitfallWarning": "⚠️ 繳納政府稅款在全台灣所有信用卡一律排除一般回饋！需留意每年 4~5 月各大銀行推出的專屬繳稅活動（登錄送刷卡金或分期 0 利率）。",
-    "paymentAdvice": "🏛️ 推薦避坑解法：依當年度銀行繳稅專案登錄（如國泰/台新滿額登錄回饋 0.2%~0.5% 或 12 期 0 利率）",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "general",
-        "schemeName": "年度活動",
-        "rate": 0.3,
-        "notes": "年度活動"
-      },
-      "taishin_richart": {
-        "schemeId": "daily",
-        "schemeName": "年度活動",
-        "rate": 3.3,
-        "notes": "年度活動"
-      },
-      "esun_ubear": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 0,
-        "notes": "回饋 0%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 0,
-        "notes": "回饋 0%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "水費 / 電費 / 瓦斯費 (公用事業代扣繳)",
-    "aliases": [
-      "水費 / 電費 / 瓦斯費 (公用事業代扣繳)",
-      "水費",
-      "電費",
-      "瓦斯費",
-      "公用事業",
-      "台電",
-      "自來水",
-      "瓦斯",
-      "生活繳費"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "生活繳費",
-    "isPitfall": true,
-    "pitfallWarning": "⚠️ 水電瓦斯費屬於「非一般消費」，信用卡直接刷卡或自動扣繳 99% 無任何回饋！",
-    "paymentAdvice": "💧 推薦避坑解法：使用 台新 Richart 假日刷 (1.3%~2.0%) 或透過 街口支付 / 全支付 綁定指定加碼卡扣繳",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "general",
-        "schemeName": "一般消費",
-        "rate": 0.3,
-        "notes": "一般消費"
-      },
-      "taishin_richart": {
-        "schemeId": "holiday",
-        "schemeName": "假日刷",
-        "rate": 2,
-        "notes": "假日刷"
-      },
-      "esun_ubear": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 0,
-        "notes": "回饋 0%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 0,
-        "notes": "回饋 0%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "Steam (電玩遊戲平台)",
-    "aliases": [
-      "Steam (電玩遊戲平台)",
-      "Steam",
-      "Valve",
-      "G胖",
-      "蒸氣平台",
-      "遊戲特賣",
-      "PC Game"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "影音娛樂",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🎮 首選推薦：玉山 UBear (最高 10.0%) 或 台新數趣刷 3.3%、CUBE 玩數位 3.0%~3.3%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "digital",
-        "schemeName": "玩數位",
-        "rate": 3,
-        "notes": "玩數位"
-      },
-      "taishin_richart": {
-        "schemeId": "digital_fun",
-        "schemeName": "數趣刷",
-        "rate": 3.3,
-        "notes": "數趣刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 10,
-        "notes": "回饋 10%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 2,
-        "notes": "回饋 2%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "ChatGPT / OpenAI (AI 工具訂閱)",
-    "aliases": [
-      "ChatGPT / OpenAI (AI 工具訂閱)",
-      "ChatGPT",
-      "OpenAI",
-      "GPT4",
-      "GPT Plus",
-      "AI訂閱",
-      "Claude"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "AI 服務",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🤖 首選推薦：玉山 UBear (最高 10.0%) 或 台新數趣刷 3.3%、CUBE 玩數位 3.0%~3.3%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "digital",
-        "schemeName": "玩數位",
-        "rate": 3,
-        "notes": "玩數位"
-      },
-      "taishin_richart": {
-        "schemeId": "digital_fun",
-        "schemeName": "數趣刷",
-        "rate": 3.3,
-        "notes": "數趣刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 10,
-        "notes": "回饋 10%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 2,
-        "notes": "回饋 2%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "Spotify (音樂串流平台)",
-    "aliases": [
-      "Spotify (音樂串流平台)",
-      "Spotify",
-      "KKBOX",
-      "音樂串流",
-      "聽歌"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "影音娛樂",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🎵 首選推薦：玉山 UBear (最高 10.0%) 或 台新數趣刷 3.3%、CUBE 玩數位 3.0%~3.3%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "digital",
-        "schemeName": "玩數位",
-        "rate": 3,
-        "notes": "玩數位"
-      },
-      "taishin_richart": {
-        "schemeId": "digital_fun",
-        "schemeName": "數趣刷",
-        "rate": 3.3,
-        "notes": "數趣刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 10,
-        "notes": "回饋 10%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 2,
-        "notes": "回饋 2%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "Netflix (網飛串流影音)",
-    "aliases": [
-      "Netflix (網飛串流影音)",
-      "Netflix",
-      "網飛",
-      "追劇",
-      "影音串流"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "影音娛樂",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🎬 首選推薦：玉山 UBear (最高 10.0% 現金回饋) 或 台新 Chill刷/數趣刷 3.3%~10%、CUBE 玩數位 3.0%~3.3%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "digital",
-        "schemeName": "玩數位",
-        "rate": 3,
-        "notes": "玩數位"
-      },
-      "taishin_richart": {
-        "schemeId": "chill",
-        "schemeName": "Chill 刷",
-        "rate": 10,
-        "notes": "Chill 刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 10,
-        "notes": "回饋 10%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 2,
-        "notes": "回饋 2%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "台灣中油 (直營加油站)",
-    "aliases": [
-      "台灣中油 (直營加油站)",
-      "中油",
-      "台灣中油",
-      "中油直營",
-      "加油",
-      "中油Pay",
-      "CPC"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "加油充電",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "⛽ 推薦 台新天天刷 3.3%、CUBE 集精選 2.0% 或 兆豐 BT21 3.0%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "essentials",
-        "schemeName": "集精選",
-        "rate": 2,
-        "notes": "集精選"
-      },
-      "taishin_richart": {
-        "schemeId": "daily",
-        "schemeName": "天天刷",
-        "rate": 3.3,
-        "notes": "天天刷"
-      },
-      "esun_ubear": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "星宇航空 (STARLUX Airlines)",
-    "aliases": [
-      "星宇航空 (STARLUX Airlines)",
-      "星宇",
-      "星宇航空",
-      "STARLUX",
-      "機票",
-      "K董"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "航空機票",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "✈️ 推薦 CUBE 趣旅行 3.0%~3.3%、台新玩旅刷 3.3% 或 玉山 UBear 3.0%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "travel",
-        "schemeName": "趣旅行",
-        "rate": 3,
-        "notes": "趣旅行"
-      },
-      "taishin_richart": {
-        "schemeId": "travel_fun",
-        "schemeName": "玩旅刷",
-        "rate": 3.3,
-        "notes": "玩旅刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "Agoda (線上訂房)",
-    "aliases": [
-      "Agoda (線上訂房)",
-      "Agoda",
-      "安可達",
-      "訂房",
-      "飯店預訂",
-      "住宿"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "旅遊訂房",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🏨 推薦 CUBE 趣旅行 3.0%~3.3%、台新玩旅刷 3.3% 或 玉山 UBear 3.0%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "travel",
-        "schemeName": "趣旅行",
-        "rate": 3,
-        "notes": "趣旅行"
-      },
-      "taishin_richart": {
-        "schemeId": "travel_fun",
-        "schemeName": "玩旅刷",
-        "rate": 3.3,
-        "notes": "玩旅刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 2,
-        "notes": "回饋 2%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "韓國海外實體消費 (Korea In-store)",
-    "aliases": [
-      "韓國海外實體消費 (Korea In-store)",
-      "韓國",
-      "首爾",
-      "釜山",
-      "韓幣",
-      "Olive Young",
-      "明洞",
-      "弘大"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "海外消費",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🇰🇷 推薦 台新玩旅刷 3.3% 或 CUBE 趣旅行 3.0%~3.3%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "travel",
-        "schemeName": "趣旅行",
-        "rate": 3,
-        "notes": "趣旅行"
-      },
-      "taishin_richart": {
-        "schemeId": "travel_fun",
-        "schemeName": "玩旅刷",
-        "rate": 3.3,
-        "notes": "玩旅刷"
-      },
-      "esun_ubear": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 2,
-        "notes": "回饋 2%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "日本海外實體消費 (Japan In-store)",
-    "aliases": [
-      "日本海外實體消費 (Japan In-store)",
-      "日本",
-      "日本實體",
-      "日幣",
-      "日本旅遊",
-      "東京",
-      "大阪",
-      "Bic Camera",
-      "唐吉訶德",
-      "Donki"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "海外消費",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🇯🇵 推薦 台新玩旅刷 3.3% 或 CUBE 趣旅行 3.0%~3.3% (海外實體刷卡無上限)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "travel",
-        "schemeName": "趣旅行",
-        "rate": 3,
-        "notes": "趣旅行"
-      },
-      "taishin_richart": {
-        "schemeId": "travel_fun",
-        "schemeName": "玩旅刷",
-        "rate": 3.3,
-        "notes": "玩旅刷"
-      },
-      "esun_ubear": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 2,
-        "notes": "回饋 2%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "台灣高鐵 (THSR)",
-    "aliases": [
-      "台灣高鐵 (THSR)",
-      "高鐵",
-      "台灣高鐵",
-      "THSR",
-      "高鐵購票",
-      "T-EX行動購票"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "交通旅遊",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🚄 推薦 台新天天刷 3.3%、CUBE 趣旅行 3.0%~3.3% 或 玉山 UBear 3.0%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "travel",
-        "schemeName": "趣旅行",
-        "rate": 3,
-        "notes": "趣旅行"
-      },
-      "taishin_richart": {
-        "schemeId": "daily",
-        "schemeName": "天天刷",
-        "rate": 3.3,
-        "notes": "天天刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "IKEA 宜家家居",
-    "aliases": [
-      "IKEA 宜家家居",
-      "IKEA",
-      "宜家",
-      "宜家家居",
-      "肉丸",
-      "家具"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "居家生活",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🛋️ 推薦 台新大筆刷 3.3% 或 兆豐 BT21 (Apple Pay 3.0%)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "general",
-        "schemeName": "一般消費",
-        "rate": 0.3,
-        "notes": "一般消費"
-      },
-      "taishin_richart": {
-        "schemeId": "big_spending",
-        "schemeName": "大筆刷",
-        "rate": 3.3,
-        "notes": "大筆刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "遠東 SOGO 百貨",
-    "aliases": [
-      "遠東 SOGO 百貨",
-      "SOGO",
-      "遠東SOGO",
-      "太平洋SOGO",
-      "復興館",
-      "忠孝館",
-      "敦化館"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "百貨商場",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🛍️ 推薦 台新大筆刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 3.0%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "big_spending",
-        "schemeName": "大筆刷",
-        "rate": 3.3,
-        "notes": "大筆刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "新光三越百貨",
-    "aliases": [
-      "新光三越百貨",
-      "新光三越",
-      "新光",
-      "Mitsukoshi",
-      "信義新天地",
-      "南西店",
-      "台中中港"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "百貨商場",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🛍️ 推薦 台新大筆刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (Apple Pay 3.0%)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "big_spending",
-        "schemeName": "大筆刷",
-        "rate": 3.3,
-        "notes": "大筆刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "50嵐 (連鎖茶飲)",
-    "aliases": [
-      "50嵐 (連鎖茶飲)",
-      "50嵐",
-      "五十嵐",
-      "手搖飲",
-      "珍奶",
-      "四季春"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "手搖飲料",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🧋 推薦 台新 Chill 刷 (最高 10%)、兆豐 BT21 (LINE Pay/街口 3.0%) 或 玉山 UBear (LINE Pay 3.0%)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "chill",
-        "schemeName": "Chill 刷",
-        "rate": 10,
-        "notes": "Chill 刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "屋馬燒肉 (Umai)",
-    "aliases": [
-      "屋馬燒肉 (Umai)",
-      "屋馬",
-      "屋馬燒肉",
-      "台中屋馬",
-      "Umai"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "美食餐飲",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🥩 首選推薦：台新 Chill 刷 (最高 10%) 或 好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "chill",
-        "schemeName": "Chill 刷",
-        "rate": 10,
-        "notes": "Chill 刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "海底撈火鍋 (Haidilao)",
-    "aliases": [
-      "海底撈火鍋 (Haidilao)",
-      "海底撈",
-      "Haidilao",
-      "火鍋",
-      "海底撈麻辣鍋"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "美食餐飲",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🍲 首選推薦：台新 Chill 刷 (最高 10%) 或 好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "chill",
-        "schemeName": "Chill 刷",
-        "rate": 10,
-        "notes": "Chill 刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "麥當勞 (McDonald's)",
-    "aliases": [
-      "麥當勞 (McDonald's)",
-      "麥當勞",
-      "McDonalds",
-      "Mcdonald",
-      "大麥克",
-      "金拱門"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "美食餐飲",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🍔 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (Apple Pay/LINE Pay 3.0%)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "gourmet",
-        "schemeName": "好饗刷",
-        "rate": 3.3,
-        "notes": "好饗刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "星巴克 (Starbucks)",
-    "aliases": [
-      "星巴克 (Starbucks)",
-      "星巴克",
-      "Starbucks",
-      "星爺",
-      "星巴克咖啡"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "美食餐飲",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "☕ 推薦 台新 Chill 刷 (最高 10%) 或 好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (LINE Pay 3.0%)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "chill",
-        "schemeName": "Chill 刷",
-        "rate": 10,
-        "notes": "Chill 刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "Foodpanda (熊貓外送)",
-    "aliases": [
-      "Foodpanda (熊貓外送)",
-      "Foodpanda",
-      "熊貓",
-      "空腹熊貓",
-      "熊貓超市"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "外送平台",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🛵 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 玉山 UBear 3.0%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "gourmet",
-        "schemeName": "好饗刷",
-        "rate": 3.3,
-        "notes": "好饗刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "Uber Eats (優食外送)",
-    "aliases": [
-      "Uber Eats (優食外送)",
-      "Uber Eats",
-      "UberEats",
-      "吳伯毅",
-      "外送",
-      "Uber外送"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "外送平台",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "🛵 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 玉山 UBear 3.0%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
-      },
-      "taishin_richart": {
-        "schemeId": "gourmet",
-        "schemeName": "好饗刷",
-        "rate": 3.3,
-        "notes": "好饗刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "PChome 24h 購物",
-    "aliases": [
-      "PChome 24h 購物",
-      "PChome",
-      "PChome24h",
-      "披西轟",
-      "網路家庭"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "網購電商",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "💻 推薦 CUBE 玩數位 (3.0%~3.3%)、台新數趣刷 (3.3%) 或 玉山 UBear (3.0%)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "digital",
-        "schemeName": "玩數位",
-        "rate": 3,
-        "notes": "玩數位"
-      },
-      "taishin_richart": {
-        "schemeId": "digital_fun",
-        "schemeName": "數趣刷",
-        "rate": 3.3,
-        "notes": "數趣刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "momo 購物網",
-    "aliases": [
-      "momo 購物網",
-      "momo",
-      "富邦媒",
-      "momo購物",
-      "momo摩天商城"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "網購電商",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "💻 推薦 CUBE 玩數位 (3.0%~3.3%)、台新數趣刷 (3.3%) 或 玉山 UBear (3.0%)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "digital",
-        "schemeName": "玩數位",
-        "rate": 3,
-        "notes": "玩數位"
-      },
-      "taishin_richart": {
-        "schemeId": "digital_fun",
-        "schemeName": "數趣刷",
-        "rate": 3.3,
-        "notes": "數趣刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "蝦皮購物 (Shopee)",
-    "aliases": [
-      "蝦皮購物 (Shopee)",
-      "蝦皮",
-      "Shopee",
-      "蝦皮商城",
-      "蝦皮拍賣",
-      "蝦皮直送"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "網購電商",
-    "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "💻 推薦 CUBE 玩數位 (3.0%~3.3%)、台新數趣刷 (3.3%) 或 玉山 UBear (3.0% 現金折抵)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "digital",
-        "schemeName": "玩數位",
-        "rate": 3,
-        "notes": "玩數位"
-      },
-      "taishin_richart": {
-        "schemeId": "digital_fun",
-        "schemeName": "數趣刷",
-        "rate": 3.3,
-        "notes": "數趣刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 1,
-        "notes": "回饋 1%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "家樂福 (Carrefour)",
-    "aliases": [
-      "家樂福 (Carrefour)",
-      "家樂福",
-      "Carrefour",
-      "家樂福超市",
-      "家樂福線上購物"
+      "大全聯 (原大潤發 / 全聯量販)",
+      "大全聯",
+      "大潤發",
+      "RT-MART",
+      "大潤發量販",
+      "全聯大潤發"
     ],
     "categories": [
       "general"
     ],
     "categoryName": "量販超市",
     "isPitfall": false,
-    "pitfallWarning": "",
-    "paymentAdvice": "💳 實體刷卡或行動支付均可，推薦台新天天刷 3.3%、CUBE 集精選 2.0% 或 兆豐 BT21 3.0%",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "essentials",
-        "schemeName": "集精選",
-        "rate": 2,
-        "notes": "集精選"
-      },
-      "taishin_richart": {
-        "schemeId": "daily",
-        "schemeName": "天天刷",
-        "rate": 3.3,
-        "notes": "天天刷"
-      },
-      "esun_ubear": {
-        "schemeId": "online_shopping",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "全聯福利中心 (PX Mart)",
-    "aliases": [
-      "全聯福利中心 (PX Mart)",
-      "全聯",
-      "PX Mart",
-      "全聯超市",
-      "PXPay",
-      "全支付"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "量販超市",
-    "isPitfall": true,
-    "pitfallWarning": "⚠️ 全聯是全台最大刷卡雷區！實體刷卡或 Apple Pay 幾乎 100% 排除回饋，請切換至台新天天刷或使用全支付/PX Pay。",
-    "paymentAdvice": "📱 唯一推薦：台新 Richart 天天刷 3.3%、CUBE 全支付方案 (2.0%) 或 玉山 UBear 綁全支付 (儲值/消費依活動)",
+    "pitfallWarning": "⚠️ 【大全聯/大潤發支付注意】：原大潤發已整併為大全聯生態系，刷卡推薦使用台新天天刷或綁定全支付享加碼回饋。",
+    "paymentAdvice": "🛒 推薦 台新天天刷 (實體/PX Pay) 3.3%、國泰全支付 2.0% 或 兆豐 BT21",
     "schemes": {
       "cathay_cube": {
         "schemeId": "pxpay",
@@ -2358,143 +2345,103 @@
       },
       "taishin_richart": {
         "schemeId": "daily",
-        "schemeName": "天天刷",
+        "schemeName": "天天刷 (3.3%)",
         "rate": 3.3,
-        "notes": "天天刷"
+        "notes": "天天刷 (3.3%)"
       },
       "esun_ubear": {
         "schemeId": "general",
         "schemeName": "回饋方案",
-        "rate": 0,
-        "notes": "回饋 0%"
+        "rate": 1,
+        "notes": "回饋 1%"
       },
       "mega_bt21": {
         "schemeId": "general",
         "schemeName": "回饋方案",
-        "rate": 0,
-        "notes": "回饋 0%"
+        "rate": 1,
+        "notes": "回饋 1%"
       }
     }
   },
   {
-    "id": "m_3d8dc85d",
-    "name": "全家便利商店 (FamilyMart)",
+    "id": "m_3dbdc85d",
+    "name": "LOPIA 台灣 (日系連鎖超市)",
     "aliases": [
-      "全家便利商店 (FamilyMart)",
-      "全家",
-      "FamilyMart",
-      "全家超商"
+      "LOPIA 台灣 (日系連鎖超市)",
+      "LOPIA",
+      "台灣LOPIA",
+      "樂比亞",
+      "日系超市",
+      "LOPIA超市"
     ],
     "categories": [
       "general"
     ],
-    "categoryName": "四大超商",
-    "isPitfall": true,
-    "pitfallWarning": "超商門市直接刷實體卡多數銀行不回饋！請使用指定切換方案或行動支付。",
-    "paymentAdvice": "📱 優先使用 台新 Pay / 全盈+Pay (天天刷 3.3%)、CUBE 集精選 (2.0%) 或 兆豐 BT21 (3.0%)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "essentials",
-        "schemeName": "集精選",
-        "rate": 2,
-        "notes": "集精選"
-      },
-      "taishin_richart": {
-        "schemeId": "daily",
-        "schemeName": "天天刷",
-        "rate": 3.3,
-        "notes": "天天刷"
-      },
-      "esun_ubear": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 0,
-        "notes": "回饋 0%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "7-ELEVEN (統一超商)",
-    "aliases": [
-      "7-ELEVEN (統一超商)",
-      "7-11",
-      "711",
-      "小七",
-      "統一超商",
-      "Seven"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "四大超商",
-    "isPitfall": true,
-    "pitfallWarning": "多數信用卡實體刷卡列入「超商排除條款」0% 回饋！請務必依照本系統建議方案或指定行動支付結帳。",
-    "paymentAdvice": "📱 優先使用 台新 Pay (天天刷/Pay著刷 3.3%~3.8%)、LINE Pay / Apple Pay 綁兆豐 BT21 (3.0%) 或 CUBE 集精選 (2.0%)",
-    "schemes": {
-      "cathay_cube": {
-        "schemeId": "essentials",
-        "schemeName": "集精選",
-        "rate": 2,
-        "notes": "集精選"
-      },
-      "taishin_richart": {
-        "schemeId": "daily",
-        "schemeName": "天天刷",
-        "rate": 3.3,
-        "notes": "天天刷"
-      },
-      "esun_ubear": {
-        "schemeId": "general",
-        "schemeName": "回饋方案",
-        "rate": 0,
-        "notes": "回饋 0%"
-      },
-      "mega_bt21": {
-        "schemeId": "mobile_pay",
-        "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
-      }
-    }
-  },
-  {
-    "id": "m_3d8dc85d",
-    "name": "路易莎咖啡 (Louisa Coffee)",
-    "aliases": [
-      "路易莎咖啡 (Louisa Coffee)",
-      "路易莎",
-      "Louisa",
-      "Louisa Coffee",
-      "露易莎",
-      "咖啡廳",
-      "早餐"
-    ],
-    "categories": [
-      "general"
-    ],
-    "categoryName": "美食餐飲",
+    "categoryName": "量販超市",
     "isPitfall": false,
     "pitfallWarning": "",
-    "paymentAdvice": "☕ 推薦 台新 Chill 刷 (最高 10%) 或 好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (LINE Pay 3.0%)",
+    "paymentAdvice": "🥩 推薦 台新天天刷 3.3%、CUBE 集精選 2.0%",
     "schemes": {
       "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
+        "schemeId": "essentials",
+        "schemeName": "集精選",
+        "rate": 2,
+        "notes": "集精選"
       },
       "taishin_richart": {
-        "schemeId": "chill",
-        "schemeName": "Chill 刷",
-        "rate": 10,
-        "notes": "Chill 刷"
+        "schemeId": "daily",
+        "schemeName": "天天刷 (3.3%)",
+        "rate": 3.3,
+        "notes": "天天刷 (3.3%)"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 1,
+        "notes": "回饋 1%"
+      },
+      "mega_bt21": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 1,
+        "notes": "回饋 1%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "電動車充電站 (EVOASIS / U-POWER / EVALUE / TAIL)",
+    "aliases": [
+      "電動車充電站 (EVOASIS / U-POWER / EVALUE / TAIL)",
+      "EVOASIS",
+      "U-POWER",
+      "EVALUE",
+      "TAIL",
+      "特爾電力",
+      "充電樁",
+      "電動車充電",
+      "源點科技",
+      "華城電能"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "加油充電",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "⚡ 推薦 台新天天刷 3.3%、CUBE 集精選 2.0% 或 兆豐 BT21 / 玉山 UBear 3.0%",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "essentials",
+        "schemeName": "集精選",
+        "rate": 2,
+        "notes": "集精選"
+      },
+      "taishin_richart": {
+        "schemeId": "daily",
+        "schemeName": "天天刷 (3.3%)",
+        "rate": 3.3,
+        "notes": "天天刷 (3.3%)"
       },
       "esun_ubear": {
         "schemeId": "online_shopping",
@@ -2511,37 +2458,36 @@
     }
   },
   {
-    "id": "m_3d8dc85d",
-    "name": "饗食天堂 / 饗饗 / 旭集 (饗賓餐旅集團)",
+    "id": "m_3dbdc85d",
+    "name": "智慧停車 (車麻吉 / uTagGo)",
     "aliases": [
-      "饗食天堂 / 饗饗 / 旭集 (饗賓餐旅集團)",
-      "饗食天堂",
-      "饗饗",
-      "旭集",
-      "饗賓",
-      "INPARADISE",
-      "Buffet",
-      "吃到飽"
+      "智慧停車 (車麻吉 / uTagGo)",
+      "車麻吉",
+      "uTagGo",
+      "停車",
+      "智慧停車",
+      "停車大聲公",
+      "路邊停車"
     ],
     "categories": [
       "general"
     ],
-    "categoryName": "美食餐飲",
+    "categoryName": "交通旅遊",
     "isPitfall": false,
     "pitfallWarning": "",
-    "paymentAdvice": "🍤 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 3.0%",
+    "paymentAdvice": "🅿️ 推薦 台新天天刷 3.3%、CUBE 集精選 2.0% 或 玉山 UBear / 兆豐 BT21 (Apple Pay/LINE Pay) 3.0%",
     "schemes": {
       "cathay_cube": {
-        "schemeId": "dining",
-        "schemeName": "樂饗購",
-        "rate": 3,
-        "notes": "樂饗購"
+        "schemeId": "essentials",
+        "schemeName": "集精選",
+        "rate": 2,
+        "notes": "集精選"
       },
       "taishin_richart": {
-        "schemeId": "gourmet",
-        "schemeName": "好饗刷",
+        "schemeId": "daily",
+        "schemeName": "天天刷 (3.3%)",
         "rate": 3.3,
-        "notes": "好饗刷"
+        "notes": "天天刷 (3.3%)"
       },
       "esun_ubear": {
         "schemeId": "online_shopping",
@@ -2558,14 +2504,26 @@
     }
   },
   {
-    "id": "m_3d8dc85d",
-    "name": "鼎泰豐 (Din Tai Fung)",
+    "id": "m_3dbdc85d",
+    "name": "王品集團 (王品/西堤/陶板屋/石二鍋/肉次方/初瓦/響辣/聚)",
     "aliases": [
-      "鼎泰豐 (Din Tai Fung)",
-      "鼎泰豐",
-      "小籠包",
-      "Din Tai Fung",
-      "DTF"
+      "王品集團 (王品/西堤/陶板屋/石二鍋/肉次方/初瓦/響辣/聚)",
+      "王品",
+      "王品集團",
+      "西堤",
+      "陶板屋",
+      "石二鍋",
+      "肉次方",
+      "初瓦",
+      "向辣",
+      "聚日式鍋物",
+      "品田牧場",
+      "青花驕",
+      "和牛涮",
+      "享鴨",
+      "丰禾",
+      "THE WANG",
+      "王品牛排"
     ],
     "categories": [
       "general"
@@ -2573,7 +2531,7 @@
     "categoryName": "美食餐飲",
     "isPitfall": false,
     "pitfallWarning": "",
-    "paymentAdvice": "🥟 推薦 台新好饗刷 3.3% 或 CUBE 樂饗購 3.0%~3.3%",
+    "paymentAdvice": "🥩 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (LINE Pay 3.0%)",
     "schemes": {
       "cathay_cube": {
         "schemeId": "dining",
@@ -2602,15 +2560,21 @@
     }
   },
   {
-    "id": "m_3d8dc85d",
-    "name": "藏壽司 (Kura Sushi くら寿司)",
+    "id": "m_3dbdc85d",
+    "name": "饗賓餐旅 (饗食天堂/饗饗/旭集/果然匯/小福利/開飯川食堂/饗泰多)",
     "aliases": [
-      "藏壽司 (Kura Sushi くら寿司)",
-      "藏壽司",
-      "Kura Sushi",
-      "くら寿司",
-      "扭蛋壽司",
-      "迴轉壽司"
+      "饗賓餐旅 (饗食天堂/饗饗/旭集/果然匯/小福利/開飯川食堂/饗泰多)",
+      "饗賓",
+      "饗食天堂",
+      "饗饗",
+      "INPARADISE",
+      "旭集",
+      "果然匯",
+      "小福利",
+      "開飯川食堂",
+      "饗泰多",
+      "真珠",
+      "朵頤"
     ],
     "categories": [
       "general"
@@ -2618,7 +2582,7 @@
     "categoryName": "美食餐飲",
     "isPitfall": false,
     "pitfallWarning": "",
-    "paymentAdvice": "🍣 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 3.0%",
+    "paymentAdvice": "🍽️ 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (LINE Pay 3.0%)",
     "schemes": {
       "cathay_cube": {
         "schemeId": "dining",
@@ -2628,15 +2592,15 @@
       },
       "taishin_richart": {
         "schemeId": "gourmet",
-        "schemeName": "好饗刷",
+        "schemeName": "好饗刷 (3.3%)",
         "rate": 3.3,
-        "notes": "好饗刷"
+        "notes": "好饗刷 (3.3%)"
       },
       "esun_ubear": {
-        "schemeId": "online_shopping",
+        "schemeId": "general",
         "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
+        "rate": 1,
+        "notes": "回饋 1%"
       },
       "mega_bt21": {
         "schemeId": "mobile_pay",
@@ -2647,15 +2611,64 @@
     }
   },
   {
-    "id": "m_3d8dc85d",
-    "name": "壽司郎 (Sushiro 台灣スシロー)",
+    "id": "m_3dbdc85d",
+    "name": "瓦城泰統集團 (瓦城/非常泰/大心/1010湘/時時香/樂子/BO BO)",
     "aliases": [
-      "壽司郎 (Sushiro 台灣スシロー)",
-      "壽司郎",
-      "Sushiro",
-      "スシロー",
-      "迴轉壽司",
-      "壽司"
+      "瓦城泰統集團 (瓦城/非常泰/大心/1010湘/時時香/樂子/BO BO)",
+      "瓦城",
+      "瓦城泰統",
+      "非常泰",
+      "大心",
+      "1010湘",
+      "時時香",
+      "樂子the Diner",
+      "BO BO",
+      "泰式料理"
+    ],
+    "categories": [
+      "general"
+    ],
+    "categoryName": "美食餐飲",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🍛 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% 或 兆豐 BT21 (LINE Pay 3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "dining",
+        "schemeName": "樂饗購",
+        "rate": 3,
+        "notes": "樂饗購"
+      },
+      "taishin_richart": {
+        "schemeId": "gourmet",
+        "schemeName": "好饗刷 (3.3%)",
+        "rate": 3.3,
+        "notes": "好饗刷 (3.3%)"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 1,
+        "notes": "回饋 1%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "回饋方案",
+        "rate": 3,
+        "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_3dbdc85d",
+    "name": "藏壽司 (Kura Sushi)",
+    "aliases": [
+      "藏壽司 (Kura Sushi)",
+      "藏壽司",
+      "Kura",
+      "Kura Sushi",
+      "扭蛋壽司",
+      "迴轉壽司"
     ],
     "categories": [
       "general"
@@ -2673,15 +2686,15 @@
       },
       "taishin_richart": {
         "schemeId": "gourmet",
-        "schemeName": "好饗刷",
+        "schemeName": "好饗刷 (3.3%)",
         "rate": 3.3,
-        "notes": "好饗刷"
+        "notes": "好饗刷 (3.3%)"
       },
       "esun_ubear": {
-        "schemeId": "online_shopping",
+        "schemeId": "general",
         "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
+        "rate": 1,
+        "notes": "回饋 1%"
       },
       "mega_bt21": {
         "schemeId": "mobile_pay",
@@ -2692,35 +2705,22 @@
     }
   },
   {
-    "id": "m_3d8dc85d",
-    "name": "全台實體餐飲美食 (獨立店面/一般餐廳/咖啡廳/居酒屋)",
+    "id": "m_3dbdc85d",
+    "name": "壽司郎 (Sushiro)",
     "aliases": [
-      "全台實體餐飲美食 (獨立店面/一般餐廳/咖啡廳/居酒屋)",
-      "餐飲",
-      "餐廳",
-      "美食",
-      "拉麵",
-      "壽司",
-      "火鍋",
-      "燒肉",
-      "牛排",
-      "義大利麵",
-      "居酒屋",
-      "咖啡廳",
-      "早午餐",
-      "便當",
-      "小吃",
-      "甜點",
-      "下午茶",
-      "全台餐廳"
+      "壽司郎 (Sushiro)",
+      "壽司郎",
+      "Sushiro",
+      "スシロー",
+      "台灣壽司郎"
     ],
     "categories": [
       "general"
     ],
     "categoryName": "美食餐飲",
-    "isPitfall": true,
-    "pitfallWarning": "⚠️ 【餐飲 2 大常見例外避坑】：\n1. 若餐廳開在「百貨公司/Outlet/美食街內」，刷卡機常為百貨公司統開（台新需切換為【大筆刷】；國泰 CUBE 同屬【樂饗購】無影響）。\n2. 速食連鎖或小吃若屬「NCCC 小額支付平台」，實體刷卡常被排除，建議一律「綁定 LINE Pay / 街口 / Apple Pay」以確保拿滿回饋！",
-    "paymentAdvice": "🍽️ 獨立街邊門市刷實體卡享好饗刷/樂饗購 3.0%~3.3%；百貨店內請切換大筆刷；支援行動支付優先使用 LINE Pay / 街口 (玉山 3.0% / 兆豐 3.0%)",
+    "isPitfall": false,
+    "pitfallWarning": "",
+    "paymentAdvice": "🍣 推薦 台新好饗刷 3.3%、CUBE 樂饗購 3.0%~3.3% (或 CUBE 童樂匯 5%) 或 兆豐 BT21 (LINE Pay 3.0%)",
     "schemes": {
       "cathay_cube": {
         "schemeId": "dining",
@@ -2730,15 +2730,15 @@
       },
       "taishin_richart": {
         "schemeId": "gourmet",
-        "schemeName": "好饗刷",
+        "schemeName": "好饗刷 (3.3%)",
         "rate": 3.3,
-        "notes": "好饗刷"
+        "notes": "好饗刷 (3.3%)"
       },
       "esun_ubear": {
-        "schemeId": "online_shopping",
+        "schemeId": "general",
         "schemeName": "回饋方案",
-        "rate": 3,
-        "notes": "回饋 3%"
+        "rate": 1,
+        "notes": "回饋 1%"
       },
       "mega_bt21": {
         "schemeId": "mobile_pay",
