@@ -41,11 +41,17 @@ export class UI {
     this.trackerCloseBtn = document.getElementById('tracker-close-btn');
     this.trackerMonthPicker = document.getElementById('tracker-month-picker');
     this.trackerAddEntryBtn = document.getElementById('tracker-add-entry-btn');
+    this.trackerPullBtn = document.getElementById('tracker-pull-btn');
     this.statTotalAmount = document.getElementById('stat-total-amount');
     this.statTotalPoints = document.getElementById('stat-total-points');
     this.statPendingCount = document.getElementById('stat-pending-count');
     this.statDiscrepancyCount = document.getElementById('stat-discrepancy-count');
     this.trackerLedgerList = document.getElementById('tracker-ledger-list');
+
+    // Cloud Sync DOM 元素
+    this.gasWebhookInput = document.getElementById('gas-webhook-url');
+    this.gasTestBtn = document.getElementById('gas-test-btn');
+    this.gasStatusMsg = document.getElementById('gas-status-msg');
 
     // Dispute DOM 元素
     this.disputeModal = document.getElementById('dispute-modal');
@@ -67,6 +73,14 @@ export class UI {
     this.renderTodaySelectors();
     this.updateTrackerBadge();
     this.render();
+
+    // 監聽背景雲端同步事件
+    tracker.onSyncUpdate((event) => {
+      if (this.trackerModal && this.trackerModal.classList.contains('open')) {
+        this.renderTrackerLedger();
+      }
+      this.updateTrackerBadge();
+    });
   }
 
   bindEvents() {
@@ -191,6 +205,66 @@ export class UI {
         this.renderTrackerLedger();
       });
     });
+
+    // Cloud Sync & GAS 事件
+    if (this.trackerPullBtn) {
+      this.trackerPullBtn.addEventListener('click', async () => {
+        const webhookUrl = store.getProfile().gasWebhookUrl;
+        if (!webhookUrl) {
+          this.showToast('ℹ️ 請先至「⚙️ 設定」填寫 Google Apps Script 網址');
+          this.openSettingsModal();
+          return;
+        }
+
+        this.showToast('🔄 正在從 Notion 雲端同步最新紀錄...');
+        try {
+          await tracker.pullFromCloud();
+          this.renderTrackerLedger();
+          this.updateTrackerBadge();
+          this.showToast('🎉 已成功從 Notion 同步最新對帳資料！');
+        } catch (err) {
+          this.showToast(`❌ 同步失敗: ${err.message}`);
+        }
+      });
+    }
+
+    if (this.gasWebhookInput) {
+      this.gasWebhookInput.addEventListener('change', (e) => {
+        store.setGasWebhookUrl(e.target.value);
+        this.showToast('💾 已儲存 GAS Webhook 網址設定');
+      });
+    }
+
+    if (this.gasTestBtn) {
+      this.gasTestBtn.addEventListener('click', async () => {
+        const url = this.gasWebhookInput.value.trim();
+        if (!url) {
+          this.gasStatusMsg.className = 'cloud-sync-status-msg error';
+          this.gasStatusMsg.textContent = '❌ 請先輸入 GAS 網頁應用程式網址！';
+          return;
+        }
+
+        this.gasTestBtn.disabled = true;
+        this.gasTestBtn.textContent = '⏳ 測試中...';
+        this.gasStatusMsg.className = 'cloud-sync-status-msg';
+        this.gasStatusMsg.style.display = 'none';
+
+        try {
+          store.setGasWebhookUrl(url);
+          const res = await tracker.testConnection(url);
+          this.gasStatusMsg.className = 'cloud-sync-status-msg success';
+          this.gasStatusMsg.textContent = `✅ 連線成功！已連通【${res.databaseTitle || 'Notion 記帳庫'}】`;
+          this.showToast('🎉 Google Apps Script 連線成功！');
+        } catch (err) {
+          this.gasStatusMsg.className = 'cloud-sync-status-msg error';
+          this.gasStatusMsg.textContent = `❌ 連線失敗：${err.message}`;
+          this.showToast('❌ 連線失敗，請檢查網址與權限');
+        } finally {
+          this.gasTestBtn.disabled = false;
+          this.gasTestBtn.textContent = '🧪 測試連線';
+        }
+      });
+    }
 
     // Dispute 申訴 Modal
     if (this.disputeCloseBtn) {
@@ -554,11 +628,25 @@ export class UI {
       if (exp.status === 'verified') statusLabel = '🟢 已入帳';
       else if (exp.status === 'discrepancy') statusLabel = `🔴 漏給 (實收: ${exp.actualPoints || 0}${exp.unit})`;
 
+      let syncBadgeHtml = '';
+      if (exp.syncStatus === 'synced' || exp.notionPageId) {
+        syncBadgeHtml = `<span class="expense-sync-tag synced" title="已同步至 Notion">☁️ 已同步</span>`;
+      } else if (exp.syncStatus === 'syncing') {
+        syncBadgeHtml = `<span class="expense-sync-tag syncing" title="正在同步至 Notion...">⏳ 同步中</span>`;
+      } else if (exp.syncStatus === 'error') {
+        syncBadgeHtml = `<span class="expense-sync-tag error" title="同步至 Notion 失敗，點擊雲端同步重試">⚠️ 待同步</span>`;
+      } else {
+        syncBadgeHtml = `<span class="expense-sync-tag local" title="本機紀錄">📱 本機</span>`;
+      }
+
       return `
         <div class="expense-item status-${statusClass}" data-expense-id="${exp.id}">
           <div class="expense-item-main">
             <div class="expense-merchant-info">
-              <div class="expense-merchant-name">${exp.merchantName}</div>
+              <div style="display: flex; align-items: center;">
+                <span class="expense-merchant-name">${exp.merchantName}</span>
+                ${syncBadgeHtml}
+              </div>
               <div class="expense-meta">
                 📅 ${exp.date} • 💳 ${exp.bank} ${exp.cardName} (${exp.schemeName} ${exp.rate}%)
                 ${exp.notes ? `• 📝 ${exp.notes}` : ''}
@@ -660,6 +748,16 @@ export class UI {
   openSettingsModal() {
     const profile = store.getProfile();
     const cards = this.engine.cards;
+
+    // 載入 GAS Webhook 網址
+    if (this.gasWebhookInput) {
+      this.gasWebhookInput.value = profile.gasWebhookUrl || '';
+    }
+    if (this.gasStatusMsg) {
+      this.gasStatusMsg.className = 'cloud-sync-status-msg';
+      this.gasStatusMsg.style.display = 'none';
+      this.gasStatusMsg.textContent = '';
+    }
 
     this.cardsConfigList.innerHTML = cards.map((card) => {
       const userCard = profile.cards[card.id] || { enabled: true, tier: card.defaultTier };

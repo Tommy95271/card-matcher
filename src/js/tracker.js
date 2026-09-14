@@ -1,12 +1,19 @@
-/**
- * 刷卡記帳與點數漏給查核中心 (Reward Point Tracker & Auditor)
- */
+import { store } from './store.js';
 
 const STORAGE_KEY = 'card_matcher_expenses_v1';
 
 export class Tracker {
   constructor() {
     this.expenses = this.loadExpenses();
+    this.syncListeners = [];
+  }
+
+  onSyncUpdate(callback) {
+    this.syncListeners.push(callback);
+  }
+
+  notifySyncUpdate(data) {
+    this.syncListeners.forEach((cb) => cb(data));
   }
 
   loadExpenses() {
@@ -42,12 +49,10 @@ export class Tracker {
     if (cardId === 'cathay_cube') {
       unit = '點';
       rewardName = '小樹點';
-      // 國泰小樹點通常採四捨五入計算
       roundedReward = Math.round(rawReward);
     } else if (cardId === 'taishin_richart') {
       unit = '點';
       rewardName = '台新Point';
-      // 台新Point 通常採四捨五入計算
       roundedReward = Math.round(rawReward);
     } else if (cardId === 'esun_ubear') {
       unit = '元';
@@ -68,7 +73,7 @@ export class Tracker {
   }
 
   /**
-   * 新增一筆消費紀錄
+   * 新增一筆消費紀錄 (離線優先，背景非同步同步至 Notion GAS)
    */
   addExpense({
     date,
@@ -86,6 +91,7 @@ export class Tracker {
 
     const newEntry = {
       id: `exp_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      notionPageId: null,
       date: date || new Date().toISOString().slice(0, 10),
       merchantName: merchantName.trim(),
       amount: numAmount,
@@ -101,12 +107,57 @@ export class Tracker {
       status: 'pending', // 'pending' | 'verified' | 'discrepancy'
       notes: notes.trim(),
       disputeResolved: false,
+      syncStatus: 'local', // 'local' | 'syncing' | 'synced' | 'error'
       createdAt: new Date().toISOString()
     };
 
     this.expenses.unshift(newEntry);
     this.saveExpenses();
+
+    // 背景觸發 GAS 同步
+    this.syncExpenseToCloud(newEntry);
+
     return newEntry;
+  }
+
+  /**
+   * 背景非同步同步單筆消費至 Google Apps Script
+   */
+  async syncExpenseToCloud(entry) {
+    const webhookUrl = store.getProfile().gasWebhookUrl;
+    if (!webhookUrl) return;
+
+    entry.syncStatus = 'syncing';
+    this.saveExpenses();
+    this.notifySyncUpdate({ type: 'syncing', expenseId: entry.id });
+
+    try {
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'add_expense',
+          data: entry
+        })
+      });
+
+      const result = await response.json();
+      if (result && result.success && result.result && result.result.notionPageId) {
+        entry.notionPageId = result.result.notionPageId;
+        entry.syncStatus = 'synced';
+        this.saveExpenses();
+        this.notifySyncUpdate({ type: 'synced', expenseId: entry.id, notionPageId: entry.notionPageId });
+      } else {
+        entry.syncStatus = 'error';
+        this.saveExpenses();
+        this.notifySyncUpdate({ type: 'error', expenseId: entry.id, error: result.error });
+      }
+    } catch (err) {
+      console.warn('背景同步至 Notion 失敗:', err);
+      entry.syncStatus = 'error';
+      this.saveExpenses();
+      this.notifySyncUpdate({ type: 'error', expenseId: entry.id, error: err.message });
+    }
   }
 
   /**
@@ -123,15 +174,108 @@ export class Tracker {
       expense.actualPoints = expense.expectedPoints;
     }
     this.saveExpenses();
+
+    // 若該紀錄已存在 Notion Page ID，即時背景同步更新狀態
+    if (expense.notionPageId) {
+      this.updateStatusInCloud(expense);
+    }
+
     return expense;
+  }
+
+  async updateStatusInCloud(expense) {
+    const webhookUrl = store.getProfile().gasWebhookUrl;
+    if (!webhookUrl || !expense.notionPageId) return;
+
+    try {
+      await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'update_status',
+          notionPageId: expense.notionPageId,
+          status: expense.status,
+          actualPoints: expense.actualPoints
+        })
+      });
+    } catch (err) {
+      console.warn('更新 Notion 狀態失敗:', err);
+    }
   }
 
   /**
    * 刪除一筆消費紀錄
    */
   deleteExpense(expenseId) {
+    const expense = this.expenses.find((e) => e.id === expenseId);
+    if (expense && expense.notionPageId) {
+      this.deleteExpenseInCloud(expense.notionPageId);
+    }
     this.expenses = this.expenses.filter((e) => e.id !== expenseId);
     this.saveExpenses();
+  }
+
+  async deleteExpenseInCloud(notionPageId) {
+    const webhookUrl = store.getProfile().gasWebhookUrl;
+    if (!webhookUrl || !notionPageId) return;
+
+    try {
+      await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'delete_expense',
+          notionPageId
+        })
+      });
+    } catch (err) {
+      console.warn('刪除 Notion 紀錄失敗:', err);
+    }
+  }
+
+  /**
+   * 從 Notion 雲端拉取最新記帳清單 (多裝置同步)
+   */
+  async pullFromCloud() {
+    const webhookUrl = store.getProfile().gasWebhookUrl;
+    if (!webhookUrl) throw new Error('尚未設定 Google Apps Script Webhook 網址');
+
+    const sep = webhookUrl.includes('?') ? '&' : '?';
+    const response = await fetch(`${webhookUrl}${sep}action=fetch_expenses`);
+    const result = await response.json();
+
+    if (!result.success || !Array.isArray(result.expenses)) {
+      throw new Error(result.error || '拉取資料失敗');
+    }
+
+    // 保留尚未同步至雲端的本機紀錄，並合併雲端資料
+    const unsyncedLocals = this.expenses.filter((e) => !e.notionPageId);
+    const cloudExpenses = result.expenses;
+
+    // 建立新陣列：未同步的本機紀錄在最上方，接著是雲端紀錄
+    this.expenses = [...unsyncedLocals, ...cloudExpenses];
+    this.saveExpenses();
+    return this.expenses;
+  }
+
+  /**
+   * 測試 GAS Webhook 連線狀態
+   */
+  async testConnection(url) {
+    const targetUrl = (url || store.getProfile().gasWebhookUrl || '').trim();
+    if (!targetUrl) throw new Error('請輸入 Google Apps Script 網頁應用程式網址');
+
+    const response = await fetch(targetUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'test_connection' })
+    });
+
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.error || '連線測試失敗');
+    }
+    return result.result || { connected: true, message: '連線成功！' };
   }
 
   /**

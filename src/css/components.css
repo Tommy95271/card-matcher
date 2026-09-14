@@ -1036,3 +1036,108 @@
   resize: vertical;
 }
 
+/* ========================================================
+   Cloud Sync (GAS / Notion) Settings Styles
+   ======================================================== */
+.settings-section {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.settings-section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cloud-sync-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  margin-top: 10px;
+}
+
+.cloud-sync-input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.cloud-sync-input-row input {
+  flex: 1;
+}
+
+.cloud-sync-status-msg {
+  font-size: 0.8rem;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  margin-top: 8px;
+  display: none;
+}
+
+.cloud-sync-status-msg.success {
+  display: block;
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.cloud-sync-status-msg.error {
+  display: block;
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.cloud-sync-help {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-top: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  border-left: 3px solid var(--brand-primary);
+}
+
+.cloud-sync-help a {
+  color: var(--brand-primary-light);
+  text-decoration: underline;
+}
+
+.expense-sync-tag {
+  font-size: 0.68rem;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  margin-left: 6px;
+  font-weight: 600;
+}
+
+.expense-sync-tag.synced {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.expense-sync-tag.syncing {
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.expense-sync-tag.error {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.expense-sync-tag.local {
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+

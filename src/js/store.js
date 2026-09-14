@@ -2,6 +2,7 @@ const STORAGE_KEY = 'card_matcher_user_profile_v1';
 
 const DEFAULT_PROFILE = {
   theme: 'dark',
+  gasWebhookUrl: '',
   cards: {
     cathay_cube: {
       enabled: true,
@@ -51,6 +52,11 @@ class Store {
 
   getProfile() {
     return this.profile;
+  }
+
+  setGasWebhookUrl(url) {
+    this.profile.gasWebhookUrl = (url || '').trim();
+    this.saveProfile();
   }
 
   setCardEnabled(cardId, enabled) {
