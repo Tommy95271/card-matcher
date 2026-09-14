@@ -1,16 +1,16 @@
-const CACHE_NAME = 'card-matcher-cache-v3';
-const BASE_PATH = '/card-matcher';
+const CACHE_NAME = 'card-matcher-v2026-rwd-1';
 
 const ASSETS_TO_CACHE = [
-  BASE_PATH + '/',
-  BASE_PATH + '/index.html',
-  BASE_PATH + '/manifest.json',
-  BASE_PATH + '/icon-192.png',
-  BASE_PATH + '/icon-512.png',
-  BASE_PATH + '/apple-touch-icon.png'
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/icon-192.png',
+  '/icon-512.png',
+  '/apple-touch-icon.png'
 ];
 
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(ASSETS_TO_CACHE).catch((err) => {
@@ -18,7 +18,6 @@ self.addEventListener('install', (event) => {
       });
     })
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
@@ -36,37 +35,39 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
+// Network-First for HTML/navigation, Cache-First for static assets
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
+  const url = new URL(event.request.url);
+
+  // 對於 HTML 導覽請求採用 Network-First，確保每次取得最新發布版本
+  if (event.request.mode === 'navigate' || url.pathname === '/' || url.pathname.endsWith('.html')) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          if (response && response.status === 200) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request) || caches.match('/index.html') || caches.match('/'))
+    );
+    return;
+  }
+
+  // 對於靜態資源採用 Stale-While-Revalidate / Cache-First
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        // 背景更新快取
-        fetch(event.request)
-          .then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse));
-            }
-          })
-          .catch(() => {});
-        return cachedResponse;
-      }
+      const fetchPromise = fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse.clone()));
+        }
+        return networkResponse;
+      }).catch(() => null);
 
-      return fetch(event.request)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
-          }
-          return networkResponse;
-        })
-        .catch(async () => {
-          if (event.request.mode === 'navigate') {
-            const fallback = await caches.match(BASE_PATH + '/') || await caches.match(BASE_PATH + '/index.html');
-            if (fallback) return fallback;
-          }
-        });
+      return cachedResponse || fetchPromise;
     })
   );
 });

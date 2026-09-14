@@ -109,6 +109,14 @@ npx firebase-tools deploy --only hosting
 
 ---
 
+## 📖 專案文件與開發歷程
+
+- 📜 **[從 0 到 1 完整開發歷程與架構演進史 (Development Journey)](./docs/development-journey.md)**：包含各階段架構演進、技術瓶頸攻堅與 ADR 架構決策記錄。
+- 📊 **[Notion 資料庫欄位結構與定義 (Database Schema)](./docs/database-schema.md)**：包含特約店家與記帳對帳庫詳細欄位規格。
+- ⚙️ **[Notion 整合與金鑰設定手冊 (Notion Setup Guide)](./docs/notion-setup-guide.md)**：Notion API 金鑰與資料庫分享教學。
+
+---
+
 ## 📂 專案目錄結構
 
 ```text
@@ -116,6 +124,10 @@ card-matcher/
 ├── .github/
 │   └── workflows/
 │       └── firebase-hosting-merge.yml  # GitHub Actions Firebase 自動化 CI/CD
+├── docs/
+│   ├── development-journey.md          # 完整開發歷程與架構演進史 (ADR)
+│   ├── database-schema.md              # 資料庫規格與欄位定義
+│   └── notion-setup-guide.md           # Notion 整合與金鑰手冊
 ├── firestore.rules                     # Cloud Firestore 多租戶安全存取規則
 ├── firebase.json                       # Firebase Hosting 與環境配置
 ├── gas-backend/
@@ -128,7 +140,10 @@ card-matcher/
 │   │   ├── tracker.js                  # 刷卡記帳、回饋試算與狀態同步邏輯
 │   │   └── ui.js                       # 前端 UI 互動與事件監聽
 │   └── css/
-│       └── style.css                   # 深色質感現代化 CSS 樣式
+│       ├── main.css                    # 主框架與 RWD 佈局樣式
+│       ├── components.css              # 各組件與卡片樣式
+│       ├── variables.css               # 顏色、字體與設計系統變數
+│       └── reset.css                   # CSS 重置樣式
 ├── index.html                          # 主網頁應用程式入口
 └── vite.config.js                      # Vite 建置配置
 ```
