@@ -12,12 +12,15 @@ export function extractNotionDatabaseId(input) {
   return trimmed;
 }
 
+const STORAGE_KEY = 'card_matcher_user_profile_v1';
+export const DEFAULT_PUBLIC_GAS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbywAMmhP29lGDx7WN_H5JghdWtack82dYYFtwTpW5rGWHlu1HI2tn81xDDyhhWjssMv/exec';
+
 const DEFAULT_PROFILE = {
   theme: 'dark',
   notionApiKey: '',
   notionDatabaseUrl: '',
   notionDatabaseId: '',
-  gasWebhookUrl: '',
+  gasWebhookUrl: DEFAULT_PUBLIC_GAS_WEBHOOK,
   cards: {
     cathay_cube: {
       enabled: true,
@@ -49,7 +52,12 @@ class Store {
     try {
       const data = localStorage.getItem(STORAGE_KEY);
       if (data) {
-        return { ...DEFAULT_PROFILE, ...JSON.parse(data) };
+        const parsed = JSON.parse(data);
+        return {
+          ...DEFAULT_PROFILE,
+          ...parsed,
+          gasWebhookUrl: parsed.gasWebhookUrl || DEFAULT_PUBLIC_GAS_WEBHOOK
+        };
       }
     } catch (e) {
       console.warn('無法從 LocalStorage 讀取個人設定，使用預設值:', e);
