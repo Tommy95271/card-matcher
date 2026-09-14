@@ -12,3 +12,6 @@ src/data/backups/*.json
 # Google Clasp 設定檔與憑證
 .clasprc.json
 gas-backend/.clasp.json
+
+# Firebase CLI cache
+.firebase/
