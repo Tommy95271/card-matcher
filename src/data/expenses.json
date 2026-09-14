@@ -1,0 +1,21 @@
+[
+  {
+    "id": "exp_notion_3dbdc85d",
+    "notionPageId": "3dbdc85d-79dc-8133-aa55-d088b9a1381b",
+    "date": "2026-09-14",
+    "merchantName": "博客來 (測試記帳)",
+    "amount": 500,
+    "cardId": "taishin_richart",
+    "cardName": "台新 Richart 卡",
+    "bank": "台新銀行",
+    "schemeName": "數趣刷 (3.3%)",
+    "rate": 3.3,
+    "expectedPoints": 17,
+    "actualPoints": null,
+    "unit": "點",
+    "rewardName": "台新Point",
+    "status": "pending",
+    "notes": "購買新書",
+    "createdAt": "2026-09-14T03:33:00.000Z"
+  }
+]

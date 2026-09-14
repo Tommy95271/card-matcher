@@ -38,16 +38,19 @@ jobs:
       - name: 📦 安裝專案依賴
         run: npm ci
 
-      - name: 🔄 自動從 Notion 同步最新資料 (若有設定 Secret)
+      - name: 🔄 自動從 Notion 同步最新店家與消費資料 (若有設定 Secret)
         env:
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          NOTION_EXPENSES_DB_ID: ${{ secrets.NOTION_EXPENSES_DB_ID }}
         run: |
           if [ -n "$NOTION_API_KEY" ] && [ -n "$NOTION_DATABASE_ID" ]; then
-            echo "正在同步 Notion 資料庫..."
+            echo "正在同步 Notion 特約店家資料庫..."
             node scripts/sync-notion.js
-          else
-            echo "未設定 NOTION_API_KEY 或 NOTION_DATABASE_ID，使用內建資料集。"
+          fi
+          if [ -n "$NOTION_API_KEY" ] && [ -n "$NOTION_EXPENSES_DB_ID" ]; then
+            echo "正在同步 Notion 刷卡記帳資料庫..."
+            node scripts/sync-expenses.js
           fi
 
       - name: 🏗️ 建置前端靜態網頁
