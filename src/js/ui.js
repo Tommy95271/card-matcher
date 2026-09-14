@@ -1,5 +1,6 @@
 import { store } from './store.js';
 import { tracker } from './tracker.js';
+import { firebaseService } from './firebase.js';
 
 export class UI {
   constructor(engine) {
@@ -20,6 +21,19 @@ export class UI {
     this.settingsModal = document.getElementById('settings-modal');
     this.modalCloseBtn = document.getElementById('modal-close-btn');
     this.cardsConfigList = document.getElementById('cards-config-list');
+
+    // Google Auth & Firebase DOM 元素
+    this.googleLoginBtn = document.getElementById('google-login-btn');
+    this.userProfileChip = document.getElementById('user-profile-chip');
+    this.userAvatar = document.getElementById('user-avatar');
+    this.userName = document.getElementById('user-name');
+    this.userLogoutBtn = document.getElementById('user-logout-btn');
+    this.settingsAuthStatus = document.getElementById('settings-auth-status');
+    this.fbCfgApiKey = document.getElementById('fb-cfg-api-key');
+    this.fbCfgProjectId = document.getElementById('fb-cfg-project-id');
+    this.fbCfgAuthDomain = document.getElementById('fb-cfg-auth-domain');
+    this.fbCfgAppId = document.getElementById('fb-cfg-app-id');
+    this.fbCfgSaveBtn = document.getElementById('fb-cfg-save-btn');
 
     // Tracker DOM 元素
     this.trackerBtn = document.getElementById('tracker-btn');
@@ -73,6 +87,11 @@ export class UI {
     this.renderTodaySelectors();
     this.updateTrackerBadge();
     this.render();
+
+    // 監聽 Firebase Google 登入狀態
+    firebaseService.onAuthChange((user) => {
+      this.handleAuthState(user);
+    });
 
     // 監聽背景雲端同步事件
     tracker.onSyncUpdate((event) => {
@@ -264,6 +283,17 @@ export class UI {
           this.gasTestBtn.textContent = '🧪 測試連線';
         }
       });
+    }
+
+    // Google Auth 事件
+    if (this.googleLoginBtn) {
+      this.googleLoginBtn.addEventListener('click', () => this.handleGoogleLogin());
+    }
+    if (this.userLogoutBtn) {
+      this.userLogoutBtn.addEventListener('click', () => this.handleLogout());
+    }
+    if (this.fbCfgSaveBtn) {
+      this.fbCfgSaveBtn.addEventListener('click', () => this.handleSaveFirebaseConfig());
     }
 
     // Dispute 申訴 Modal
@@ -743,11 +773,126 @@ export class UI {
   }
 
   // ==========================================
+  // Google Auth & Firebase 即時同步方法
+  // ==========================================
+  handleAuthState(user) {
+    if (user) {
+      if (this.googleLoginBtn) this.googleLoginBtn.style.display = 'none';
+      if (this.userProfileChip) {
+        this.userProfileChip.style.display = 'inline-flex';
+        if (this.userAvatar) {
+          this.userAvatar.src = user.photoURL || 'https://www.gstatic.com/identity/boq/accountsettingsmobile/v1/avatar.svg';
+        }
+        if (this.userName) {
+          this.userName.textContent = user.displayName || user.email.split('@')[0];
+        }
+      }
+    } else {
+      if (this.googleLoginBtn) this.googleLoginBtn.style.display = 'inline-flex';
+      if (this.userProfileChip) this.userProfileChip.style.display = 'none';
+    }
+
+    if (this.settingsModal && this.settingsModal.classList.contains('open')) {
+      this.renderSettingsAuthStatus(user);
+    }
+  }
+
+  async handleGoogleLogin() {
+    if (!firebaseService.isConfigured()) {
+      this.showToast('ℹ️ 請先於設定中輸入 Firebase 專案金鑰');
+      this.openSettingsModal();
+      return;
+    }
+    try {
+      this.showToast('⏳ 正在開啟 Google 登入視窗...');
+      const user = await firebaseService.signInWithGoogle();
+      this.showToast(`🎉 歡迎 ${user.displayName || user.email}！已啟動跨裝置秒同步`);
+    } catch (err) {
+      console.error('Google 登入失敗:', err);
+      this.showToast(`❌ 登入失敗: ${err.message}`);
+    }
+  }
+
+  async handleLogout() {
+    try {
+      await firebaseService.logout();
+      this.showToast('👋 已安全登出 Google 帳號');
+    } catch (err) {
+      console.error('登出失敗:', err);
+      this.showToast(`❌ 登出失敗: ${err.message}`);
+    }
+  }
+
+  handleSaveFirebaseConfig() {
+    const config = {
+      apiKey: (this.fbCfgApiKey.value || '').trim(),
+      projectId: (this.fbCfgProjectId.value || '').trim(),
+      authDomain: (this.fbCfgAuthDomain.value || '').trim(),
+      appId: (this.fbCfgAppId.value || '').trim()
+    };
+
+    if (!config.apiKey || !config.projectId) {
+      this.showToast('❌ 請至少填寫 API Key 與 Project ID！');
+      return;
+    }
+
+    firebaseService.saveConfig(config);
+    this.showToast('💾 已儲存自訂 Firebase 設定並重新初始化！');
+  }
+
+  renderSettingsAuthStatus(user) {
+    if (!this.settingsAuthStatus) return;
+
+    if (user) {
+      this.settingsAuthStatus.innerHTML = `
+        <div class="settings-auth-info">
+          <div class="settings-user-details">
+            <img class="settings-user-avatar" src="${user.photoURL || 'https://www.gstatic.com/identity/boq/accountsettingsmobile/v1/avatar.svg'}" alt="Avatar" />
+            <div>
+              <div class="settings-user-name">${user.displayName || 'Google 使用者'}</div>
+              <div class="settings-user-email">${user.email} • 🟢 雲端即時連線中</div>
+            </div>
+          </div>
+          <button type="button" id="settings-logout-btn" class="btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;">🚪 登出</button>
+        </div>
+      `;
+      const btn = document.getElementById('settings-logout-btn');
+      if (btn) {
+        btn.addEventListener('click', () => this.handleLogout());
+      }
+    } else {
+      this.settingsAuthStatus.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <span style="font-weight: 600; font-size: 0.85rem; color: var(--text-primary);">目前狀態：👤 本機訪客模式 (未登入)</span>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">登入後即可將消費與核對進度秒同步至所有手機與電腦</div>
+          </div>
+          <button type="button" id="settings-login-btn" class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;">
+            🔑 Google 快速登入
+          </button>
+        </div>
+      `;
+      const btn = document.getElementById('settings-login-btn');
+      if (btn) {
+        btn.addEventListener('click', () => this.handleGoogleLogin());
+      }
+    }
+  }
+
+  // ==========================================
   // 設定 Modal
   // ==========================================
   openSettingsModal() {
     const profile = store.getProfile();
     const cards = this.engine.cards;
+
+    // 載入 Firebase 登入狀態與自訂設定
+    this.renderSettingsAuthStatus(firebaseService.currentUser);
+    const fbCfg = firebaseService.getSavedConfig();
+    if (this.fbCfgApiKey) this.fbCfgApiKey.value = fbCfg.apiKey || '';
+    if (this.fbCfgProjectId) this.fbCfgProjectId.value = fbCfg.projectId || '';
+    if (this.fbCfgAuthDomain) this.fbCfgAuthDomain.value = fbCfg.authDomain || '';
+    if (this.fbCfgAppId) this.fbCfgAppId.value = fbCfg.appId || '';
 
     // 載入 GAS Webhook 網址
     if (this.gasWebhookInput) {

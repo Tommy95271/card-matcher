@@ -1,4 +1,5 @@
 import { store } from './store.js';
+import { firebaseService } from './firebase.js';
 
 const STORAGE_KEY = 'card_matcher_expenses_v1';
 
@@ -6,6 +7,12 @@ export class Tracker {
   constructor() {
     this.expenses = this.loadExpenses();
     this.syncListeners = [];
+    this.firebaseUser = null;
+
+    // 監聽 Firebase 登入狀態
+    firebaseService.onAuthChange((user) => {
+      this.handleAuthChange(user);
+    });
   }
 
   onSyncUpdate(callback) {
@@ -14,6 +21,31 @@ export class Tracker {
 
   notifySyncUpdate(data) {
     this.syncListeners.forEach((cb) => cb(data));
+  }
+
+  async handleAuthChange(user) {
+    this.firebaseUser = user;
+    if (user) {
+      // 1. 自動將本機未登入前的記帳紀錄合併上傳至 Firestore 雲端
+      if (this.expenses.length > 0) {
+        try {
+          await firebaseService.batchMigrateLocalExpenses(user.uid, this.expenses);
+        } catch (e) {
+          console.warn('本機紀錄遷移至 Firestore 失敗:', e);
+        }
+      }
+
+      // 2. 開啟 Firestore 即時雙向監聽 (Live Sync)
+      firebaseService.subscribeUserExpenses(user.uid, (cloudList) => {
+        this.expenses = cloudList;
+        this.saveExpenses();
+        this.notifySyncUpdate({ type: 'firebase_sync', user, count: cloudList.length });
+      });
+    } else {
+      // 登出時載入本機 LocalStorage
+      this.expenses = this.loadExpenses();
+      this.notifySyncUpdate({ type: 'firebase_logout' });
+    }
   }
 
   loadExpenses() {
@@ -114,6 +146,11 @@ export class Tracker {
     this.expenses.unshift(newEntry);
     this.saveExpenses();
 
+    // 如果使用者有 Google 登入，同步寫入 Firestore
+    if (this.firebaseUser) {
+      firebaseService.saveExpense(this.firebaseUser.uid, newEntry).catch((e) => console.warn('Firestore 寫入失敗:', e));
+    }
+
     // 背景觸發 GAS 同步
     this.syncExpenseToCloud(newEntry);
 
@@ -175,6 +212,11 @@ export class Tracker {
     }
     this.saveExpenses();
 
+    // 若有 Google 登入，即時同步更新 Firestore
+    if (this.firebaseUser) {
+      firebaseService.updateExpenseStatus(this.firebaseUser.uid, expenseId, expense.status, expense.actualPoints).catch((e) => console.warn('Firestore 狀態更新失敗:', e));
+    }
+
     // 若該紀錄已存在 Notion Page ID，即時背景同步更新狀態
     if (expense.notionPageId) {
       this.updateStatusInCloud(expense);
@@ -210,6 +252,9 @@ export class Tracker {
     const expense = this.expenses.find((e) => e.id === expenseId);
     if (expense && expense.notionPageId) {
       this.deleteExpenseInCloud(expense.notionPageId);
+    }
+    if (this.firebaseUser) {
+      firebaseService.deleteExpense(this.firebaseUser.uid, expenseId).catch((e) => console.warn('Firestore 刪除失敗:', e));
     }
     this.expenses = this.expenses.filter((e) => e.id !== expenseId);
     this.saveExpenses();
