@@ -168,7 +168,10 @@ export class UI {
 
       bestHeroHtml = `
         <div class="best-card-banner">
-          <div class="best-card-badge">👑 首選推薦卡片</div>
+          <div class="best-card-header-row">
+            <div class="best-card-badge">👑 首選推薦卡片</div>
+            ${bestCard.officialUrl ? `<a href="${bestCard.officialUrl}" target="_blank" rel="noopener noreferrer" class="official-link-btn" title="查看 ${bestCard.bank} ${bestCard.cardName} 官方權益公告">🔗 官方權益 ↗</a>` : ''}
+          </div>
           <div class="best-card-main">
             <div class="best-card-info">
               <span class="best-card-icon">${bestCard.icon}</span>
@@ -201,7 +204,10 @@ export class UI {
             <div class="other-card-item">
               <div class="other-card-item-header">
                 <span class="other-card-name">${c.icon || '💳'} ${c.bank} ${c.cardName}</span>
-                <span class="other-card-rate">${c.rate}%</span>
+                <div class="other-card-header-right">
+                  ${c.officialUrl ? `<a href="${c.officialUrl}" target="_blank" rel="noopener noreferrer" class="official-link-btn-small" title="查看官方權益公告">🔗 官方 ↗</a>` : ''}
+                  <span class="other-card-rate">${c.rate}%</span>
+                </div>
               </div>
               <div class="other-card-scheme">
                 <span>適用：<strong>${c.schemeName}</strong></span>
@@ -248,6 +254,7 @@ export class UI {
               <input type="checkbox" class="card-enable-checkbox" ${userCard.enabled ? 'checked' : ''} />
               <span>${card.icon} ${card.bank} ${card.name}</span>
             </label>
+            ${card.officialUrl ? `<a href="${card.officialUrl}" target="_blank" rel="noopener noreferrer" class="official-link-btn-small" title="查看官方公告">🔗 官方權益 ↗</a>` : ''}
           </div>
           ${tiersOptions ? `
             <div class="tier-select-wrapper">

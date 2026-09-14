@@ -143,6 +143,7 @@ export class Engine {
         bank: cardDef.bank,
         icon: cardDef.icon,
         color: cardDef.color,
+        officialUrl: cardDef.officialUrl || '',
         schemeId: schemeInfo.schemeId,
         schemeName,
         rate: effectiveRate,
