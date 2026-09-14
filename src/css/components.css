@@ -244,8 +244,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 8px;
-  gap: 8px;
+  gap: 6px;
 }
 
 .best-card-badge {
@@ -254,19 +255,21 @@
   gap: 4px;
   background: var(--gradient-best);
   color: #ffffff;
-  padding: 3px 10px;
+  padding: 3px 9px;
   border-radius: var(--radius-full);
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .official-link-btn {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 3px 9px;
-  font-size: 0.75rem;
+  padding: 3px 8px;
+  font-size: 0.72rem;
   font-weight: 600;
   color: var(--brand-primary-light);
   background: rgba(59, 130, 246, 0.12);
@@ -274,6 +277,8 @@
   border-radius: var(--radius-full);
   text-decoration: none;
   transition: var(--transition-fast);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .official-link-btn:hover {
@@ -617,12 +622,14 @@
   background: rgba(245, 158, 11, 0.15);
   border: 1px solid rgba(245, 158, 11, 0.35);
   color: var(--brand-accent);
-  padding: 3px 10px;
+  padding: 3px 8px;
   border-radius: var(--radius-full);
   font-size: 0.75rem;
   font-weight: 700;
   cursor: pointer;
   transition: var(--transition-fast);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .quick-log-card-btn:hover {
@@ -1151,16 +1158,18 @@
 .google-login-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   color: var(--text-primary);
-  padding: 6px 12px;
+  padding: 5px 10px;
   border-radius: var(--radius-full);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 600;
   cursor: pointer;
   transition: var(--transition-fast);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .google-login-btn:hover {
@@ -1171,8 +1180,8 @@
 }
 
 .google-icon {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
   flex-shrink: 0;
 }
 
@@ -1183,29 +1192,32 @@
 .user-profile-chip {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  padding: 4px 10px 4px 5px;
+  padding: 3px 8px 3px 4px;
   border-radius: var(--radius-full);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: var(--text-primary);
+  max-width: 130px;
+  flex-shrink: 0;
 }
 
 .user-avatar {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   object-fit: cover;
   border: 1.5px solid var(--brand-primary);
 }
 
 .user-name {
-  max-width: 90px;
+  max-width: 60px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 600;
+  font-size: 0.78rem;
 }
 
 .user-logout-btn {
