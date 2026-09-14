@@ -18,13 +18,24 @@ const DEFAULT_CONFIG = {
 };
 
 /**
- * 取得 Notion 認證金鑰與資料庫 ID
+ * 取得 Notion 認證金鑰與資料庫 ID (優先使用 Request Payload 傳入的個人金鑰，次之使用伺服器指令碼屬性)
  */
-function getConfig() {
+function getConfig(payload) {
   const props = PropertiesService.getScriptProperties();
+  const apiKey = (payload && payload.notionApiKey) || props.getProperty('NOTION_API_KEY') || DEFAULT_CONFIG.NOTION_API_KEY;
+  const rawDbId = (payload && (payload.notionDbId || payload.notionExpensesDbId)) || props.getProperty('NOTION_EXPENSES_DB_ID') || DEFAULT_CONFIG.NOTION_EXPENSES_DB_ID;
+  const expenseDbId = (rawDbId || '').replace(/-/g, '').trim();
+
+  if (!apiKey || apiKey === 'YOUR_NOTION_API_KEY') {
+    throw new Error('缺少 Notion API Key (請輸入 ntn_ 開頭的授權金鑰)');
+  }
+  if (!expenseDbId) {
+    throw new Error('缺少 Notion Database ID (請提供 Notion 資料庫網址或 ID)');
+  }
+
   return {
-    apiKey: props.getProperty('NOTION_API_KEY') || DEFAULT_CONFIG.NOTION_API_KEY,
-    expenseDbId: (props.getProperty('NOTION_EXPENSES_DB_ID') || DEFAULT_CONFIG.NOTION_EXPENSES_DB_ID).replace(/-/g, ''),
+    apiKey: apiKey.trim(),
+    expenseDbId: expenseDbId,
     version: DEFAULT_CONFIG.NOTION_VERSION
   };
 }
@@ -42,20 +53,24 @@ function doPost(e) {
 
     switch (action) {
       case 'add_expense':
-        result = handleAddExpense(payload.data);
+        result = handleAddExpense(payload.data, payload);
         break;
 
       case 'update_status':
-        result = handleUpdateStatus(payload.notionPageId, payload.status, payload.actualPoints);
+        result = handleUpdateStatus(payload.notionPageId, payload.status, payload.actualPoints, payload);
         break;
 
       case 'delete_expense':
-        result = handleDeleteExpense(payload.notionPageId);
+        result = handleDeleteExpense(payload.notionPageId, payload);
         break;
 
       case 'test_connection':
-        result = handleTestConnection();
+        result = handleTestConnection(payload);
         break;
+
+      case 'fetch_expenses':
+        result = handleFetchExpenses(payload);
+        return createJsonResponse({ success: true, count: result.length, expenses: result });
 
       default:
         throw new Error('未知的 Action: ' + action);
@@ -75,16 +90,25 @@ function doPost(e) {
  */
 function doGet(e) {
   try {
-    const action = (e && e.parameter && e.parameter.action) ? e.parameter.action : 'ping';
+    const params = (e && e.parameter) ? e.parameter : {};
+    const action = params.action || 'ping';
 
-    if (action === 'fetch_expenses') {
-      const expenses = handleFetchExpenses();
+    if (action === 'fetch_expenses' || action === 'test_connection') {
+      const payload = {
+        notionApiKey: params.notionApiKey,
+        notionDbId: params.notionDbId || params.notionExpensesDbId
+      };
+      if (action === 'test_connection') {
+        const testRes = handleTestConnection(payload);
+        return createJsonResponse({ success: true, result: testRes });
+      }
+      const expenses = handleFetchExpenses(payload);
       return createJsonResponse({ success: true, count: expenses.length, expenses: expenses });
     }
 
     return createJsonResponse({
       success: true,
-      service: 'Card Matcher Notion GAS Relay API',
+      service: 'Card Matcher Universal Notion GAS Relay API',
       status: 'active',
       timestamp: new Date().toISOString()
     });
@@ -99,8 +123,8 @@ function doGet(e) {
 /**
  * 1. 新增消費紀錄至 Notion【💳 2026 刷卡記帳與點數對帳庫】
  */
-function handleAddExpense(data) {
-  const config = getConfig();
+function handleAddExpense(data, payload) {
+  const config = getConfig(payload);
 
   let cardNameInNotion = '國泰世華 CUBE 卡';
   if (data.cardId === 'taishin_richart' || (data.cardName && data.cardName.includes('台新'))) {
@@ -178,9 +202,9 @@ function handleAddExpense(data) {
 /**
  * 2. 更新消費紀錄狀態 (已入帳 / 漏給 / 實收點數)
  */
-function handleUpdateStatus(notionPageId, status, actualPoints) {
+function handleUpdateStatus(notionPageId, status, actualPoints, payload) {
   if (!notionPageId) throw new Error('缺少 notionPageId');
-  const config = getConfig();
+  const config = getConfig(payload);
 
   let statusInNotion = '🟡 待核對';
   if (status === 'verified') statusInNotion = '🟢 已入帳';
@@ -221,9 +245,9 @@ function handleUpdateStatus(notionPageId, status, actualPoints) {
 /**
  * 3. 刪除紀錄 (封存 Notion Page)
  */
-function handleDeleteExpense(notionPageId) {
+function handleDeleteExpense(notionPageId, payload) {
   if (!notionPageId) throw new Error('缺少 notionPageId');
-  const config = getConfig();
+  const config = getConfig(payload);
 
   const response = UrlFetchApp.fetch(`https://api.notion.com/v1/pages/${notionPageId}`, {
     method: 'patch',
@@ -248,8 +272,8 @@ function handleDeleteExpense(notionPageId) {
 /**
  * 4. 拉取 Notion 最新記帳清單
  */
-function handleFetchExpenses() {
-  const config = getConfig();
+function handleFetchExpenses(payload) {
+  const config = getConfig(payload);
 
   const response = UrlFetchApp.fetch(`https://api.notion.com/v1/databases/${config.expenseDbId}/query`, {
     method: 'post',
@@ -346,8 +370,8 @@ function handleFetchExpenses() {
 /**
  * 5. 連線測試
  */
-function handleTestConnection() {
-  const config = getConfig();
+function handleTestConnection(payload) {
+  const config = getConfig(payload);
   const response = UrlFetchApp.fetch(`https://api.notion.com/v1/databases/${config.expenseDbId}`, {
     method: 'get',
     headers: {

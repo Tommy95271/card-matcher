@@ -1,4 +1,4 @@
-import { store } from './store.js';
+import { store, extractNotionDatabaseId } from './store.js';
 import { tracker } from './tracker.js';
 import { firebaseService } from './firebase.js';
 
@@ -62,7 +62,12 @@ export class UI {
     this.statDiscrepancyCount = document.getElementById('stat-discrepancy-count');
     this.trackerLedgerList = document.getElementById('tracker-ledger-list');
 
-    // Cloud Sync DOM 元素
+    // Cloud Sync & Notion DOM 元素
+    this.notionDbUrlInput = document.getElementById('notion-db-url');
+    this.notionApiKeyInput = document.getElementById('notion-api-key');
+    this.notionParsedIdHint = document.getElementById('notion-parsed-id-hint');
+    this.notionTestBtn = document.getElementById('notion-test-btn');
+    this.notionStatusMsg = document.getElementById('notion-status-msg');
     this.gasWebhookInput = document.getElementById('gas-webhook-url');
     this.gasTestBtn = document.getElementById('gas-test-btn');
     this.gasStatusMsg = document.getElementById('gas-status-msg');
@@ -225,12 +230,12 @@ export class UI {
       });
     });
 
-    // Cloud Sync & GAS 事件
+    // Cloud Sync & Notion 事件
     if (this.trackerPullBtn) {
       this.trackerPullBtn.addEventListener('click', async () => {
-        const webhookUrl = store.getProfile().gasWebhookUrl;
-        if (!webhookUrl) {
-          this.showToast('ℹ️ 請先至「⚙️ 設定」填寫 Google Apps Script 網址');
+        const profile = store.getProfile();
+        if (!profile.gasWebhookUrl && (!profile.notionApiKey || !profile.notionDatabaseId)) {
+          this.showToast('ℹ️ 請先至「⚙️ 設定」填寫 Notion 授權或中繼站網址');
           this.openSettingsModal();
           return;
         }
@@ -247,41 +252,75 @@ export class UI {
       });
     }
 
-    if (this.gasWebhookInput) {
-      this.gasWebhookInput.addEventListener('change', (e) => {
-        store.setGasWebhookUrl(e.target.value);
-        this.showToast('💾 已儲存 GAS Webhook 網址設定');
+    // Notion 網址輸入智慧解析
+    if (this.notionDbUrlInput) {
+      this.notionDbUrlInput.addEventListener('input', (e) => {
+        const val = e.target.value.trim();
+        const parsedId = extractNotionDatabaseId(val);
+        if (this.notionParsedIdHint) {
+          if (parsedId && parsedId !== val) {
+            this.notionParsedIdHint.textContent = `🎯 已自動解析 Database ID: ${parsedId}`;
+            this.notionParsedIdHint.style.display = 'block';
+          } else if (parsedId && parsedId.length === 32) {
+            this.notionParsedIdHint.textContent = `✅ 32 位元 Database ID 有效`;
+            this.notionParsedIdHint.style.display = 'block';
+          } else {
+            this.notionParsedIdHint.style.display = 'none';
+          }
+        }
       });
     }
 
-    if (this.gasTestBtn) {
-      this.gasTestBtn.addEventListener('click', async () => {
-        const url = this.gasWebhookInput.value.trim();
-        if (!url) {
-          this.gasStatusMsg.className = 'cloud-sync-status-msg error';
-          this.gasStatusMsg.textContent = '❌ 請先輸入 GAS 網頁應用程式網址！';
+    // 測試並儲存 Notion 連線
+    if (this.notionTestBtn) {
+      this.notionTestBtn.addEventListener('click', async () => {
+        const dbUrl = (this.notionDbUrlInput.value || '').trim();
+        const apiKey = (this.notionApiKeyInput.value || '').trim();
+        const gasUrl = (this.gasWebhookInput.value || '').trim();
+
+        const dbId = extractNotionDatabaseId(dbUrl);
+
+        if (!dbUrl || !dbId) {
+          this.notionStatusMsg.className = 'cloud-sync-status-msg error';
+          this.notionStatusMsg.textContent = '❌ 請貼上 Notion 資料庫網址或 32 位元 ID！';
           return;
         }
 
-        this.gasTestBtn.disabled = true;
-        this.gasTestBtn.textContent = '⏳ 測試中...';
-        this.gasStatusMsg.className = 'cloud-sync-status-msg';
-        this.gasStatusMsg.style.display = 'none';
+        if (!apiKey) {
+          this.notionStatusMsg.className = 'cloud-sync-status-msg error';
+          this.notionStatusMsg.textContent = '❌ 請輸入 Notion API Key (以 ntn_ 開頭)！';
+          return;
+        }
+
+        this.notionTestBtn.disabled = true;
+        this.notionTestBtn.textContent = '⏳ 測試連線中...';
+        this.notionStatusMsg.className = 'cloud-sync-status-msg';
+        this.notionStatusMsg.style.display = 'none';
 
         try {
-          store.setGasWebhookUrl(url);
-          const res = await tracker.testConnection(url);
-          this.gasStatusMsg.className = 'cloud-sync-status-msg success';
-          this.gasStatusMsg.textContent = `✅ 連線成功！已連通【${res.databaseTitle || 'Notion 記帳庫'}】`;
-          this.showToast('🎉 Google Apps Script 連線成功！');
+          // 儲存至本機
+          store.setNotionConfig(apiKey, dbUrl);
+          if (gasUrl) store.setGasWebhookUrl(gasUrl);
+
+          const res = await tracker.testConnection(gasUrl, apiKey, dbId);
+          this.notionStatusMsg.className = 'cloud-sync-status-msg success';
+          this.notionStatusMsg.textContent = `✅ 連線成功！已連通【${res.databaseTitle || 'Notion 記帳庫'}】`;
+          this.showToast('🎉 Notion 資料庫連線測試成功並已儲存！');
         } catch (err) {
-          this.gasStatusMsg.className = 'cloud-sync-status-msg error';
-          this.gasStatusMsg.textContent = `❌ 連線失敗：${err.message}`;
-          this.showToast('❌ 連線失敗，請檢查網址與權限');
+          this.notionStatusMsg.className = 'cloud-sync-status-msg error';
+          this.notionStatusMsg.textContent = `❌ 連線失敗：${err.message}`;
+          this.showToast('❌ Notion 連線失敗，請檢查金鑰與頁面連線權限');
         } finally {
-          this.gasTestBtn.disabled = false;
-          this.gasTestBtn.textContent = '🧪 測試連線';
+          this.notionTestBtn.disabled = false;
+          this.notionTestBtn.textContent = '🧪 測試並儲存連線';
         }
+      });
+    }
+
+    if (this.gasWebhookInput) {
+      this.gasWebhookInput.addEventListener('change', (e) => {
+        store.setGasWebhookUrl(e.target.value);
+        this.showToast('💾 已儲存自訂中繼站網址設定');
       });
     }
 
@@ -894,7 +933,27 @@ export class UI {
     if (this.fbCfgAuthDomain) this.fbCfgAuthDomain.value = fbCfg.authDomain || '';
     if (this.fbCfgAppId) this.fbCfgAppId.value = fbCfg.appId || '';
 
-    // 載入 GAS Webhook 網址
+    // 載入 Notion 與中繼站設定
+    if (this.notionDbUrlInput) {
+      this.notionDbUrlInput.value = profile.notionDatabaseUrl || profile.notionDatabaseId || '';
+    }
+    if (this.notionApiKeyInput) {
+      this.notionApiKeyInput.value = profile.notionApiKey || '';
+    }
+    if (this.notionParsedIdHint) {
+      if (profile.notionDatabaseId) {
+        this.notionParsedIdHint.textContent = `🎯 已解析 Database ID: ${profile.notionDatabaseId}`;
+        this.notionParsedIdHint.style.display = 'block';
+      } else {
+        this.notionParsedIdHint.style.display = 'none';
+      }
+    }
+    if (this.notionStatusMsg) {
+      this.notionStatusMsg.className = 'cloud-sync-status-msg';
+      this.notionStatusMsg.style.display = 'none';
+      this.notionStatusMsg.textContent = '';
+    }
+
     if (this.gasWebhookInput) {
       this.gasWebhookInput.value = profile.gasWebhookUrl || '';
     }

@@ -1,7 +1,22 @@
-const STORAGE_KEY = 'card_matcher_user_profile_v1';
+export function extractNotionDatabaseId(input) {
+  if (!input) return '';
+  const trimmed = input.trim();
+  // 1. 匹配 32 位元 hex (如 3dbdc85d79dc817e823dd77bcdb424e2)
+  const hex32Match = trimmed.match(/([a-f0-9]{32})/i);
+  if (hex32Match) return hex32Match[1].toLowerCase();
+
+  // 2. 匹配 UUID 格式 (如 3dbdc85d-79dc-817e-823d-d77bcdb424e2)
+  const uuidMatch = trimmed.match(/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/i);
+  if (uuidMatch) return uuidMatch[1].replace(/-/g, '').toLowerCase();
+
+  return trimmed;
+}
 
 const DEFAULT_PROFILE = {
   theme: 'dark',
+  notionApiKey: '',
+  notionDatabaseUrl: '',
+  notionDatabaseId: '',
   gasWebhookUrl: '',
   cards: {
     cathay_cube: {
@@ -52,6 +67,13 @@ class Store {
 
   getProfile() {
     return this.profile;
+  }
+
+  setNotionConfig(apiKey, urlOrId) {
+    this.profile.notionApiKey = (apiKey || '').trim();
+    this.profile.notionDatabaseUrl = (urlOrId || '').trim();
+    this.profile.notionDatabaseId = extractNotionDatabaseId(urlOrId);
+    this.saveProfile();
   }
 
   setGasWebhookUrl(url) {

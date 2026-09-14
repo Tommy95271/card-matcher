@@ -161,7 +161,8 @@ export class Tracker {
    * 背景非同步同步單筆消費至 Google Apps Script
    */
   async syncExpenseToCloud(entry) {
-    const webhookUrl = store.getProfile().gasWebhookUrl;
+    const profile = store.getProfile();
+    const webhookUrl = (profile.gasWebhookUrl || '').trim();
     if (!webhookUrl) return;
 
     entry.syncStatus = 'syncing';
@@ -174,6 +175,8 @@ export class Tracker {
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
           action: 'add_expense',
+          notionApiKey: profile.notionApiKey || '',
+          notionDbId: profile.notionDatabaseId || '',
           data: entry
         })
       });
@@ -226,7 +229,8 @@ export class Tracker {
   }
 
   async updateStatusInCloud(expense) {
-    const webhookUrl = store.getProfile().gasWebhookUrl;
+    const profile = store.getProfile();
+    const webhookUrl = (profile.gasWebhookUrl || '').trim();
     if (!webhookUrl || !expense.notionPageId) return;
 
     try {
@@ -235,6 +239,8 @@ export class Tracker {
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
           action: 'update_status',
+          notionApiKey: profile.notionApiKey || '',
+          notionDbId: profile.notionDatabaseId || '',
           notionPageId: expense.notionPageId,
           status: expense.status,
           actualPoints: expense.actualPoints
@@ -261,7 +267,8 @@ export class Tracker {
   }
 
   async deleteExpenseInCloud(notionPageId) {
-    const webhookUrl = store.getProfile().gasWebhookUrl;
+    const profile = store.getProfile();
+    const webhookUrl = (profile.gasWebhookUrl || '').trim();
     if (!webhookUrl || !notionPageId) return;
 
     try {
@@ -270,6 +277,8 @@ export class Tracker {
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
           action: 'delete_expense',
+          notionApiKey: profile.notionApiKey || '',
+          notionDbId: profile.notionDatabaseId || '',
           notionPageId
         })
       });
@@ -282,11 +291,19 @@ export class Tracker {
    * 從 Notion 雲端拉取最新記帳清單 (多裝置同步)
    */
   async pullFromCloud() {
-    const webhookUrl = store.getProfile().gasWebhookUrl;
+    const profile = store.getProfile();
+    const webhookUrl = (profile.gasWebhookUrl || '').trim();
     if (!webhookUrl) throw new Error('尚未設定 Google Apps Script Webhook 網址');
 
-    const sep = webhookUrl.includes('?') ? '&' : '?';
-    const response = await fetch(`${webhookUrl}${sep}action=fetch_expenses`);
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action: 'fetch_expenses',
+        notionApiKey: profile.notionApiKey || '',
+        notionDbId: profile.notionDatabaseId || ''
+      })
+    });
     const result = await response.json();
 
     if (!result.success || !Array.isArray(result.expenses)) {
@@ -306,14 +323,22 @@ export class Tracker {
   /**
    * 測試 GAS Webhook 連線狀態
    */
-  async testConnection(url) {
-    const targetUrl = (url || store.getProfile().gasWebhookUrl || '').trim();
+  async testConnection(url, apiKey, dbId) {
+    const profile = store.getProfile();
+    const targetUrl = (url || profile.gasWebhookUrl || '').trim();
     if (!targetUrl) throw new Error('請輸入 Google Apps Script 網頁應用程式網址');
+
+    const targetApiKey = (apiKey !== undefined ? apiKey : profile.notionApiKey) || '';
+    const targetDbId = (dbId !== undefined ? dbId : profile.notionDatabaseId) || '';
 
     const response = await fetch(targetUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action: 'test_connection' })
+      body: JSON.stringify({
+        action: 'test_connection',
+        notionApiKey: targetApiKey,
+        notionDbId: targetDbId
+      })
     });
 
     const result = await response.json();
