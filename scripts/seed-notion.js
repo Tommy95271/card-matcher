@@ -70,9 +70,11 @@ async function seedNotion() {
             { name: '樂饗購', color: 'red' },
             { name: '趣旅行', color: 'purple' },
             { name: '集精選', color: 'green' },
-            { name: '慶生月', color: 'pink' },
             { name: '全支付', color: 'orange' },
             { name: '台塑家', color: 'yellow' },
+            { name: '慶生月', color: 'pink' },
+            { name: '童樂匯', color: 'brown' },
+            { name: '固定回饋', color: 'gray' },
             { name: '一般消費', color: 'default' }
           ]
         }

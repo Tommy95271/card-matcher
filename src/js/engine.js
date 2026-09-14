@@ -37,6 +37,12 @@ export class Engine {
         if (sId === 'essentials' || sName.includes('集精選') || sId === 'pxpay' || sName.includes('全支付') || sId === 'formosa' || sName.includes('台塑家')) {
           effectiveRate = 2.0;
           resolvedSchemeId = (sId === 'custom' || !sId) ? (sName.includes('集精選') ? 'essentials' : (sName.includes('全支付') ? 'pxpay' : 'formosa')) : sId;
+        } else if (sId === 'kids' || sName.includes('童樂匯')) {
+          effectiveRate = schemeInfo.rate || 5.0;
+          resolvedSchemeId = 'kids';
+        } else if (sId === 'fixed' || sName.includes('固定回饋')) {
+          effectiveRate = schemeInfo.rate || 1.2;
+          resolvedSchemeId = 'fixed';
         } else if (sId === 'digital' || sName.includes('玩數位')) {
           effectiveRate = tier.schemeRate; // 3.0% / 3.3%
           resolvedSchemeId = 'digital';

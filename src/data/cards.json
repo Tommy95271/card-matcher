@@ -38,29 +38,45 @@
         "id": "digital",
         "name": "玩數位",
         "icon": "💻",
-        "description": "網購電商、數位串流、AI 工具訂閱",
-        "highlight": "蝦皮 / momo / PChome / Netflix / Spotify / ChatGPT / Gemini"
+        "description": "網購電商、數位串流、AI 工具訂閱 (不含博客來/淘寶)",
+        "highlight": "蝦皮 / momo / PChome / 酷澎 / Netflix / Spotify / ChatGPT"
       },
       {
         "id": "dining",
         "name": "樂饗購",
         "icon": "🍽️",
         "description": "國內百貨、全台餐廳、外送平台、藥妝店",
-        "highlight": "新光三越 / SOGO / Uber Eats / Foodpanda / 康是美 / 屈臣氏"
+        "highlight": "新光三越 / SOGO / 巨城 / 裕隆城 / 南紡 / 台茂 / 壽司郎 / 王品 / Uber Eats / 康是美 / 屈臣氏"
       },
       {
         "id": "travel",
         "name": "趣旅行",
         "icon": "✈️",
-        "description": "海外實體消費、高鐵機票、旅行社、國內外訂房",
-        "highlight": "日韓歐美實體刷卡 / 高鐵 / 華航 / 長榮 / 星宇 / Agoda / Booking"
+        "description": "海外實體消費、高鐵機票、旅行社、國內外訂房、叫車",
+        "highlight": "日韓歐美實體刷卡 / 華航 / 長榮 / 星宇 / Agoda / Klook / Uber / 高鐵"
       },
       {
         "id": "essentials",
         "name": "集精選",
         "icon": "🛒",
-        "description": "四大超商、量販超市、中油直營、全聯 (指定活動)",
-        "highlight": "7-11 / 全家 / 家樂福 / 全聯 / 台灣中油直營 (全等級固定 2.0%)",
+        "description": "四大超商、量販超市、中油直營、LOPIA、IKEA、充電停車",
+        "highlight": "7-11 / 全家 / 家樂福 / 全聯 / LOPIA / 中油直營 / EVOASIS / U-POWER / 車麻吉 / IKEA (2.0%)",
+        "fixedRate": 2.0
+      },
+      {
+        "id": "pxpay",
+        "name": "全支付",
+        "icon": "📱",
+        "description": "綁定全支付 App 於全聯、大全聯及特約通路消費 (2.0%)",
+        "highlight": "全聯福利中心、大全聯 (原大潤發) 綁全支付 (2.0%)",
+        "fixedRate": 2.0
+      },
+      {
+        "id": "formosa",
+        "name": "台塑家",
+        "icon": "⛽",
+        "description": "台塑體系加油站與生醫通路專屬回饋",
+        "highlight": "台塑加油站 / 台亞石油 / 福懋 / 統一速邁樂",
         "fixedRate": 2.0
       },
       {
@@ -68,23 +84,21 @@
         "name": "慶生月",
         "icon": "🎂",
         "description": "當月壽星專屬，指定慶生餐廳、百貨與娛樂通路最高 10%",
-        "highlight": "壽星專屬星級飯店、指定燒肉餐廳 (最高 10.0%)"
+        "highlight": "壽星專屬星級飯店、指定燒肉餐廳、迪士尼/環球影城 (最高 10.0%)"
       },
       {
-        "id": "pxpay",
-        "name": "全支付",
-        "icon": "📱",
-        "description": "綁定全支付 App 消費 (全等級 2.0%)",
-        "highlight": "全支付適用通路 (2.0%)",
-        "fixedRate": 2.0
+        "id": "kids",
+        "name": "童樂匯",
+        "icon": "🎈",
+        "description": "親子體驗課、親子餐廳、飯店樂園、母嬰用品、保費學費",
+        "highlight": "雲門舞集 / Yamaha (10%)、壽司郎 / 陶板屋 / 麗寶樂園 (5%)、保費學費 (1%)"
       },
       {
-        "id": "formosa",
-        "name": "台塑家",
-        "icon": "⛽",
-        "description": "台塑體系加油站與生醫通路 (全等級 2.0%)",
-        "highlight": "台塑加油站、台亞石油 (2.0%)",
-        "fixedRate": 2.0
+        "id": "fixed",
+        "name": "固定回饋",
+        "icon": "🛡️",
+        "description": "全通路免切換一般消費 1.2%、指定海外實體 2.5%",
+        "highlight": "國內全通路 1.2% / 指定海外實體 2.5%"
       }
     ]
   },

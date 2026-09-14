@@ -42,16 +42,26 @@ async function syncNotion() {
   try {
     console.log('🔄 正在從 Notion 資料庫拉取最新店家與方案回饋資料...');
 
-    const response = await notion.databases.query({
-      database_id: databaseId.replace(/-/g, '')
-    });
+    let allResults = [];
+    let hasMore = true;
+    let nextCursor = undefined;
 
-    const results = response.results;
-    console.log(`📥 成功取得 ${results.length} 筆資料`);
+    while (hasMore) {
+      const response = await notion.databases.query({
+        database_id: databaseId.replace(/-/g, ''),
+        start_cursor: nextCursor,
+        page_size: 100
+      });
+      allResults = allResults.concat(response.results);
+      hasMore = response.has_more;
+      nextCursor = response.next_cursor;
+    }
+
+    console.log(`📥 成功取得 ${allResults.length} 筆資料`);
 
     const newMerchants = [];
 
-    for (const page of results) {
+    for (const page of allResults) {
       const props = page.properties;
 
       // 檢查狀態，若非有效或為歷史存檔則略過
@@ -77,23 +87,66 @@ async function syncNotion() {
       const isPitfall = props['是否為雷區通路']?.checkbox ?? false;
 
       let cubeSchemeId = 'general';
-      if (cubeSchemeName.includes('玩數位')) cubeSchemeId = 'digital';
-      else if (cubeSchemeName.includes('樂饗購')) cubeSchemeId = 'dining';
-      else if (cubeSchemeName.includes('趣旅行')) cubeSchemeId = 'travel';
-      else if (cubeSchemeName.includes('集精選')) cubeSchemeId = 'essentials';
-      else if (cubeSchemeName.includes('慶生月')) cubeSchemeId = 'birthday';
-      else if (cubeSchemeName.includes('全支付')) cubeSchemeId = 'pxpay';
-      else if (cubeSchemeName.includes('台塑家')) cubeSchemeId = 'formosa';
+      let cubeRate = 0.3;
+      if (cubeSchemeName.includes('玩數位')) {
+        cubeSchemeId = 'digital';
+        cubeRate = 3.0;
+      } else if (cubeSchemeName.includes('樂饗購')) {
+        cubeSchemeId = 'dining';
+        cubeRate = 3.0;
+      } else if (cubeSchemeName.includes('趣旅行')) {
+        cubeSchemeId = 'travel';
+        cubeRate = 3.0;
+      } else if (cubeSchemeName.includes('集精選')) {
+        cubeSchemeId = 'essentials';
+        cubeRate = 2.0;
+      } else if (cubeSchemeName.includes('慶生月')) {
+        cubeSchemeId = 'birthday';
+        cubeRate = 10.0;
+      } else if (cubeSchemeName.includes('童樂匯')) {
+        cubeSchemeId = 'kids';
+        cubeRate = 5.0;
+      } else if (cubeSchemeName.includes('全支付')) {
+        cubeSchemeId = 'pxpay';
+        cubeRate = 2.0;
+      } else if (cubeSchemeName.includes('台塑家')) {
+        cubeSchemeId = 'formosa';
+        cubeRate = 2.0;
+      } else if (cubeSchemeName.includes('固定回饋')) {
+        cubeSchemeId = 'fixed';
+        cubeRate = 1.2;
+      } else {
+        cubeSchemeId = 'general';
+        cubeRate = 0.3;
+      }
 
       let taishinSchemeId = 'daily';
-      if (taishinSchemeName.includes('Chill') || taishinSchemeName.includes('10%')) taishinSchemeId = 'chill';
-      else if (taishinSchemeName.includes('Pay') || taishinSchemeName.includes('3.8%')) taishinSchemeId = 'pay';
-      else if (taishinSchemeName.includes('好饗')) taishinSchemeId = 'gourmet';
-      else if (taishinSchemeName.includes('大筆')) taishinSchemeId = 'big_spending';
-      else if (taishinSchemeName.includes('數趣')) taishinSchemeId = 'digital_fun';
-      else if (taishinSchemeName.includes('玩旅')) taishinSchemeId = 'travel_fun';
-      else if (taishinSchemeName.includes('假日')) taishinSchemeId = 'holiday';
-      else if (taishinSchemeName.includes('一般消費')) taishinSchemeId = 'general';
+      let taishinRate = 3.3;
+      if (taishinSchemeName.includes('Chill') || taishinSchemeName.includes('10%')) {
+        taishinSchemeId = 'chill';
+        taishinRate = 10.0;
+      } else if (taishinSchemeName.includes('Pay') || taishinSchemeName.includes('3.8%')) {
+        taishinSchemeId = 'pay';
+        taishinRate = 3.8;
+      } else if (taishinSchemeName.includes('好饗')) {
+        taishinSchemeId = 'gourmet';
+        taishinRate = 3.3;
+      } else if (taishinSchemeName.includes('大筆')) {
+        taishinSchemeId = 'big_spending';
+        taishinRate = 3.3;
+      } else if (taishinSchemeName.includes('數趣')) {
+        taishinSchemeId = 'digital_fun';
+        taishinRate = 3.3;
+      } else if (taishinSchemeName.includes('玩旅')) {
+        taishinSchemeId = 'travel_fun';
+        taishinRate = 3.3;
+      } else if (taishinSchemeName.includes('假日')) {
+        taishinSchemeId = 'holiday';
+        taishinRate = 2.0;
+      } else if (taishinSchemeName.includes('一般消費')) {
+        taishinSchemeId = 'general';
+        taishinRate = 0.3;
+      }
 
       // 生成標準 Merchant 物件
       newMerchants.push({
@@ -109,23 +162,23 @@ async function syncNotion() {
           cathay_cube: {
             schemeId: cubeSchemeId,
             schemeName: cubeSchemeName,
-            rate: (cubeSchemeId === 'essentials' || cubeSchemeId === 'pxpay' || cubeSchemeId === 'formosa') ? 2.0 : (cubeSchemeId === 'birthday' ? 10.0 : 3.0),
+            rate: cubeRate,
             notes: `${cubeSchemeName}`
           },
           taishin_richart: {
             schemeId: taishinSchemeId,
             schemeName: taishinSchemeName,
-            rate: taishinSchemeId === 'chill' ? 10.0 : (taishinSchemeId === 'pay' ? 3.8 : (taishinSchemeId === 'holiday' ? 2.0 : 3.3)),
+            rate: taishinRate,
             notes: `${taishinSchemeName}`
           },
           esun_ubear: {
-            schemeId: 'online_shopping',
+            schemeId: ubearRate >= 3.0 ? 'online_shopping' : 'general',
             schemeName: '回饋方案',
             rate: ubearRate,
             notes: `回饋 ${ubearRate}%`
           },
           mega_bt21: {
-            schemeId: 'mobile_pay',
+            schemeId: megaRate >= 3.0 ? 'mobile_pay' : 'general',
             schemeName: '回饋方案',
             rate: megaRate,
             notes: `回饋 ${megaRate}%`
