@@ -38,6 +38,12 @@
         </div>
       </div>
       <div class="header-actions">
+        <button id="tracker-btn" class="icon-btn-highlight" title="開啟點數對帳與查核中心" aria-label="對帳查核">
+          <span>📊</span>
+          <span class="btn-label">對帳查核</span>
+          <span id="tracker-badge-count" class="badge-count" style="display: none;">0</span>
+        </button>
+        <button id="quick-log-btn" class="icon-btn" title="手動新增一筆消費" aria-label="記帳">➕</button>
         <button id="theme-toggle-btn" class="icon-btn" title="切換深淺色主題" aria-label="切換主題">🌙</button>
         <button id="settings-btn" class="icon-btn" title="設定我的卡片與等級" aria-label="設定">⚙️</button>
       </div>
@@ -56,7 +62,7 @@
           type="text" 
           id="search-input" 
           class="search-input" 
-          placeholder="搜尋店家、外送、日韓、網購或關鍵字 (例：全家、蝦皮、星巴克)..." 
+          placeholder="搜尋店家、外送、日韓、網購或關鍵字 (例：博客來、全家、蝦皮、星巴克)..." 
           autocomplete="off"
           autofocus
         />
@@ -93,6 +99,8 @@
             <option value="travel">趣旅行</option>
             <option value="essentials">集精選</option>
             <option value="birthday">慶生月</option>
+            <option value="kids">童樂匯</option>
+            <option value="fixed">固定回饋</option>
           </select>
         </div>
         <div class="today-selector-group">
@@ -120,6 +128,126 @@
     <main id="results-container" class="results-container">
       <!-- 搜尋結果由 ui.js 動態渲染 -->
     </main>
+  </div>
+
+  <!-- Quick Log Expense Modal -->
+  <div id="log-expense-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">⚡ 快速記一筆刷卡消費</h2>
+        <button id="log-modal-close-btn" class="modal-close-btn" aria-label="關閉">✕</button>
+      </div>
+      <form id="log-expense-form" class="log-form">
+        <div class="form-group">
+          <label for="log-date">消費日期：</label>
+          <input type="date" id="log-date" required class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="log-merchant">消費店家 / 項目：</label>
+          <input type="text" id="log-merchant" required placeholder="例：博客來、Uber Eats、新光三越..." class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="log-amount">刷卡金額 (NT$)：</label>
+          <input type="number" id="log-amount" required min="1" step="1" placeholder="例：500" class="form-input" />
+        </div>
+        <div class="form-group">
+          <label for="log-card-select">使用卡片與適用方案：</label>
+          <select id="log-card-select" class="form-select"></select>
+        </div>
+        <div class="form-group-calc">
+          <div class="calc-label">預期應得回饋：</div>
+          <div class="calc-result" id="log-calc-display">
+            <span class="calc-num">0</span>
+            <span class="calc-unit">點</span>
+            <span class="calc-rate-tag">(0.0%)</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="log-notes">備註 (可選)：</label>
+          <input type="text" id="log-notes" placeholder="例：購買電子書、中午聚餐統開..." class="form-input" />
+        </div>
+        <div class="modal-actions">
+          <button type="button" id="log-cancel-btn" class="btn-secondary">取消</button>
+          <button type="submit" class="btn-primary">💾 儲存並加入查核清單</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Tracker Reconciliation Ledger Modal -->
+  <div id="tracker-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card modal-card-large">
+      <div class="modal-header">
+        <div class="tracker-modal-title-area">
+          <h2 class="modal-title">📊 點數對帳與漏給查核中心</h2>
+          <span class="tracker-subtitle">避免小筆回饋被銀行漏給或誤判</span>
+        </div>
+        <button id="tracker-close-btn" class="modal-close-btn" aria-label="關閉">✕</button>
+      </div>
+
+      <!-- Month Selector & Stats Widgets -->
+      <div class="tracker-stats-container">
+        <div class="tracker-stats-header">
+          <div class="month-picker-wrapper">
+            <span>📅 檢視月份：</span>
+            <input type="month" id="tracker-month-picker" class="month-input" />
+          </div>
+          <button id="tracker-add-entry-btn" class="btn-small-primary">➕ 記一筆</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-title">💰 當月累積刷卡</div>
+            <div class="stat-value" id="stat-total-amount">NT$ 0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">🎁 預期應得總點數</div>
+            <div class="stat-value highlight" id="stat-total-points">0 點</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">🟡 待核對筆數</div>
+            <div class="stat-value warning" id="stat-pending-count">0 筆</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">🔴 漏給/少給警示</div>
+            <div class="stat-value danger" id="stat-discrepancy-count">0 筆</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="tracker-filter-tabs">
+        <button class="tracker-tab active" data-filter="all">全部紀錄</button>
+        <button class="tracker-tab" data-filter="pending">🟡 待核對</button>
+        <button class="tracker-tab" data-filter="discrepancy">🔴 漏給需申訴</button>
+        <button class="tracker-tab" data-filter="verified">🟢 已入帳</button>
+      </div>
+
+      <!-- Expenses Ledger List -->
+      <div id="tracker-ledger-list" class="tracker-ledger-list">
+        <!-- 由 ui.js 動態渲染 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Dispute Script Modal -->
+  <div id="dispute-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 class="modal-title">📋 客服申訴話術產生器</h2>
+        <button id="dispute-close-btn" class="modal-close-btn" aria-label="關閉">✕</button>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">
+        您可以將以下文字直接複製，貼給銀行 App 線上文字客服或電話客服核對補發點數：
+      </p>
+      <div class="dispute-box-wrapper">
+        <textarea id="dispute-text-area" class="dispute-textarea" readonly rows="7"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="button" id="dispute-cancel-btn" class="btn-secondary">關閉</button>
+        <button type="button" id="dispute-copy-btn" class="btn-primary">📋 一鍵複製話術</button>
+      </div>
+    </div>
   </div>
 
   <!-- Settings Modal Drawer -->
