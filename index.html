@@ -226,14 +226,22 @@
 
       <!-- Month Selector & Stats Widgets -->
       <div class="tracker-stats-container">
+        <!-- 雙層流線操作區 (方案 A) -->
         <div class="tracker-stats-header">
-          <div class="month-picker-wrapper">
-            <span>📅 檢視月份：</span>
-            <input type="month" id="tracker-month-picker" class="month-input" />
+          <!-- 第一層：全寬月份導航步進器 -->
+          <div class="tracker-month-stepper">
+            <button type="button" id="tracker-prev-month" class="month-stepper-btn" title="上個月" aria-label="上個月">◀</button>
+            <label class="tracker-month-display" title="點擊挑選月份">
+              <span class="month-icon">📅</span>
+              <span id="tracker-month-label" class="month-label-text">2026年9月</span>
+              <input type="month" id="tracker-month-picker" class="hidden-month-input" />
+            </label>
+            <button type="button" id="tracker-next-month" class="month-stepper-btn" title="下個月" aria-label="下個月">▶</button>
           </div>
-          <div style="display: flex; gap: 8px;">
-            <button id="tracker-pull-btn" class="btn-secondary" style="padding: 6px 12px; font-size: 0.8rem;" title="從 Notion 雲端拉取最新紀錄">🔄 雲端同步</button>
-            <button id="tracker-add-entry-btn" class="btn-small-primary">➕ 記一筆</button>
+          <!-- 第二層：雙功能主要操作列 -->
+          <div class="tracker-action-buttons">
+            <button type="button" id="tracker-pull-btn" class="btn-secondary tracker-action-btn" title="從 Notion 雲端拉取最新紀錄">🔄 雲端同步</button>
+            <button type="button" id="tracker-add-entry-btn" class="btn-primary tracker-action-btn">➕ 快速記一筆</button>
           </div>
         </div>
 
@@ -255,6 +263,20 @@
             <div class="stat-value danger" id="stat-discrepancy-count">0 筆</div>
           </div>
         </div>
+
+        <!-- 實作 1：各銀行消費與點數佔比摺疊統計面板 (方案 B) -->
+        <details id="bank-breakdown-details" class="bank-breakdown-details">
+          <summary id="bank-breakdown-summary" class="bank-breakdown-summary">
+            <div class="breakdown-summary-title">
+              <span>📊 查看各銀行刷卡與點數分佈</span>
+              <span id="bank-breakdown-badge" class="breakdown-bank-count">0 家銀行</span>
+            </div>
+            <span class="breakdown-toggle-arrow">▾</span>
+          </summary>
+          <div id="bank-breakdown-content" class="bank-breakdown-content">
+            <!-- 由 ui.js 動態渲染 -->
+          </div>
+        </details>
       </div>
 
       <!-- Filter Tabs -->

@@ -824,33 +824,113 @@
 
 .tracker-stats-header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 10px;
   margin-bottom: 14px;
 }
 
-.month-picker-wrapper {
+/* 第一層：月份導航步進器 */
+.tracker-month-stepper {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-secondary);
+  justify-content: space-between;
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  padding: 4px 6px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.month-input {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-sm);
-  padding: 4px 8px;
+.month-stepper-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: var(--glass-bg);
   color: var(--text-primary);
   font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.month-stepper-btn:hover {
+  background: var(--brand-primary);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.month-stepper-btn:active {
+  transform: scale(0.95);
+}
+
+.tracker-month-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 4px 12px;
+  border-radius: var(--radius-md);
+  position: relative;
+  user-select: none;
+  transition: background 0.2s ease;
+}
+
+.tracker-month-display:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.month-icon {
+  font-size: 1.05rem;
+}
+
+.month-label-text {
+  letter-spacing: 0.5px;
+}
+
+.hidden-month-input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+/* 第二層：雙按鈕主要操作列 */
+.tracker-action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  width: 100%;
+}
+
+.tracker-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
   gap: 10px;
+  margin-bottom: 12px;
 }
 
 .stat-card {
@@ -882,6 +962,157 @@
 
 .stat-value.danger {
   color: #ef4444;
+}
+
+/* =========================================================================
+   📊 實作 1：各銀行消費與點數佔比摺疊統計 (Bank Breakdown Accordion)
+   ========================================================================= */
+.bank-breakdown-details {
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.bank-breakdown-details[open] {
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.bank-breakdown-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  cursor: pointer;
+  user-select: none;
+  background: rgba(255, 255, 255, 0.03);
+  transition: background 0.2s ease;
+}
+
+.bank-breakdown-summary:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.breakdown-summary-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.breakdown-bank-count {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+}
+
+.breakdown-toggle-arrow {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  transition: transform 0.25s ease;
+}
+
+.bank-breakdown-details[open] .breakdown-toggle-arrow {
+  transform: rotate(180deg);
+  color: var(--brand-primary);
+}
+
+.bank-breakdown-content {
+  padding: 10px 14px 14px;
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bank-breakdown-item {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bank-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bank-item-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.bank-item-amount {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.bank-progress-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.bank-progress-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.4s ease;
+}
+
+.bank-progress-fill.cathay {
+  background: linear-gradient(90deg, #10b981, #059669);
+}
+
+.bank-progress-fill.taishin {
+  background: linear-gradient(90deg, #8b5cf6, #6d28d9);
+}
+
+.bank-progress-fill.megabank {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+
+.bank-progress-fill.esun {
+  background: linear-gradient(90deg, #06b6d4, #0284c7);
+}
+
+.bank-progress-fill.default {
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+}
+
+.bank-item-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+}
+
+.bank-points-badge {
+  font-weight: 700;
+  color: var(--brand-accent);
+}
+
+.bank-percentage-badge {
+  color: var(--text-muted);
 }
 
 /* Filter Tabs */

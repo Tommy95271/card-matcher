@@ -61,6 +61,11 @@ export class UI {
     this.trackerModal = document.getElementById('tracker-modal');
     this.trackerCloseBtn = document.getElementById('tracker-close-btn');
     this.trackerMonthPicker = document.getElementById('tracker-month-picker');
+    this.trackerPrevMonthBtn = document.getElementById('tracker-prev-month');
+    this.trackerNextMonthBtn = document.getElementById('tracker-next-month');
+    this.trackerMonthLabel = document.getElementById('tracker-month-label');
+    this.bankBreakdownBadge = document.getElementById('bank-breakdown-badge');
+    this.bankBreakdownContent = document.getElementById('bank-breakdown-content');
     this.trackerAddEntryBtn = document.getElementById('tracker-add-entry-btn');
     this.trackerPullBtn = document.getElementById('tracker-pull-btn');
     this.statTotalAmount = document.getElementById('stat-total-amount');
@@ -431,10 +436,18 @@ export class UI {
       });
     }
 
+    if (this.trackerPrevMonthBtn) {
+      this.trackerPrevMonthBtn.addEventListener('click', () => this.changeMonth(-1));
+    }
+    if (this.trackerNextMonthBtn) {
+      this.trackerNextMonthBtn.addEventListener('click', () => this.changeMonth(1));
+    }
+
     if (this.trackerMonthPicker) {
       this.trackerMonthPicker.value = this.selectedYearMonth;
       this.trackerMonthPicker.addEventListener('change', (e) => {
         this.selectedYearMonth = e.target.value;
+        this.updateMonthLabel();
         this.renderTrackerLedger();
       });
     }
@@ -880,8 +893,40 @@ export class UI {
   // ==========================================
   // 對帳查核面板 Tracker Ledger Modal
   // ==========================================
+  changeMonth(delta) {
+    const [yearStr, monthStr] = this.selectedYearMonth.split('-');
+    let year = parseInt(yearStr, 10);
+    let month = parseInt(monthStr, 10) + delta;
+
+    if (month < 1) {
+      month = 12;
+      year -= 1;
+    } else if (month > 12) {
+      month = 1;
+      year += 1;
+    }
+
+    const newYM = `${year}-${String(month).padStart(2, '0')}`;
+    this.selectedYearMonth = newYM;
+    if (this.trackerMonthPicker) {
+      this.trackerMonthPicker.value = newYM;
+    }
+    this.updateMonthLabel();
+    this.renderTrackerLedger();
+  }
+
+  updateMonthLabel() {
+    if (this.trackerMonthLabel) {
+      const [y, m] = this.selectedYearMonth.split('-');
+      this.trackerMonthLabel.textContent = `${y}年${parseInt(m, 10)}月`;
+    }
+  }
+
   openTrackerModal() {
-    this.trackerMonthPicker.value = this.selectedYearMonth;
+    if (this.trackerMonthPicker) {
+      this.trackerMonthPicker.value = this.selectedYearMonth;
+    }
+    this.updateMonthLabel();
     this.renderTrackerLedger();
     this.trackerModal.classList.add('open');
   }
@@ -892,12 +937,66 @@ export class UI {
   }
 
   renderTrackerLedger() {
+    this.updateMonthLabel();
     const stats = tracker.getMonthlyStats(this.selectedYearMonth);
 
     this.statTotalAmount.textContent = `NT$ ${stats.totalAmount.toLocaleString()}`;
     this.statTotalPoints.textContent = `${stats.totalExpectedPoints.toLocaleString()} 點`;
     this.statPendingCount.textContent = `${stats.pendingCount} 筆`;
     this.statDiscrepancyCount.textContent = `${stats.discrepancyCount} 筆`;
+
+    // 渲染各銀行刷卡與點數分佈 (實作 1 方案 B)
+    if (this.bankBreakdownContent) {
+      const breakdown = stats.bankBreakdown || [];
+      if (this.bankBreakdownBadge) {
+        this.bankBreakdownBadge.textContent = `${breakdown.length} 家銀行/卡別`;
+      }
+
+      if (breakdown.length === 0) {
+        this.bankBreakdownContent.innerHTML = `
+          <div style="text-align: center; padding: 12px; color: var(--text-muted); font-size: 0.8rem;">
+            本月尚無消費紀錄
+          </div>
+        `;
+      } else {
+        this.bankBreakdownContent.innerHTML = breakdown.map((item) => {
+          let progressClass = 'default';
+          let icon = '💳';
+          if (item.cardId === 'cathay_cube' || (item.bank && item.bank.includes('國泰'))) {
+            progressClass = 'cathay';
+            icon = '🌲';
+          } else if (item.cardId === 'taishin_richart' || (item.bank && item.bank.includes('台新'))) {
+            progressClass = 'taishin';
+            icon = '🟣';
+          } else if (item.cardId === 'megabank_bt21' || (item.bank && item.bank.includes('兆豐'))) {
+            progressClass = 'megabank';
+            icon = '🐻';
+          } else if (item.cardId === 'esun_ubear' || (item.bank && item.bank.includes('玉山'))) {
+            progressClass = 'esun';
+            icon = '💳';
+          }
+
+          return `
+            <div class="bank-breakdown-item">
+              <div class="bank-item-top">
+                <div class="bank-item-name">
+                  <span>${icon}</span>
+                  <span>${item.bank} ${item.cardName}</span>
+                </div>
+                <div class="bank-item-amount">NT$ ${item.totalAmount.toLocaleString()}</div>
+              </div>
+              <div class="bank-progress-track">
+                <div class="bank-progress-fill ${progressClass}" style="width: ${item.percentage}%;"></div>
+              </div>
+              <div class="bank-item-bottom">
+                <span class="bank-points-badge">🎁 預期回饋：+${item.totalPoints.toLocaleString()} ${item.unit}${item.rewardName}</span>
+                <span class="bank-percentage-badge">佔比 ${item.percentage}% (${item.count} 筆)</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
 
     let filteredExpenses = stats.expenses;
     if (this.currentTrackerFilter !== 'all') {

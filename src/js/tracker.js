@@ -545,18 +545,51 @@ export class Tracker {
   }
 
   /**
-   * 取得月度統計資訊
+   * 取得月度統計資訊 (包含各銀行刷卡額與點數佔比分組)
    */
   getMonthlyStats(yearMonth) {
     const targetYM = yearMonth || new Date().toISOString().slice(0, 7); // e.g. '2026-09'
 
-    const monthExpenses = this.expenses.filter((e) => e.date.startsWith(targetYM));
+    const monthExpenses = this.expenses.filter((e) => e.date && e.date.startsWith(targetYM));
 
-    const totalAmount = monthExpenses.reduce((sum, e) => sum + e.amount, 0);
-    const totalExpectedPoints = monthExpenses.reduce((sum, e) => sum + e.expectedPoints, 0);
+    const totalAmount = monthExpenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+    const totalExpectedPoints = monthExpenses.reduce((sum, e) => sum + (e.expectedPoints || 0), 0);
     const pendingCount = monthExpenses.filter((e) => e.status === 'pending').length;
     const verifiedCount = monthExpenses.filter((e) => e.status === 'verified').length;
     const discrepancyCount = monthExpenses.filter((e) => e.status === 'discrepancy').length;
+
+    // 計算各銀行 / 卡別分組統計
+    const bankGroups = {};
+    monthExpenses.forEach((e) => {
+      const bankName = e.bank || '其他銀行';
+      const cardName = e.cardName || '信用卡';
+      const cardId = e.cardId || 'custom';
+      const key = `${bankName}__${cardName}`;
+
+      if (!bankGroups[key]) {
+        bankGroups[key] = {
+          bank: bankName,
+          cardName: cardName,
+          cardId: cardId,
+          totalAmount: 0,
+          totalPoints: 0,
+          unit: e.unit || '點',
+          rewardName: e.rewardName || '點數',
+          count: 0
+        };
+      }
+      bankGroups[key].totalAmount += (e.amount || 0);
+      bankGroups[key].totalPoints += (e.expectedPoints || 0);
+      bankGroups[key].count += 1;
+    });
+
+    const bankBreakdown = Object.values(bankGroups).map((item) => {
+      const percentage = totalAmount > 0 ? ((item.totalAmount / totalAmount) * 100).toFixed(1) : 0;
+      return {
+        ...item,
+        percentage: parseFloat(percentage)
+      };
+    }).sort((a, b) => b.totalAmount - a.totalAmount);
 
     return {
       yearMonth: targetYM,
@@ -566,6 +599,7 @@ export class Tracker {
       pendingCount,
       verifiedCount,
       discrepancyCount,
+      bankBreakdown,
       expenses: monthExpenses
     };
   }
