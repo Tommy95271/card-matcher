@@ -1354,11 +1354,23 @@ export class UI {
       reloadBtn.onclick = () => {
         reloadBtn.disabled = true;
         reloadBtn.textContent = '🔄 更新中...';
+        toast.style.opacity = '0.7';
+
         if (typeof onReload === 'function') {
-          onReload();
+          try {
+            onReload();
+          } catch (err) {
+            console.warn('onReload error, fallback to page reload:', err);
+            window.location.reload();
+          }
         } else {
           window.location.reload();
         }
+
+        // 雙重保證：400ms 後若頁面尚未重載，強制執行 reload
+        setTimeout(() => {
+          window.location.reload();
+        }, 400);
       };
     }
 

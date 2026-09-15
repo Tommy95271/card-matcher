@@ -16,7 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const promptNewVersion = (waitingWorker) => {
           ui.showPwaUpdatePrompt(() => {
-            waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+            if (waitingWorker) {
+              waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+            }
+            // 雙重保險：即使 controllerchange 事件延遲，也在 300ms 後強制 reload
+            setTimeout(() => {
+              window.location.reload();
+            }, 300);
           });
         };
 
