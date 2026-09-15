@@ -28,13 +28,30 @@ export class UI {
     this.modalCloseBtn = document.getElementById('modal-close-btn');
     this.cardsConfigList = document.getElementById('cards-config-list');
 
+    // 整合式一級個人與設定選單 DOM 元素
+    this.profileMenuContainer = document.getElementById('profile-menu-container');
+    this.profileMenuTrigger = document.getElementById('profile-menu-trigger');
+    this.profileDropdownMenu = document.getElementById('profile-dropdown-menu');
+    this.triggerUserAvatarWrap = document.getElementById('trigger-user-avatar-wrap');
+    this.triggerUserAvatar = document.getElementById('trigger-user-avatar');
+    this.triggerUserIcon = document.getElementById('trigger-user-icon');
+    this.triggerUserName = document.getElementById('trigger-user-name');
+    this.dropdownUserNameTitle = document.getElementById('dropdown-user-name-title');
+    this.dropdownUserStatusDesc = document.getElementById('dropdown-user-status-desc');
+    this.menuSettingsBtn = document.getElementById('menu-settings-btn');
+    this.menuChangelogBtn = document.getElementById('menu-changelog-btn');
+    this.menuAboutBtn = document.getElementById('menu-about-btn');
+    this.menuSynclogsBtn = document.getElementById('menu-synclogs-btn');
+    this.menuLoginBtn = document.getElementById('menu-login-btn');
+    this.menuLogoutBtn = document.getElementById('menu-logout-btn');
+
     // 開發日誌 (Changelog) DOM 元素
     this.openChangelogBtn = document.getElementById('open-changelog-btn');
     this.changelogModal = document.getElementById('changelog-modal');
     this.changelogCloseBtn = document.getElementById('changelog-close-btn');
     this.changelogTimelineList = document.getElementById('changelog-timeline-list');
 
-    // Google Auth & Firebase DOM 元素
+    // Google Auth & Firebase DOM 元素 (向下相容)
     this.googleLoginBtn = document.getElementById('google-login-btn');
     this.userProfileChip = document.getElementById('user-profile-chip');
     this.userAvatar = document.getElementById('user-avatar');
@@ -243,8 +260,64 @@ export class UI {
       });
     }
 
-    // 設定 Modal 開關
-    this.settingsBtn.addEventListener('click', () => this.openSettingsModal());
+    // 整合式一級個人與設定選單事件
+    if (this.profileMenuTrigger) {
+      this.profileMenuTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.toggleProfileMenu();
+      });
+    }
+    if (this.profileDropdownMenu) {
+      this.profileDropdownMenu.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    }
+    document.addEventListener('click', () => {
+      this.closeProfileMenu();
+    });
+
+    // 二級選單項目點擊事件
+    if (this.menuSettingsBtn) {
+      this.menuSettingsBtn.addEventListener('click', () => {
+        this.closeProfileMenu();
+        this.openSettingsModal();
+      });
+    }
+    if (this.menuChangelogBtn) {
+      this.menuChangelogBtn.addEventListener('click', () => {
+        this.closeProfileMenu();
+        this.openChangelogModal();
+      });
+    }
+    if (this.menuAboutBtn) {
+      this.menuAboutBtn.addEventListener('click', () => {
+        this.closeProfileMenu();
+        this.openAboutModal();
+      });
+    }
+    if (this.menuSynclogsBtn) {
+      this.menuSynclogsBtn.addEventListener('click', () => {
+        this.closeProfileMenu();
+        this.openSyncLogsModal();
+      });
+    }
+    if (this.menuLoginBtn) {
+      this.menuLoginBtn.addEventListener('click', () => {
+        this.closeProfileMenu();
+        this.handleGoogleLogin();
+      });
+    }
+    if (this.menuLogoutBtn) {
+      this.menuLogoutBtn.addEventListener('click', () => {
+        this.closeProfileMenu();
+        this.openLogoutModal();
+      });
+    }
+
+    // 設定 Modal 開關 (向下相容)
+    if (this.settingsBtn) {
+      this.settingsBtn.addEventListener('click', () => this.openSettingsModal());
+    }
     this.modalCloseBtn.addEventListener('click', () => this.closeSettingsModal());
     this.settingsModal.addEventListener('click', (e) => {
       if (e.target === this.settingsModal) this.closeSettingsModal();
@@ -383,8 +456,12 @@ export class UI {
       const target = e.target;
       const isInput = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT');
 
-      // 按 Escape 鍵關閉所有開啟中的彈窗
+      // 按 Escape 鍵關閉所有開啟中的彈窗或選單
       if (e.key === 'Escape') {
+        if (this.profileDropdownMenu && this.profileDropdownMenu.style.display !== 'none') {
+          this.closeProfileMenu();
+          return;
+        }
         if (this.changelogModal && this.changelogModal.classList.contains('open')) {
           this.closeChangelogModal();
           return;
@@ -1239,9 +1316,87 @@ export class UI {
   }
 
   // ==========================================
+  // 整合式個人與設定下拉選單控制
+  // ==========================================
+  toggleProfileMenu() {
+    if (!this.profileDropdownMenu) return;
+    const isClosed = this.profileDropdownMenu.style.display === 'none' || !this.profileDropdownMenu.style.display;
+    if (isClosed) {
+      this.openProfileMenu();
+    } else {
+      this.closeProfileMenu();
+    }
+  }
+
+  openProfileMenu() {
+    if (!this.profileDropdownMenu) return;
+    this.profileDropdownMenu.style.display = 'block';
+    if (this.profileMenuContainer) {
+      this.profileMenuContainer.classList.add('open');
+    }
+    if (this.profileMenuTrigger) {
+      this.profileMenuTrigger.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  closeProfileMenu() {
+    if (!this.profileDropdownMenu) return;
+    this.profileDropdownMenu.style.display = 'none';
+    if (this.profileMenuContainer) {
+      this.profileMenuContainer.classList.remove('open');
+    }
+    if (this.profileMenuTrigger) {
+      this.profileMenuTrigger.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  // ==========================================
   // Google Auth & Firebase 即時同步方法
   // ==========================================
   handleAuthState(user) {
+    // 1. 更新頂部一級選單 Trigger 膠囊狀態
+    if (user) {
+      if (this.triggerUserAvatarWrap) this.triggerUserAvatarWrap.style.display = 'flex';
+      if (this.triggerUserIcon) this.triggerUserIcon.style.display = 'none';
+      if (this.triggerUserAvatar) {
+        this.triggerUserAvatar.src = user.photoURL || 'https://www.gstatic.com/identity/boq/accountsettingsmobile/v1/avatar.svg';
+      }
+      if (this.triggerUserName) {
+        this.triggerUserName.textContent = user.displayName || user.email.split('@')[0];
+      }
+
+      // 2. 更新二級下拉選單頂部使用者資訊
+      if (this.dropdownUserNameTitle) {
+        this.dropdownUserNameTitle.textContent = user.displayName || 'Google 使用者';
+      }
+      if (this.dropdownUserStatusDesc) {
+        this.dropdownUserStatusDesc.textContent = `${user.email} • 🟢 雲端已連線`;
+      }
+
+      // 3. 切換二級選單底部按鈕 (隱藏登入，顯示登出)
+      if (this.menuLoginBtn) this.menuLoginBtn.style.display = 'none';
+      if (this.menuLogoutBtn) this.menuLogoutBtn.style.display = 'flex';
+    } else {
+      if (this.triggerUserAvatarWrap) this.triggerUserAvatarWrap.style.display = 'none';
+      if (this.triggerUserIcon) this.triggerUserIcon.style.display = 'flex';
+      if (this.triggerUserName) {
+        this.triggerUserName.textContent = '訪客 / 帳號';
+      }
+
+      // 2. 更新二級下拉選單頂部訪客資訊
+      if (this.dropdownUserNameTitle) {
+        this.dropdownUserNameTitle.textContent = '訪客模式';
+      }
+      if (this.dropdownUserStatusDesc) {
+        this.dropdownUserStatusDesc.textContent = '未登入 • 本機儲存';
+      }
+
+      // 3. 切換二級選單底部按鈕 (顯示登入，隱藏登出)
+      if (this.menuLoginBtn) this.menuLoginBtn.style.display = 'flex';
+      if (this.menuLogoutBtn) this.menuLogoutBtn.style.display = 'none';
+    }
+
+    // 向下相容支援舊版元件
     if (user) {
       if (this.googleLoginBtn) this.googleLoginBtn.style.display = 'none';
       if (this.userProfileChip) {

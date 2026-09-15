@@ -36,26 +36,86 @@
           <span class="logo-badge-pulse"></span>
         </button>
         <div class="header-utility-actions">
-          <!-- Google Auth & Profile Widget -->
-          <div id="auth-container" class="auth-container">
-            <button id="google-login-btn" class="google-login-btn" title="使用 Google 登入即時跨裝置同步帳本 (免設定)">
-              <svg class="google-icon" viewBox="0 0 24 24" width="16" height="16">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-              </svg>
-              <span class="auth-btn-text">登入同步</span>
+          <button id="theme-toggle-btn" class="icon-btn" title="切換為日間淺色模式" aria-label="切換主題">☀️</button>
+          
+          <!-- 整合式一級個人與設定選單 (Capsule Dropdown) -->
+          <div id="profile-menu-container" class="profile-menu-container">
+            <button id="profile-menu-trigger" class="profile-menu-trigger" aria-haspopup="true" aria-expanded="false" title="開啟個人與設定選單">
+              <div id="trigger-user-avatar-wrap" class="trigger-avatar-wrap" style="display: none;">
+                <img id="trigger-user-avatar" class="trigger-avatar" src="" alt="Avatar" />
+              </div>
+              <span id="trigger-user-icon" class="trigger-icon">👤</span>
+              <span id="trigger-user-name" class="trigger-name">訪客 / 帳號</span>
+              <span class="trigger-chevron">▾</span>
             </button>
-            <div id="user-profile-chip" class="user-profile-chip" style="display: none;">
-              <img id="user-avatar" class="user-avatar" src="" alt="Avatar" />
-              <span id="user-name" class="user-name"></span>
-              <button id="user-logout-btn" class="user-logout-btn" title="登出 Google 帳號">🚪</button>
+
+            <!-- 二級下拉選單 (Dropdown Menu) -->
+            <div id="profile-dropdown-menu" class="profile-dropdown-menu" style="display: none;">
+              <!-- 帳號狀態頂部區塊 -->
+              <div class="dropdown-header">
+                <div class="dropdown-user-info">
+                  <div id="dropdown-user-name-title" class="dropdown-user-name">訪客模式</div>
+                  <div id="dropdown-user-status-desc" class="dropdown-user-status">未登入 • 本機儲存</div>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+
+              <!-- 常用設定與功能清單 -->
+              <div class="dropdown-menu-list">
+                <button id="menu-settings-btn" class="dropdown-menu-item" type="button">
+                  <span class="menu-item-icon">💳</span>
+                  <div class="menu-item-text">
+                    <span class="menu-item-title">卡片與等級設定</span>
+                    <span class="menu-item-desc">啟用持卡、設定 CUBE/Richart 等級</span>
+                  </div>
+                </button>
+
+                <button id="menu-changelog-btn" class="dropdown-menu-item" type="button">
+                  <span class="menu-item-icon">📜</span>
+                  <div class="menu-item-text">
+                    <span class="menu-item-title">系統開發日誌</span>
+                    <span class="menu-item-desc">查看最新版本更新與功能歷程</span>
+                  </div>
+                </button>
+
+                <button id="menu-about-btn" class="dropdown-menu-item" type="button">
+                  <span class="menu-item-icon">ℹ️</span>
+                  <div class="menu-item-text">
+                    <span class="menu-item-title">關於專案與支援卡片</span>
+                    <span class="menu-item-desc">2026 國泰/台新/玉山/兆豐權益</span>
+                  </div>
+                </button>
+
+                <button id="menu-synclogs-btn" class="dropdown-menu-item" type="button">
+                  <span class="menu-item-icon">📋</span>
+                  <div class="menu-item-text">
+                    <span class="menu-item-title">同步除錯日誌</span>
+                    <span class="menu-item-desc">檢視 Google / Notion 連線診斷</span>
+                  </div>
+                </button>
+              </div>
+
+              <div class="dropdown-divider"></div>
+
+              <!-- 登入 / 登出 底部動作項目 -->
+              <div class="dropdown-footer">
+                <button id="menu-login-btn" class="dropdown-action-btn login-action" type="button">
+                  <svg class="google-icon" viewBox="0 0 24 24" width="16" height="16">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                  </svg>
+                  <span>使用 Google 登入同步</span>
+                </button>
+
+                <button id="menu-logout-btn" class="dropdown-action-btn logout-action" type="button" style="display: none;">
+                  <span>🚪</span>
+                  <span>登出 Google 帳號</span>
+                </button>
+              </div>
             </div>
           </div>
-
-          <button id="theme-toggle-btn" class="icon-btn" title="切換為日間淺色模式" aria-label="切換主題">☀️</button>
-          <button id="settings-btn" class="icon-btn" title="設定我的卡片與等級" aria-label="設定">⚙️</button>
         </div>
       </div>
 

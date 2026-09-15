@@ -3,6 +3,28 @@
  */
 export const CHANGELOG_DATA = [
   {
+    version: 'v2026.4.0',
+    date: '2026-09-15',
+    title: '頂部導覽列整合：單一入口個人與二級下拉選單',
+    highlights: [
+      {
+        tag: 'feat',
+        label: '✨ 導覽整合',
+        desc: '將原先分散之 Google 帳號狀態與設定按鈕整合成單一個人膠囊按鈕，點擊展開精緻二級下拉選單。'
+      },
+      {
+        tag: 'ui',
+        label: '🎨 靜奢下拉',
+        desc: '採用 Taste Skill v2 啞光微毛玻璃卡片、細緻 1px 邊框與浮層進場微動畫，並支援點擊外部與 Escape 鍵關閉。'
+      },
+      {
+        tag: 'ux',
+        label: '💡 體驗強化',
+        desc: '選單內整合持卡設定、系統開發日誌、專案介紹、同步除錯日誌與 Google 登入/登出快速入口。'
+      }
+    ]
+  },
+  {
     version: 'v2026.3.2',
     date: '2026-09-15',
     title: '淺色模式純淨重構與人機互動體驗優化',
