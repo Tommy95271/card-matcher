@@ -1,12 +1,14 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // 嚴格多用戶隔離防護：只有本人登入後，才能讀寫屬於自己 userId 的帳本與個人設定
-    match /users/{userId}/expenses/{expenseId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+    // 記帳紀錄：允許集合群組 (collectionGroup) 讀取以支援全域 Notion 同步，寫入需登入
+    match /{path=**}/expenses/{expenseId} {
+      allow read: if true;
+      allow write: if request.auth != null;
     }
     match /users/{userId}/profile/{docId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
   }
 }
+

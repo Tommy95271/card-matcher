@@ -56,20 +56,63 @@ async function fetchAllNotionRecordIds() {
 async function run() {
   try {
     const existingNotionIds = await fetchAllNotionRecordIds();
+    let recordsToSync = [];
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    // 1. 嘗試讀取本地 src/data/expenses.json
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      const localExpPath = path.resolve('src/data/expenses.json');
+      if (fs.existsSync(localExpPath)) {
+        const raw = fs.readFileSync(localExpPath, 'utf-8');
+        const parsed = JSON.parse(raw || '[]');
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          console.log(`📄 找到本地 expenses.json，包含 ${parsed.length} 筆紀錄`);
+          recordsToSync.push(...parsed);
+        }
+      }
+    } catch (e) {
+      console.warn('讀取本地 expenses.json 略過:', e.message);
+    }
 
-    console.log('📥 正在從 Firebase Firestore (collectionGroup: expenses) 讀取所有人紀錄...');
-    const snapshot = await getDocs(collectionGroup(db, 'expenses'));
-    console.log(`📦 Firestore 共找到 ${snapshot.docs.length} 筆消費紀錄`);
+    // 2. 嘗試從 Firebase Firestore 讀取所有使用者紀錄
+    try {
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      console.log('📥 正在從 Firebase Firestore (collectionGroup: expenses) 讀取所有人紀錄...');
+      const snapshot = await getDocs(collectionGroup(db, 'expenses'));
+      console.log(`📦 Firestore 共找到 ${snapshot.docs.length} 筆消費紀錄`);
+      snapshot.docs.forEach((doc) => {
+        recordsToSync.push({ id: doc.id, ...doc.data() });
+      });
+    } catch (fbErr) {
+      if (fbErr.code === 'permission-denied') {
+        console.warn('\n⚠️ 注意：Firestore 目前處於個人隔離安全規則，無法透過未驗證的 Node 腳本全域跨帳號讀取。');
+        console.warn('💡 提示：日常記帳在網頁/手機 PWA 登入狀態下記帳會【自動即時秒同步至中央 Notion】，無需執行本腳本！');
+        if (recordsToSync.length === 0) {
+          console.log('若需匯入本地資料，請將紀錄放置於 src/data/expenses.json 後再執行一次。');
+        }
+      } else {
+        console.warn('讀取 Firestore 失敗:', fbErr.message);
+      }
+    }
+
+    // 去重
+    const uniqueRecords = [];
+    const seenIds = new Set();
+    for (const r of recordsToSync) {
+      const rId = r.id || r.notionPageId || `${r.date}_${r.amount}_${r.merchantName}`;
+      if (!seenIds.has(rId)) {
+        seenIds.add(rId);
+        uniqueRecords.push(r);
+      }
+    }
 
     let syncedCount = 0;
     let skippedCount = 0;
 
-    for (const doc of snapshot.docs) {
-      const data = doc.data();
-      const expenseId = data.id || doc.id;
+    for (const data of uniqueRecords) {
+      const expenseId = data.id || data.notionPageId || '';
 
       if (existingNotionIds.has(expenseId)) {
         skippedCount++;
