@@ -58,9 +58,9 @@
   --badge-bg: rgba(255, 255, 255, 0.05);
   --badge-border: rgba(255, 255, 255, 0.09);
 
-  --pitfall-bg: rgba(244, 63, 94, 0.1);
-  --pitfall-border: rgba(244, 63, 94, 0.3);
-  --pitfall-text: #fda4af;
+  --pitfall-bg: rgba(217, 119, 6, 0.12);
+  --pitfall-border: rgba(245, 158, 11, 0.45);
+  --pitfall-text: #fef3c7;
 
   --banner-best-bg: #161a22;
   --banner-best-border: rgba(16, 185, 129, 0.4);
@@ -94,9 +94,9 @@
   --badge-bg: rgba(0, 0, 0, 0.04);
   --badge-border: rgba(0, 0, 0, 0.08);
 
-  --pitfall-bg: #fff1f2;
-  --pitfall-border: #fecdd3;
-  --pitfall-text: #e11d48;
+  --pitfall-bg: #fffbeb;
+  --pitfall-border: #fcd34d;
+  --pitfall-text: #92400e;
 
   --banner-best-bg: #f0fdf4;
   --banner-best-border: #86efac;

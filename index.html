@@ -122,7 +122,7 @@
       <div class="header-main-actions">
         <button id="tracker-btn" class="header-action-btn tracker-action-btn" title="開啟點數對帳與查核中心" aria-label="對帳查核">
           <span>📊</span>
-          <span class="btn-label">對帳查核中心</span>
+          <span class="btn-label">對帳中心</span>
           <span id="tracker-badge-count" class="badge-count" style="display: none;">0</span>
         </button>
         <button id="quick-log-btn" class="header-action-btn quick-log-action-btn" title="手動新增一筆消費" aria-label="記帳">
@@ -150,49 +150,50 @@
 
     <!-- Category Pills -->
     <nav class="category-pills-container" id="category-pills" aria-label="消費分類">
-      <button class="category-pill active" data-category="all">✨ 全部通路</button>
-      <button class="category-pill" data-category="四大超商">🏪 四大超商</button>
-      <button class="category-pill" data-category="量販超市">🛒 量販超市</button>
-      <button class="category-pill" data-category="網購電商">💻 網購電商</button>
-      <button class="category-pill" data-category="美食餐飲">🍽️ 美食餐飲</button>
-      <button class="category-pill" data-category="外送平台">🛵 外送平台</button>
-      <button class="category-pill" data-category="百貨商場">🛍️ 百貨商場</button>
-      <button class="category-pill" data-category="交通旅遊">🚄 交通旅遊</button>
-      <button class="category-pill" data-category="海外消費">🛫 海外日韓</button>
-      <button class="category-pill" data-category="影音娛樂">🎬 影音娛樂</button>
-      <button class="category-pill" data-category="生活繳費">💧 生活繳費</button>
+      <button class="category-pill active" data-category="all">全部</button>
+      <button class="category-pill" data-category="四大超商">超商</button>
+      <button class="category-pill" data-category="量販超市">量販超市</button>
+      <button class="category-pill" data-category="網購電商">網購電商</button>
+      <button class="category-pill" data-category="美食餐飲">美食餐飲</button>
+      <button class="category-pill" data-category="外送平台">外送平台</button>
+      <button class="category-pill" data-category="百貨商場">百貨商場</button>
+      <button class="category-pill" data-category="交通旅遊">交通旅遊</button>
+      <button class="category-pill" data-category="海外消費">海外日韓</button>
+      <button class="category-pill" data-category="影音娛樂">影音娛樂</button>
+      <button class="category-pill" data-category="生活繳費">生活繳費</button>
     </nav>
 
-    <!-- Today's Scheme Lock Status Bar -->
-    <section class="today-status-bar" aria-label="今日方案鎖定狀態">
-      <div class="today-status-title">
-        <span>⚡ 今日已鎖定方案：</span>
-      </div>
-      <div class="today-selectors">
-        <div class="today-selector-group">
-          <span>國泰 CUBE:</span>
-          <select id="cube-today-scheme">
-            <option value="digital">玩數位</option>
-            <option value="dining">樂饗購</option>
-            <option value="travel">趣旅行</option>
-            <option value="essentials">集精選</option>
-            <option value="birthday">慶生月</option>
-            <option value="kids">童樂匯</option>
-            <option value="fixed">固定回饋</option>
-          </select>
-        </div>
-        <div class="today-selector-group">
-          <span>台新 Richart:</span>
-          <select id="taishin-today-scheme">
-            <option value="daily">天天刷 (3.3%)</option>
-            <option value="chill">Chill 刷 (10%)</option>
-            <option value="pay">Pay 著刷 (3.8%)</option>
-            <option value="big_spending">大筆刷 (3.3%)</option>
-            <option value="gourmet">好饗刷 (3.3%)</option>
-            <option value="digital_fun">數趣刷 (3.3%)</option>
-            <option value="travel_fun">玩旅刷 (3.3%)</option>
-            <option value="holiday">假日刷 (2.0%)</option>
-          </select>
+    <!-- Today's Scheme Lock Capsule Bar -->
+    <section class="today-capsule-bar" aria-label="今日方案鎖定狀態">
+      <div class="today-capsule-inner">
+        <span class="today-capsule-badge">今日方案</span>
+        <div class="today-capsule-selectors">
+          <div class="today-capsule-item">
+            <span class="capsule-label">CUBE</span>
+            <select id="cube-today-scheme" class="capsule-select" title="選擇國泰 CUBE 今日鎖定方案">
+              <option value="digital">玩數位 (3.3%)</option>
+              <option value="dining">樂饗購 (3.3%)</option>
+              <option value="travel">趣旅行 (3.3%)</option>
+              <option value="essentials">集精選 (3.0%)</option>
+              <option value="birthday">慶生月 (3.5%~10%)</option>
+              <option value="kids">童樂匯 (3.3%)</option>
+              <option value="fixed">固定回饋 (0.3%)</option>
+            </select>
+          </div>
+          <span class="capsule-divider">•</span>
+          <div class="today-capsule-item">
+            <span class="capsule-label">Richart</span>
+            <select id="taishin-today-scheme" class="capsule-select" title="選擇台新 Richart 今日鎖定方案">
+              <option value="daily">天天刷 (3.3%)</option>
+              <option value="chill">Chill 刷 (10%)</option>
+              <option value="pay">Pay 著刷 (3.8%)</option>
+              <option value="big_spending">大筆刷 (3.3%)</option>
+              <option value="gourmet">好饗刷 (3.3%)</option>
+              <option value="digital_fun">數趣刷 (3.3%)</option>
+              <option value="travel_fun">玩旅刷 (3.3%)</option>
+              <option value="holiday">假日刷 (2.0%)</option>
+            </select>
+          </div>
         </div>
       </div>
     </section>

@@ -735,13 +735,13 @@ export class UI {
   renderMerchantCard(evalResult, profile) {
     const { merchant, bestCard, allCards } = evalResult;
 
-    // 雷區警語 HTML
+    // 雷區警語 HTML (醒目高對比，重要防呆限制)
     const pitfallHtml = merchant.isPitfall && merchant.pitfallWarning ? `
       <div class="pitfall-banner">
         <span class="pitfall-icon">⚠️</span>
-        <div>
-          <strong>防呆避坑提示：</strong>
-          ${merchant.pitfallWarning}
+        <div class="pitfall-content">
+          <strong class="pitfall-title">避坑防呆提醒：</strong>
+          <span>${merchant.pitfallWarning}</span>
         </div>
       </div>
     ` : '';
@@ -757,7 +757,7 @@ export class UI {
       bestHeroHtml = `
         <div class="best-card-banner">
           <div class="best-card-header-row">
-            <div class="best-card-badge">👑 首選推薦卡片</div>
+            <div class="best-card-badge">首選推薦</div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <button 
                 class="quick-log-card-btn" 
@@ -768,7 +768,7 @@ export class UI {
                 title="以此方案快速記一筆">
                 ⚡ 記一筆
               </button>
-              ${bestCard.officialUrl ? `<a href="${bestCard.officialUrl}" target="_blank" rel="noopener noreferrer" class="official-link-btn" title="查看 ${bestCard.bank} ${bestCard.cardName} 官方權益公告">🔗 官方權益 ↗</a>` : ''}
+              ${bestCard.officialUrl ? `<a href="${bestCard.officialUrl}" target="_blank" rel="noopener noreferrer" class="official-link-btn" title="查看 ${bestCard.bank} ${bestCard.cardName} 官方權益公告">官方權益 ↗</a>` : ''}
             </div>
           </div>
           <div class="best-card-main">
@@ -776,7 +776,7 @@ export class UI {
               <span class="best-card-icon">${bestCard.icon}</span>
               <div>
                 <div class="best-card-name">${bestCard.bank} ${bestCard.cardName}</div>
-                <div class="best-scheme-name">🎯 適用方案：${bestCard.schemeName}</div>
+                <div class="best-scheme-name">適用方案：${bestCard.schemeName}</div>
               </div>
             </div>
             <div class="best-rate-badge">
@@ -790,16 +790,15 @@ export class UI {
       `;
     }
 
-    // 其他卡片方案明細 HTML
+    // 其他卡片方案明細 HTML (預設摺疊收合)
     const otherCards = allCards.filter((c) => !bestCard || c.cardId !== bestCard.cardId);
     const otherCardsHtml = otherCards.length > 0 ? `
       <details class="scheme-breakdown-details">
         <summary class="details-summary">
           <span style="display: flex; align-items: center; gap: 6px;">
-            <span>📊</span>
             <span>查看其他 <strong>${otherCards.length}</strong> 張卡方案對照</span>
           </span>
-          <span style="font-size: 0.75rem; opacity: 0.9;">展開對照 ▼</span>
+          <span class="details-chevron">展開對照 ▼</span>
         </summary>
         <div class="other-cards-list">
           ${otherCards.map((c) => `
@@ -817,7 +816,7 @@ export class UI {
                     title="以此卡記一筆">
                     ⚡ 記
                   </button>
-                  ${c.officialUrl ? `<a href="${c.officialUrl}" target="_blank" rel="noopener noreferrer" class="official-link-btn-small" title="查看官方權益公告">🔗 官方 ↗</a>` : ''}
+                  ${c.officialUrl ? `<a href="${c.officialUrl}" target="_blank" rel="noopener noreferrer" class="official-link-btn-small" title="查看官方權益公告">官方 ↗</a>` : ''}
                   <span class="other-card-rate">${c.rate}%</span>
                 </div>
               </div>
