@@ -451,8 +451,38 @@ sequenceDiagram
       </pre>
     </div>
 
-    <h3>4.3 GitHub Actions ⇄ Google Apps Script CI/CD 自動化流程</h3>
-    <p>結合 Google 官方 <code>clasp</code> CLI 工具與 GitHub Secrets 憑證，只要 <code>gas-backend/</code> 程式碼有所變更，GitHub Actions 自動於雲端執行 <code>clasp push</code> 與 <code>clasp deploy</code>，後端程式碼完全免手動複製貼上！</p>
+    <h3>4.3 GitHub Actions ⇄ Google Apps Script (Clasp) 自動化部署管道</h3>
+    <div class="alert-box alert-info">
+      <strong>什麼是 <code>clasp</code>？</strong><br>
+      <code>clasp</code>（<strong>C</strong>ommand <strong>L</strong>ine <strong>A</strong>pps <strong>S</strong>cript <strong>P</strong>rojects）是 Google 官方推出的指令列工具，專門用來解決 Google Apps Script 傳統只能在網頁編輯器手動修改、無法與 Git 結合的痛點。
+    </div>
+    <div class="diagram-box">
+      <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Dev as 👨‍💻 開發者
+    participant GH as 🐙 GitHub Repository (main)
+    participant GA as ⚙️ GitHub Actions (CI/CD Runner)
+    participant Clasp as 🤖 Google Clasp CLI
+    participant GAS as ☁️ Google Apps Script Cloud Engine
+    participant Webhook as 🔗 既有 Webhook Endpoint
+
+    Dev->>GH: git push origin main (包含 gas-backend/)
+    GH->>GA: 觸發 deploy-gas.yml
+    GA->>GA: 📦 安裝 @google/clasp 全域工具
+    GA->>GA: 🔑 從 GitHub Secrets 注入 CLASPRC_JSON (OAuth 憑證)
+    GA->>Clasp: clasp push --force (同步 Code.gs & appsscript.json)
+    Clasp->>GAS: 上傳覆蓋雲端程式碼
+    GA->>Clasp: clasp deploy -i <DEPLOYMENT_ID> -d "CI/CD Auto Deploy"
+    Clasp->>GAS: 發布新版本至現有部署作業
+    GAS-->>Webhook: 維持原 Webhook URL 不變，功能立即生效！
+      </pre>
+    </div>
+    <ul>
+      <li><strong>本地代碼管理與 Git 整合</strong>：所有後端邏輯（<code>Code.gs</code>、<code>appsscript.json</code>）均納入 Git 進行精確版本追蹤。</li>
+      <li><strong>自動化 OAuth 憑證注入</strong>：本機執行一次 <code>clasp login</code> 產生憑證後寫入 GitHub Secrets，雲端自動授權發布。</li>
+      <li><strong>無感升級 (Zero-Downtime Deployment)</strong>：指定部署 ID 讓 Webhook URL 永遠維持同一串網址，前端 <code>localStorage</code> 完全無需更動設定。</li>
+    </ul>
   </section>
 
   <!-- Phase 5 -->
@@ -507,6 +537,13 @@ sequenceDiagram
       • <strong>專屬獨立根網域</strong>：擁有乾淨頂層網域（<code>card-matcher-2026.web.app</code>），根除 SPA 路由子路徑問題。<br>
       • <strong>同源 Edge CDN 邊緣加速</strong>：與 Firebase Auth / Firestore 同處 Google 全球骨幹網路，快取與存取速度顯著提升。<br>
       • <strong>全自動 CI/CD</strong>：結合 GCP 服務帳號金鑰與 GitHub Actions，達成 <code>git push</code> 即全自動雲端建置發布。
+    </div>
+
+    <div class="alert-box alert-info">
+      <strong>ADR-006：為什麼引入 Google clasp 實現 Google Apps Script 的 CI/CD 自動化？</strong><br>
+      • <strong>程式碼即基礎設施 (Code as Single Source of Truth)</strong>：<code>gas-backend/Code.gs</code> 本地化管理，每一次更動皆受 Git 精確版本控管。<br>
+      • <strong>雙軌自動化發布</strong>：只要 <code>git push origin main</code>，前端自動發布至 Firebase Hosting，後端 GAS 自動透過 <code>clasp push</code> 與 <code>clasp deploy</code> 上傳部署。<br>
+      • <strong>固定 Webhook URL</strong>：自動升級原有部署作業，使用者 Webhook 網址永遠維持不變。
     </div>
   </section>
 

@@ -43,6 +43,34 @@
 
 ---
 
+## 🤖 進階：使用 Google 官方 `clasp` 工具進行本地開發與 CI/CD 自動化
+
+### 什麼是 `clasp`？
+**`clasp`**（**C**ommand **L**ine **A**pps **S**cript **P**rojects）是 Google 官方維護的開放原始碼 CLI 命令列工具（`@google/clasp`），讓開發者能：
+1. **本機代碼編輯與 Git 版控**：直接在 VSCode 等編輯器中開發 `.gs` 程式碼與 `appsscript.json` 設定檔，不再受限於網頁瀏覽器編輯器。
+2. **終端機一鍵推播與發布**：
+   - `clasp push`：將本地程式碼一鍵同步到 Google 雲端。
+   - `clasp deploy`：直接發布新版本至現有的 Webhook 部署（維持 URL 網址不變）。
+3. **無縫整合 GitHub Actions CI/CD**：只要 `git push origin main`，GitHub Actions 雲端虛擬機便會自動執行 `clasp push` 與 `clasp deploy`，達成全自動化雙軌發布。
+
+### 本地常用 `clasp` 指令：
+```bash
+# 1. 全域安裝 clasp
+npm install -g @google/clasp
+
+# 2. 登入 Google 帳號授權
+clasp login
+
+# 3. 進入後端目錄並推播代碼至 Google Apps Script
+cd gas-backend
+clasp push --force
+
+# 4. 發布新版本至現有 Webhook (保持前端 URL 不變)
+clasp deploy -i AKfycbywAMmhP29lGDx7WN_H5JghdWtack82dYYFtwTpW5rGWHlu1HI2tn81xDDyhhWjssMv -d "v1.2 Release"
+```
+
+---
+
 ## 🛠️ API 規格說明
 
 ### 1. `POST /`

@@ -93,12 +93,36 @@ timeline
 - 建立 `.github/workflows/firebase-hosting-merge.yml`：
   - 只要 `git push origin main`，GitHub Actions 雲端虛擬機全自動執行 `npm ci` ➔ `npm run build` ➔ `Firebase Hosting Deploy`。
 
-### 4.3 GitHub Actions ⇄ Google Apps Script 自動化部署管道
-- 採用 Google 官方 `@google/clasp` CLI 工具。
-- 將 OAuth 憑證以加密密鑰寫入 GitHub Secrets（`CLASPRC_JSON`）。
-- 建立 `.github/workflows/deploy-gas.yml`：
-  - 當 `gas-backend/` 程式碼有任何異動推送到 `main` 時，GitHub Actions 自動安裝 clasp ➔ 注入憑證 ➔ `clasp push --force` ➔ `clasp deploy` 更新現有 Webhook 部署。
-  - **成果**：後端程式碼從此不需手動複製貼上到網頁編輯器，推送 Git 即全自動完成 Google 雲端部署！
+### 4.3 GitHub Actions ⇄ Google Apps Script (Clasp) 自動化部署管道
+
+#### 什麼是 `clasp`？
+**`clasp`**（**C**ommand **L**ine **A**pps **S**cript **P**rojects）是 Google 官方推出的指令列工具，專門用來解決 Google Apps Script 傳統只能在網頁編輯器手動修改、無法與 Git 結合的痛點。
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Dev as 👨‍💻 開發者
+    participant GH as 🐙 GitHub Repository (main)
+    participant GA as ⚙️ GitHub Actions (CI/CD Runner)
+    participant Clasp as 🤖 Google Clasp CLI
+    participant GAS as ☁️ Google Apps Script Cloud Engine
+    participant Webhook as 🔗 既有 Webhook Endpoint
+
+    Dev->>GH: git push origin main (包含 gas-backend/)
+    GH->>GA: 觸發 deploy-gas.yml
+    GA->>GA: 📦 安裝 @google/clasp 全域工具
+    GA->>GA: 🔑 從 GitHub Secrets 注入 CLASPRC_JSON (OAuth 憑證)
+    GA->>Clasp: clasp push --force (同步 Code.gs & appsscript.json)
+    Clasp->>GAS: 上傳覆蓋雲端程式碼
+    GA->>Clasp: clasp deploy -i <DEPLOYMENT_ID> -d "CI/CD Auto Deploy"
+    Clasp->>GAS: 發布新版本至現有部署作業
+    GAS-->>Webhook: 維持原 Webhook URL 不變，功能立即生效！
+```
+
+#### 核心優勢與效益：
+1. **本機代碼管理與 Git 整合**：所有後端邏輯（`Code.gs`、`appsscript.json`）均納入 Git 進行精確版本追蹤。
+2. **自動化 OAuth 憑證注入**：本機執行一次 `clasp login` 產生 `~/.clasprc.json` 後，將憑證加密寫入 GitHub Secrets（`CLASPRC_JSON`），讓雲端 Runner 具備合法發布權限。
+3. **無感升級 (Zero-Downtime Deployment)**：指定部署 ID (`clasp deploy -i ...`) 讓 Webhook URL 永遠維持同一串網址，前端 `localStorage` 完全無需更動設定。
 
 ---
 
@@ -172,10 +196,21 @@ timeline
 
 ---
 
+### ADR-006: 為什麼引入 Google clasp 實現 Google Apps Script 的 CI/CD 自動化？
+- **背景**：GAS 傳統開發必須手動開啟瀏覽器網頁編輯器複製貼上程式碼，無法進行本地 VSCode 開發、Git 版本控管，且容易在手動發布新版本時產生人為疏失或忘記更新部署版本。
+- **決策**：引入 Google 官方 `@google/clasp` CLI 工具，並在 GitHub Actions 配置 `deploy-gas.yml`。
+- **效益**：
+  1. **程式碼即基礎設施 (Code as Single Source of Truth)**：`gas-backend/Code.gs` 與 `appsscript.json` 本地化，每一次修改均受 Git Commit 嚴密追蹤。
+  2. **雙軌一鍵自動化發布**：只要 `git push origin main`，前端自動發布至 Firebase Hosting，後端 GAS 自動透過 `clasp push` 與 `clasp deploy` 發布至 Google 雲端。
+  3. **固定 Webhook URL (Zero Reconfiguration)**：透過指定原有 Deployment ID，自動升級線上 Web App 版本，使用者既有的 Webhook URL 永遠無需重新設定。
+
+---
+
 ## 📊 專案關鍵資源與連結
 
 - 🌐 **線上產品環境**：[https://card-matcher-2026.web.app](https://card-matcher-2026.web.app)
 - 🐙 **GitHub 原始碼庫**：[Tommy95271/card-matcher](https://github.com/Tommy95271/card-matcher)
 - ⚡ **Google Apps Script 後端原始碼**：[`gas-backend/Code.gs`](file:///d:/Personal/Cards/card-matcher/gas-backend/Code.gs)
 - 🔒 **Cloud Firestore 安全規則**：[`firestore.rules`](file:///d:/Personal/Cards/card-matcher/firestore.rules)
-- ⚙️ **CI/CD 自動化部署設定**：[`.github/workflows/firebase-hosting-merge.yml`](file:///d:/Personal/Cards/card-matcher/.github/workflows/firebase-hosting-merge.yml)
+- ⚙️ **前端 CI/CD 自動化部署設定**：[`.github/workflows/firebase-hosting-merge.yml`](file:///d:/Personal/Cards/card-matcher/.github/workflows/firebase-hosting-merge.yml)
+- 🤖 **GAS 後端 CI/CD 自動化部署設定**：[`.github/workflows/deploy-gas.yml`](file:///d:/Personal/Cards/card-matcher/.github/workflows/deploy-gas.yml)

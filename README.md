@@ -76,11 +76,29 @@ sequenceDiagram
     Client->>FB: 載入最新版 https://card-matcher-2026.web.app
 ```
 
-### 💡 部署模式說明
-- **雲端 CI/CD 自動部署（目前主要途徑）**：
-  任何程式碼推播至 `main` 分支時，GitHub Actions 會在雲端 Ubuntu 虛擬機自動完成安裝依賴、建置打包（Vite），並藉由儲存庫 Secret（`FIREBASE_SERVICE_ACCOUNT_CARD_MATCHER_2026`）自動發布至 Firebase CDN。
-- **本地手動部署（備用途徑）**：
-  亦可在本地開發機執行 `npm run build && npx firebase-tools deploy --only hosting` 直接更新。
+### 💡 雙軌 CI/CD 部署模式說明
+- **前端 (Firebase Hosting)**：
+  任何程式碼推播至 `main` 分支時，GitHub Actions 自動建置打包（Vite），並藉由儲存庫 Secret（`FIREBASE_SERVICE_ACCOUNT_CARD_MATCHER_2026`）自動發布至 Firebase 全球 CDN。
+- **後端 (Google Apps Script / Clasp)**：
+  當 `gas-backend/` 目錄有異動時，GitHub Actions 觸發 `deploy-gas.yml`，透過 `@google/clasp` 與 GitHub Secret（`CLASPRC_JSON`）自動將程式碼同步上傳（`clasp push`）並發布至既有 Webhook 部署（`clasp deploy`），免手動複製貼上！
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Dev as 👨‍💻 開發者
+    participant GH as 🐙 GitHub Repository (main)
+    participant GA as ⚙️ GitHub Actions (CI/CD)
+    participant Clasp as 🤖 Google Clasp CLI
+    participant GAS as ☁️ Google Apps Script (Cloud)
+
+    Dev->>GH: git push origin main (gas-backend/)
+    GH->>GA: 觸發 deploy-gas.yml
+    GA->>GA: 🔑 注入 CLASPRC_JSON (OAuth Token)
+    GA->>Clasp: clasp push --force
+    Clasp->>GAS: 更新雲端 Code.gs
+    GA->>Clasp: clasp deploy -i <DEPLOY_ID>
+    Clasp->>GAS: 升級線上 Web App 版本 (URL 不變)
+```
 
 ---
 
@@ -105,6 +123,18 @@ npm run build
 ### 4. 本地部署至 Firebase Hosting
 ```bash
 npx firebase-tools deploy --only hosting
+```
+
+### 5. Google Apps Script (`clasp`) 本地管理
+```bash
+# 登入 Google 帳號 (首次需登入)
+npx @google/clasp login
+
+# 將本地 gas-backend/ 程式碼推送到 Google 雲端
+cd gas-backend && npx @google/clasp push
+
+# 部署新版本至既有 Webhook (保持 URL 不變)
+npx @google/clasp deploy -i <DEPLOYMENT_ID> -d "Release Description"
 ```
 
 ---
