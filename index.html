@@ -31,13 +31,10 @@
     <!-- Header -->
     <header class="app-header">
       <div class="header-top-row">
-        <div class="logo-area">
-          <div class="logo-icon">💳</div>
-          <div class="logo-text">
-            <h1>信用卡方案速查</h1>
-            <p>2026 國泰 CUBE • 台新 • 玉山 • 兆豐</p>
-          </div>
-        </div>
+        <button id="brand-logo-btn" class="brand-logo-btn" title="點擊查看 2026 支援卡片與專案介紹" aria-label="關於專案與支援方案">
+          <div class="logo-icon-card">💳</div>
+          <span class="logo-badge-pulse"></span>
+        </button>
         <div class="header-utility-actions">
           <!-- Google Auth & Profile Widget -->
           <div id="auth-container" class="auth-container">
@@ -323,9 +320,66 @@
     </div>
   </div>
 
+  <!-- About & Supported Cards Modal -->
+  <div id="about-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card modal-card-large" style="max-width: 600px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.6rem;">💳</span>
+          <div>
+            <h2 class="modal-title" style="margin: 0; font-size: 1.25rem;">2026 信用卡最佳方案速查系統</h2>
+            <p style="font-size: 0.78rem; color: var(--text-muted); margin: 2px 0 0 0;">智慧通路權益匹配 • 點數防漏對帳中心</p>
+          </div>
+        </div>
+        <button id="about-modal-close-btn" class="modal-close-btn" aria-label="關閉">✕</button>
+      </div>
+      
+      <div class="about-modal-content">
+        <div class="about-section">
+          <h3 class="about-section-title">✨ 核心特色</h3>
+          <ul class="about-features-list">
+            <li>⚡ <strong>精準匹配最佳卡片</strong>：自動計算國泰 CUBE、台新 Richart、玉山 UBear、兆豐 BT21 於各店家的最高回饋率。</li>
+            <li>📊 <strong>點數防漏對帳中心</strong>：支援記帳、核對銀行入帳點數、自動產出客服申訴話術。</li>
+            <li>☁️ <strong>多軌無縫同步</strong>：Google 帳號 Firestore 即時雙向秒同步 ＋ Notion 私人資料庫備份。</li>
+            <li>📱 <strong>PWA 行動原生體驗</strong>：支援離線使用、秒速啟動與 iPhone 響應式優化。</li>
+          </ul>
+        </div>
+
+        <div class="about-section" style="margin-top: 16px;">
+          <h3 class="about-section-title">💳 2026 支援四大神卡清單</h3>
+          <div class="about-cards-grid">
+            <div class="about-card-badge">
+              <strong>國泰世華 CUBE 卡</strong>
+              <span>玩數位 / 樂饗購 / 趣旅行 / 集精選 3.0% ~ 3.3%</span>
+            </div>
+            <div class="about-card-badge">
+              <strong>台新銀行 Richart 玫瑰/太陽卡</strong>
+              <span>天天刷 / 大筆刷 3.3% • Chill 刷 10%</span>
+            </div>
+            <div class="about-card-badge">
+              <strong>玉山銀行 Ｕ Bear 卡</strong>
+              <span>網購 / 行動支付 3.0% • 影音娛樂 10%</span>
+            </div>
+            <div class="about-card-badge">
+              <strong>兆豐銀行 BT21 信用卡</strong>
+              <span>行動支付 3.0% (台灣 Pay / LINE Pay / 街口)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-footer-meta" style="margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--glass-border); font-size: 0.78rem; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+          <span>版本：v2026.3 • MIT License</span>
+          <a href="https://github.com/Tommy95271/card-matcher" target="_blank" rel="noopener noreferrer" style="color: var(--brand-primary-light); text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+            🐙 GitHub 專案原始碼 ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Settings Modal Drawer -->
   <div id="settings-modal" class="modal-backdrop" aria-hidden="true">
-    <div class="modal-card">
+    <div class="modal-card modal-card-large">
       <div class="modal-header">
         <h2 class="modal-title">⚙️ 系統與持卡設定</h2>
         <button id="modal-close-btn" class="modal-close-btn" aria-label="關閉">✕</button>

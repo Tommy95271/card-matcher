@@ -13,6 +13,9 @@ export class UI {
     this.selectedYearMonth = new Date().toISOString().slice(0, 7);
 
     // DOM 元素
+    this.brandLogoBtn = document.getElementById('brand-logo-btn');
+    this.aboutModal = document.getElementById('about-modal');
+    this.aboutModalCloseBtn = document.getElementById('about-modal-close-btn');
     this.searchInput = document.getElementById('search-input');
     this.searchClearBtn = document.getElementById('search-clear-btn');
     this.categoryPillsContainer = document.getElementById('category-pills');
@@ -224,6 +227,19 @@ export class UI {
       store.setTheme(newTheme);
       this.applyTheme(newTheme);
     });
+
+    // 關於專案與 2026 方案 Modal 開關
+    if (this.brandLogoBtn) {
+      this.brandLogoBtn.addEventListener('click', () => this.openAboutModal());
+    }
+    if (this.aboutModalCloseBtn) {
+      this.aboutModalCloseBtn.addEventListener('click', () => this.closeAboutModal());
+    }
+    if (this.aboutModal) {
+      this.aboutModal.addEventListener('click', (e) => {
+        if (e.target === this.aboutModal) this.closeAboutModal();
+      });
+    }
 
     // 設定 Modal 開關
     this.settingsBtn.addEventListener('click', () => this.openSettingsModal());
@@ -565,8 +581,11 @@ export class UI {
     const otherCardsHtml = otherCards.length > 0 ? `
       <details class="scheme-breakdown-details">
         <summary class="details-summary">
-          <span>查看其他持卡方案對照 (${otherCards.length})</span>
-          <span>▼</span>
+          <span style="display: flex; align-items: center; gap: 6px;">
+            <span>📊</span>
+            <span>查看其他 <strong>${otherCards.length}</strong> 張卡方案對照</span>
+          </span>
+          <span style="font-size: 0.75rem; opacity: 0.9;">展開對照 ▼</span>
         </summary>
         <div class="other-cards-list">
           ${otherCards.map((c) => `
@@ -1192,6 +1211,19 @@ export class UI {
         </div>
       `;
     }).join('');
+  }
+
+  // ==========================================
+  // ℹ️ 關於專案與 2026 方案速查 Modal
+  // ==========================================
+  openAboutModal() {
+    if (!this.aboutModal) return;
+    this.aboutModal.classList.add('open');
+  }
+
+  closeAboutModal() {
+    if (!this.aboutModal) return;
+    this.aboutModal.classList.remove('open');
   }
 
   showToast(msg) {

@@ -21,48 +21,48 @@
   width: 100%;
 }
 
-.logo-area {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-  flex: 1;
-}
-
-.logo-icon {
-  font-size: 1.8rem;
+.brand-logo-btn {
   background: var(--gradient-hero);
   border: 1px solid var(--glass-border);
-  padding: 6px 10px;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
+  padding: 8px 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: var(--glass-shadow);
+  transition: var(--transition-fast);
+  position: relative;
   flex-shrink: 0;
+  outline: none;
 }
 
-.logo-text {
-  min-width: 0;
+.brand-logo-btn:hover {
+  transform: translateY(-2px) scale(1.04);
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.35);
 }
 
-.logo-text h1 {
-  font-size: 1.35rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  background: var(--gradient-best);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  white-space: nowrap;
-  margin: 0;
-  line-height: 1.2;
+.brand-logo-btn:active {
+  transform: scale(0.96);
 }
 
-.logo-text p {
-  font-size: 0.76rem;
-  color: var(--text-muted);
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin: 2px 0 0 0;
+.logo-icon-card {
+  font-size: 1.5rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.logo-badge-pulse {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  border: 2px solid var(--bg-primary);
+  box-shadow: 0 0 6px #10b981;
 }
 
 .header-utility-actions {

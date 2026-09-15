@@ -386,9 +386,9 @@
 
 /* Other Cards Details Toggle */
 .scheme-breakdown-details {
-  border-top: 1px solid var(--glass-border);
-  padding-top: 12px;
-  margin-top: 12px;
+  border-top: 1px dashed var(--glass-border);
+  padding-top: 14px;
+  margin-top: 14px;
 }
 
 .details-summary {
@@ -396,52 +396,83 @@
   align-items: center;
   justify-content: space-between;
   font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-muted);
+  font-weight: 700;
+  color: var(--brand-primary-light);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(245, 158, 11, 0.12));
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: var(--radius-full);
   cursor: pointer;
-  padding: 4px 0;
+  padding: 8px 16px;
+  transition: var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  user-select: none;
+  list-style: none;
+}
+
+.details-summary::-webkit-details-marker {
+  display: none;
 }
 
 .details-summary:hover {
-  color: var(--text-primary);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(245, 158, 11, 0.2));
+  border-color: var(--brand-accent);
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(59, 130, 246, 0.4);
+  transform: translateY(-1px);
+}
+
+.scheme-breakdown-details[open] .details-summary {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.22), rgba(245, 158, 11, 0.18));
+  border-color: var(--brand-primary-light);
 }
 
 .other-cards-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 10px;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .other-card-item {
-  background: var(--badge-bg);
-  border: 1px solid var(--badge-border);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: var(--transition-fast);
+}
+
+.other-card-item:hover {
+  border-color: var(--brand-primary-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
 }
 
 .other-card-item-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .other-card-name {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-primary);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #f1f5f9;
 }
 
 .other-card-rate {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--brand-primary-light);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #38bdf8;
+  text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
 }
 
 .other-card-scheme {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
+  font-size: 0.78rem;
+  color: #94a3b8;
+  line-height: 1.4;
 }
 
 /* Settings Modal Drawer */
@@ -1472,6 +1503,99 @@
   white-space: pre-wrap;
   word-break: break-all;
   color: #e2e8f0;
+}
+
+/* =========================================================================
+   ℹ️ 關於專案與支援卡片 Modal (About Modal)
+   ========================================================================= */
+.about-section-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.about-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.about-features-list li {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+}
+
+.about-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+.about-card-badge {
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: var(--transition-fast);
+}
+
+.about-card-badge:hover {
+  border-color: var(--brand-primary);
+  transform: translateY(-1px);
+}
+
+.about-card-badge strong {
+  font-size: 0.86rem;
+  color: var(--text-primary);
+}
+
+.about-card-badge span {
+  font-size: 0.74rem;
+  color: var(--brand-primary-light);
+}
+
+/* =========================================================================
+   📱 行動端彈窗與防溢出保護 (Mobile RWD Safeguards)
+   ========================================================================= */
+@media (max-width: 640px) {
+  .modal-backdrop {
+    padding: 10px;
+    align-items: center;
+  }
+
+  .modal-card {
+    padding: 20px 14px;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  .modal-card-large {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+
+  .about-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .other-cards-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 
