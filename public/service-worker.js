@@ -1,4 +1,4 @@
-const CACHE_NAME = 'card-matcher-v2026-rwd-2';
+const CACHE_NAME = 'card-matcher-v2026-rwd-5';
 
 const ASSETS_TO_CACHE = [
   '/',

@@ -15,14 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('✅ PWA Service Worker 註冊成功:', reg.scope);
 
         const promptNewVersion = (waitingWorker) => {
+          window.__pwaWaitingWorker = waitingWorker;
           ui.showPwaUpdatePrompt(() => {
             if (waitingWorker) {
-              waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+              try {
+                waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+              } catch (e) {}
             }
-            // 雙重保險：即使 controllerchange 事件延遲，也在 300ms 後強制 reload
-            setTimeout(() => {
-              window.location.reload();
-            }, 300);
+            window.location.reload(true);
           });
         };
 

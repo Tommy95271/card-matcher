@@ -1377,7 +1377,7 @@ export class UI {
 
     this.pendingPwaReloadCallback = onReload;
     toast.classList.add('show');
-    toast.style.display = 'flex';
+    toast.style.setProperty('display', 'flex', 'important');
   }
 
   showToast(msg) {
