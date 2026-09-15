@@ -539,7 +539,9 @@ export class UI {
     if (document.body) {
       document.body.setAttribute('data-theme', theme);
     }
-    this.themeToggleBtn.innerHTML = theme === 'dark' ? '🌙' : '☀️';
+    // 依據標準 UX：深色模式下顯示 ☀️ (提示點擊切換為日間模式)；淺色模式下顯示 🌙 (提示點擊切換為夜間模式)
+    this.themeToggleBtn.innerHTML = theme === 'dark' ? '☀️' : '🌙';
+    this.themeToggleBtn.setAttribute('title', theme === 'dark' ? '切換為日間淺色模式' : '切換為夜間深色模式');
 
     // 同步更新行動裝置瀏覽器頂部狀態列 theme-color
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
