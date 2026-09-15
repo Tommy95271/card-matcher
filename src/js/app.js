@@ -42,6 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         });
 
+        // 註冊後立即檢查一次伺服器是否有更新版本
+        reg.update().catch(() => {});
+
         // 當手機使用者切換回 App 前景時，主動向伺服器檢查是否有新版本發布
         document.addEventListener('visibilitychange', () => {
           if (document.visibilityState === 'visible') {
@@ -49,10 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
 
-        // 每 10 分鐘背景定時檢查一次更新
+        // 背景每 3 分鐘定時檢查一次更新
         setInterval(() => {
           reg.update().catch(() => {});
-        }, 10 * 60 * 1000);
+        }, 3 * 60 * 1000);
       })
       .catch((err) => {
         console.warn('⚠️ PWA Service Worker 註冊失敗 (若為本機檔案預覽可略過):', err);
