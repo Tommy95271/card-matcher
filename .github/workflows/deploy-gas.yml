@@ -36,4 +36,4 @@ jobs:
       - name: 🚀 發布至現有 Webhook 部署 (Update Deployment)
         working-directory: gas-backend
         run: |
-          clasp deploy -i AKfycbywAMmhP29lGDx7WN_H5JghdWtack82dYYFtwTpW5rGWHlu1HI2tn81xDDyhhWjssMv -d "CI/CD Auto Deploy - $GITHUB_SHA"
+          clasp deploy -i AKfycbywRX8TZIvJksTdVLNTsOhcuFw71GP2DEIgmL6FFe04ch2c9WmHrwkNotJq1MOfE_3P -d "CI/CD Auto Deploy - $GITHUB_SHA"
