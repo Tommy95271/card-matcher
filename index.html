@@ -256,6 +256,50 @@
       <div id="tracker-ledger-list" class="tracker-ledger-list">
         <!-- 由 ui.js 動態渲染 -->
       </div>
+
+      <!-- Tracker Footer Utilities -->
+      <div style="margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.78rem; color: var(--text-muted);">雙軌同步狀態：<span id="sync-health-indicator" style="font-weight: 600; color: #10b981;">🟢 正常</span></span>
+        <button type="button" id="tracker-open-logs-btn" class="btn-secondary" style="padding: 4px 10px; font-size: 0.78rem;">📋 查看同步日誌</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sync Logs Modal Drawer -->
+  <div id="sync-logs-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card" style="max-width: 620px;">
+      <div class="modal-header">
+        <h2 class="modal-title">📋 雲端同步日誌與即時診斷</h2>
+        <button id="sync-logs-close-btn" class="modal-close-btn" aria-label="關閉">✕</button>
+      </div>
+
+      <!-- Diagnostic Status Card -->
+      <div id="sync-diag-banner" class="sync-diag-banner all-good">
+        <div class="diag-icon" id="diag-status-icon">🟢</div>
+        <div class="diag-info">
+          <div class="diag-title" id="diag-status-title">雙軌同步連線正常</div>
+          <div class="diag-desc" id="diag-status-desc">最近 50 次請求均已順利寫入 Firestore 與 Notion。</div>
+        </div>
+      </div>
+
+      <!-- Logs Filter Bar -->
+      <div class="sync-logs-toolbar">
+        <div class="sync-logs-filter-group">
+          <button class="log-filter-btn active" data-filter="all">全部</button>
+          <button class="log-filter-btn" data-filter="notion">📝 Notion</button>
+          <button class="log-filter-btn" data-filter="firestore">🔥 Firestore</button>
+          <button class="log-filter-btn" data-filter="error">🚨 僅異常</button>
+        </div>
+        <div class="sync-logs-action-group">
+          <button type="button" id="copy-sync-logs-btn" class="btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;" title="複製日誌">📋 複製</button>
+          <button type="button" id="clear-sync-logs-btn" class="btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;" title="清空日誌">🧹 清空</button>
+        </div>
+      </div>
+
+      <!-- Logs List Container -->
+      <div id="sync-logs-list" class="sync-logs-list">
+        <!-- 由 ui.js 動態渲染 -->
+      </div>
     </div>
   </div>
 

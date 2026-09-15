@@ -1,6 +1,7 @@
 import { store, extractNotionDatabaseId } from './store.js';
 import { tracker } from './tracker.js';
 import { firebaseService } from './firebase.js';
+import { syncLogger } from './logger.js';
 
 export class UI {
   constructor(engine) {
@@ -8,6 +9,7 @@ export class UI {
     this.currentCategory = 'all';
     this.currentQuery = '';
     this.currentTrackerFilter = 'all';
+    this.currentLogFilter = 'all';
     this.selectedYearMonth = new Date().toISOString().slice(0, 7);
 
     // DOM 元素
@@ -35,10 +37,12 @@ export class UI {
     this.fbCfgAppId = document.getElementById('fb-cfg-app-id');
     this.fbCfgSaveBtn = document.getElementById('fb-cfg-save-btn');
 
-    // Tracker DOM 元素
+    // 導覽列與記帳對帳按鈕
+    this.quickLogBtn = document.getElementById('quick-log-btn');
     this.trackerBtn = document.getElementById('tracker-btn');
     this.trackerBadgeCount = document.getElementById('tracker-badge-count');
-    this.quickLogBtn = document.getElementById('quick-log-btn');
+
+    // 記帳 Modal DOM 元素
     this.logExpenseModal = document.getElementById('log-expense-modal');
     this.logModalCloseBtn = document.getElementById('log-modal-close-btn');
     this.logCancelBtn = document.getElementById('log-cancel-btn');
@@ -61,6 +65,19 @@ export class UI {
     this.statPendingCount = document.getElementById('stat-pending-count');
     this.statDiscrepancyCount = document.getElementById('stat-discrepancy-count');
     this.trackerLedgerList = document.getElementById('tracker-ledger-list');
+    this.trackerOpenLogsBtn = document.getElementById('tracker-open-logs-btn');
+    this.syncHealthIndicator = document.getElementById('sync-health-indicator');
+
+    // Sync Logs Modal DOM 元素
+    this.syncLogsModal = document.getElementById('sync-logs-modal');
+    this.syncLogsCloseBtn = document.getElementById('sync-logs-close-btn');
+    this.syncDiagBanner = document.getElementById('sync-diag-banner');
+    this.diagStatusIcon = document.getElementById('diag-status-icon');
+    this.diagStatusTitle = document.getElementById('diag-status-title');
+    this.diagStatusDesc = document.getElementById('diag-status-desc');
+    this.syncLogsList = document.getElementById('sync-logs-list');
+    this.copySyncLogsBtn = document.getElementById('copy-sync-logs-btn');
+    this.clearSyncLogsBtn = document.getElementById('clear-sync-logs-btn');
 
     // Cloud Sync & Notion DOM 元素
     this.notionDbUrlInput = document.getElementById('notion-db-url');
@@ -105,9 +122,57 @@ export class UI {
       }
       this.updateTrackerBadge();
     });
+
+    // 監聽同步日誌事件
+    syncLogger.onLog(() => {
+      this.updateSyncHealth();
+      if (this.syncLogsModal && this.syncLogsModal.classList.contains('open')) {
+        this.renderSyncLogs();
+      }
+    });
+    this.updateSyncHealth();
   }
 
   bindEvents() {
+    // Sync Logs Modal 事件
+    if (this.trackerOpenLogsBtn) {
+      this.trackerOpenLogsBtn.addEventListener('click', () => this.openSyncLogsModal());
+    }
+    if (this.syncLogsCloseBtn) {
+      this.syncLogsCloseBtn.addEventListener('click', () => this.closeSyncLogsModal());
+    }
+    if (this.syncLogsModal) {
+      this.syncLogsModal.addEventListener('click', (e) => {
+        if (e.target === this.syncLogsModal) this.closeSyncLogsModal();
+      });
+      this.syncLogsModal.querySelectorAll('.log-filter-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          this.syncLogsModal.querySelectorAll('.log-filter-btn').forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+          this.currentLogFilter = btn.dataset.filter || 'all';
+          this.renderSyncLogs();
+        });
+      });
+    }
+    if (this.copySyncLogsBtn) {
+      this.copySyncLogsBtn.addEventListener('click', () => {
+        const logs = syncLogger.getLogs();
+        const text = JSON.stringify(logs, null, 2);
+        navigator.clipboard.writeText(text).then(() => {
+          this.showToast('📋 同步日誌已複製到剪貼簿！');
+        });
+      });
+    }
+    if (this.clearSyncLogsBtn) {
+      this.clearSyncLogsBtn.addEventListener('click', () => {
+        if (confirm('確定要清空所有同步日誌嗎？')) {
+          syncLogger.clearLogs();
+          this.renderSyncLogs();
+          this.updateSyncHealth();
+          this.showToast('🧹 已清空同步日誌');
+        }
+      });
+    }
     // 搜尋事件
     this.searchInput.addEventListener('input', (e) => {
       this.currentQuery = e.target.value;
@@ -1018,6 +1083,115 @@ export class UI {
   closeSettingsModal() {
     this.settingsModal.classList.remove('open');
     this.render();
+  }
+
+  // ==========================================
+  // 📋 同步日誌與即時診斷 Modal
+  // ==========================================
+  openSyncLogsModal() {
+    if (!this.syncLogsModal) return;
+    this.renderSyncLogs();
+    this.syncLogsModal.classList.add('open');
+  }
+
+  closeSyncLogsModal() {
+    if (!this.syncLogsModal) return;
+    this.syncLogsModal.classList.remove('open');
+  }
+
+  updateSyncHealth() {
+    const summary = syncLogger.getHealthSummary();
+    if (this.syncHealthIndicator) {
+      if (summary.hasError) {
+        this.syncHealthIndicator.innerHTML = `🔴 異常 (${summary.errors} 筆失敗)`;
+        this.syncHealthIndicator.style.color = '#ef4444';
+      } else {
+        this.syncHealthIndicator.innerHTML = '🟢 正常';
+        this.syncHealthIndicator.style.color = '#10b981';
+      }
+    }
+  }
+
+  renderSyncLogs() {
+    if (!this.syncLogsList) return;
+
+    const summary = syncLogger.getHealthSummary();
+    const logs = syncLogger.getLogs();
+
+    // 更新診斷 Banner
+    if (this.syncDiagBanner) {
+      if (summary.hasError) {
+        this.syncDiagBanner.className = 'sync-diag-banner has-error';
+        this.diagStatusIcon.textContent = '🚨';
+        this.diagStatusTitle.textContent = `偵測到 ${summary.errors} 個同步異常`;
+        
+        const lastErr = summary.lastError ? summary.lastError.message : '';
+        if (lastErr.includes('PERMISSION_DENIED') || lastErr.includes('權限不足')) {
+          this.diagStatusDesc.innerHTML = '<b>Google 存取權限異常</b>：請至 Google Apps Script 點擊「部署 ➔ 管理部署作業 ➔ 編輯 ➔ 誰可以存取設為 Anyone 所有人」。';
+        } else if (lastErr.includes('401') || lastErr.includes('API Key')) {
+          this.diagStatusDesc.innerHTML = '<b>Notion 授權金鑰無效</b>：請至「⚙️ 設定」檢查 Notion Internal Integration Secret 是否以 <code>ntn_</code> 開頭。';
+        } else {
+          this.diagStatusDesc.textContent = `最新錯誤：${lastErr.substring(0, 100)}`;
+        }
+      } else {
+        this.syncDiagBanner.className = 'sync-diag-banner all-good';
+        this.diagStatusIcon.textContent = '🟢';
+        this.diagStatusTitle.textContent = '雙軌同步連線正常';
+        this.diagStatusDesc.textContent = `最近 ${summary.total} 次連線請求皆順利完成，無異常報錯。`;
+      }
+    }
+
+    // 篩選日誌
+    let filteredLogs = logs;
+    if (this.currentLogFilter === 'notion') {
+      filteredLogs = logs.filter((l) => l.type === 'notion');
+    } else if (this.currentLogFilter === 'firestore') {
+      filteredLogs = logs.filter((l) => l.type === 'firestore');
+    } else if (this.currentLogFilter === 'error') {
+      filteredLogs = logs.filter((l) => l.status === 'error');
+    }
+
+    if (filteredLogs.length === 0) {
+      this.syncLogsList.innerHTML = `
+        <div style="text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 0.85rem;">
+          <div style="font-size: 2rem; margin-bottom: 8px;">📭</div>
+          暫無符合條件的同步日誌
+        </div>
+      `;
+      return;
+    }
+
+    this.syncLogsList.innerHTML = filteredLogs.map((log) => {
+      const typeLabel = log.type === 'notion' ? '📝 Notion' : (log.type === 'firestore' ? '🔥 Firestore' : '⚙️ 系統');
+      const typeClass = `type-${log.type}`;
+      const statusPillClass = log.status === 'error' ? 'status-pill-error' : 'status-pill-success';
+      const statusLabel = log.status === 'error' ? '🔴 失敗' : (log.status === 'warning' ? '🟡 警告' : '🟢 成功');
+
+      let detailsHtml = '';
+      if (log.details) {
+        const detailsStr = typeof log.details === 'string' ? log.details : JSON.stringify(log.details, null, 2);
+        detailsHtml = `
+          <details class="log-details-collapsible">
+            <summary>🔍 查看除錯詳情 (Details)</summary>
+            <pre class="log-details-content">${detailsStr.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
+          </details>
+        `;
+      }
+
+      return `
+        <div class="sync-log-item status-${log.status}">
+          <div class="log-item-header">
+            <div class="log-tag-group">
+              <span class="log-badge ${typeClass}">${typeLabel}</span>
+              <span class="log-badge ${statusPillClass}">${statusLabel}</span>
+            </div>
+            <span class="log-time">${log.timeFormatted || log.timestamp.substring(11, 19)}</span>
+          </div>
+          <div class="log-message">${log.message.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+          ${detailsHtml}
+        </div>
+      `;
+    }).join('');
   }
 
   showToast(msg) {

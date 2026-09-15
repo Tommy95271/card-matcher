@@ -1276,5 +1276,203 @@
   color: var(--text-muted);
 }
 
+/* =========================================================================
+   📋 同步日誌與診斷面板 (Sync Logs & Diagnostics)
+   ========================================================================= */
+.sync-diag-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  margin-bottom: 14px;
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s ease;
+}
+
+.sync-diag-banner.all-good {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.sync-diag-banner.has-error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.diag-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.diag-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.diag-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+.sync-logs-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sync-logs-filter-group {
+  display: flex;
+  gap: 6px;
+}
+
+.log-filter-btn {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid var(--glass-border);
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.log-filter-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--brand-primary);
+}
+
+.log-filter-btn.active {
+  background: var(--brand-primary);
+  color: #fff;
+  border-color: var(--brand-primary);
+}
+
+.sync-logs-list {
+  max-height: 380px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 4px;
+}
+
+.sync-log-item {
+  background: var(--bg-secondary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: background 0.2s;
+}
+
+.sync-log-item:hover {
+  background: var(--bg-card);
+}
+
+.sync-log-item.status-error {
+  border-left: 3px solid #ef4444;
+}
+
+.sync-log-item.status-success {
+  border-left: 3px solid #10b981;
+}
+
+.sync-log-item.status-warning {
+  border-left: 3px solid #f59e0b;
+}
+
+.log-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.log-tag-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.log-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.log-badge.type-notion {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+}
+
+.log-badge.type-firestore {
+  background: rgba(249, 115, 22, 0.15);
+  color: #fb923c;
+}
+
+.log-badge.type-system {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+}
+
+.log-badge.status-pill-success {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+}
+
+.log-badge.status-pill-error {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+.log-time {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.log-message {
+  color: var(--text-primary);
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.log-details-collapsible {
+  margin-top: 4px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.log-details-collapsible summary {
+  cursor: pointer;
+  user-select: none;
+  color: var(--brand-primary-light);
+}
+
+.log-details-content {
+  margin-top: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.72rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  color: #e2e8f0;
+}
+
 
 

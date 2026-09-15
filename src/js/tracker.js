@@ -1,5 +1,6 @@
 import { store, DEFAULT_PUBLIC_GAS_WEBHOOK } from './store.js';
 import { firebaseService } from './firebase.js';
+import { syncLogger } from './logger.js';
 
 const STORAGE_KEY = 'card_matcher_expenses_v1';
 
@@ -26,11 +27,31 @@ export class Tracker {
   async handleAuthChange(user) {
     this.firebaseUser = user;
     if (user) {
+      syncLogger.log({
+        type: 'firestore',
+        action: 'auth',
+        status: 'success',
+        message: `Google 帳號已登入 (${user.email || user.displayName})`
+      });
+
       // 1. 自動將本機未登入前的記帳紀錄合併上傳至 Firestore 雲端
       if (this.expenses.length > 0) {
         try {
           await firebaseService.batchMigrateLocalExpenses(user.uid, this.expenses);
+          syncLogger.log({
+            type: 'firestore',
+            action: 'add',
+            status: 'success',
+            message: `成功將本機 ${this.expenses.length} 筆紀錄遷移至 Firestore`
+          });
         } catch (e) {
+          syncLogger.log({
+            type: 'firestore',
+            action: 'add',
+            status: 'error',
+            message: '本機紀錄遷移至 Firestore 失敗',
+            details: e.message
+          });
           console.warn('本機紀錄遷移至 Firestore 失敗:', e);
         }
       }
@@ -52,6 +73,12 @@ export class Tracker {
     } else {
       // 登出時載入本機 LocalStorage
       this.expenses = this.loadExpenses();
+      syncLogger.log({
+        type: 'firestore',
+        action: 'auth',
+        status: 'info',
+        message: 'Google 帳號已登出，切換至本機離線模式'
+      });
       this.notifySyncUpdate({ type: 'firebase_logout' });
     }
   }
@@ -61,7 +88,7 @@ export class Tracker {
       const data = localStorage.getItem(STORAGE_KEY);
       return data ? JSON.parse(data) : [];
     } catch (e) {
-      console.error('Failed to load expenses from localStorage', e);
+      console.warn('載入消費紀錄失敗:', e);
       return [];
     }
   }
@@ -70,8 +97,29 @@ export class Tracker {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.expenses));
     } catch (e) {
-      console.error('Failed to save expenses to localStorage', e);
+      console.warn('儲存消費紀錄失敗:', e);
     }
+  }
+
+  /**
+   * 輔助解析 GAS Webhook 回應 (自動識別 JSON 與 Google HTML 錯誤頁面)
+   */
+  async parseWebhookResponse(response) {
+    const text = await response.text();
+    let data = null;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      // 若回傳 HTML 錯誤頁面 (如 PERMISSION_DENIED 或 Google 登入轉址)
+      if (text.includes('PERMISSION_DENIED') || text.includes('很抱歉，目前無法開啟這個檔案')) {
+        throw new Error('Google Apps Script 權限不足 (PERMISSION_DENIED)：請至 GAS 部署設定將存取權限設為「所有人 (Anyone)」');
+      }
+      if (text.includes('<html') || text.includes('<!DOCTYPE')) {
+        throw new Error('GAS Webhook 回傳非預期的 HTML 網頁 (可能是網址錯誤或未授權公開存取)');
+      }
+      throw new Error(`GAS 回傳格式錯誤: ${text.substring(0, 150)}`);
+    }
+    return data;
   }
 
   /**
@@ -113,41 +161,41 @@ export class Tracker {
   }
 
   /**
-   * 新增一筆消費紀錄 (離線優先，背景非同步同步至 Notion GAS)
+   * 新增一筆消費紀錄
    */
-  addExpense({
-    date,
+  logExpense({
     merchantName,
-    amount,
-    cardId,
     cardName,
-    bank,
     schemeName,
     rate,
+    amount,
+    date = null,
+    cardId = '',
+    bank = '',
     notes = ''
   }) {
-    const numAmount = parseFloat(amount) || 0;
-    const { expectedPoints, unit, rewardName } = this.calculateReward(numAmount, rate, cardId);
+    const parsedAmount = parseFloat(amount) || 0;
+    const parsedRate = parseFloat(rate) || 0;
+    const { expectedPoints, unit, rewardName } = this.calculateReward(parsedAmount, parsedRate, cardId);
 
     const newEntry = {
-      id: `exp_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
-      notionPageId: null,
-      date: date || new Date().toISOString().slice(0, 10),
-      merchantName: merchantName.trim(),
-      amount: numAmount,
-      cardId,
-      cardName,
-      bank,
-      schemeName,
-      rate: parseFloat(rate) || 0,
-      expectedPoints,
+      id: 'exp_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+      merchantName: (merchantName || '').trim(),
+      cardName: (cardName || '').trim(),
+      schemeName: (schemeName || '').trim(),
+      rate: parsedRate,
+      amount: parsedAmount,
+      expectedPoints: expectedPoints,
       actualPoints: null,
       unit,
       rewardName,
-      status: 'pending', // 'pending' | 'verified' | 'discrepancy'
-      notes: notes.trim(),
-      disputeResolved: false,
-      syncStatus: 'local', // 'local' | 'syncing' | 'synced' | 'error'
+      date: date || new Date().toISOString().split('T')[0],
+      notes: (notes || '').trim(),
+      status: 'pending',
+      cardId,
+      bank,
+      notionPageId: null,
+      syncStatus: 'local',
       createdAt: new Date().toISOString()
     };
 
@@ -156,13 +204,35 @@ export class Tracker {
 
     // 如果使用者有 Google 登入，同步寫入 Firestore
     if (this.firebaseUser) {
-      firebaseService.saveExpense(this.firebaseUser.uid, newEntry).catch((e) => console.warn('Firestore 寫入失敗:', e));
+      firebaseService.saveExpense(this.firebaseUser.uid, newEntry)
+        .then(() => {
+          syncLogger.log({
+            type: 'firestore',
+            action: 'add',
+            status: 'success',
+            message: `Firestore 記帳同步成功【${newEntry.merchantName}】NT$ ${newEntry.amount}`
+          });
+        })
+        .catch((e) => {
+          syncLogger.log({
+            type: 'firestore',
+            action: 'add',
+            status: 'error',
+            message: `Firestore 寫入失敗【${newEntry.merchantName}】`,
+            details: e.message
+          });
+          console.warn('Firestore 寫入失敗:', e);
+        });
     }
 
     // 背景觸發 GAS 同步
     this.syncExpenseToCloud(newEntry);
 
     return newEntry;
+  }
+
+  addExpense(params) {
+    return this.logExpense(params);
   }
 
   /**
@@ -189,7 +259,7 @@ export class Tracker {
         })
       });
 
-      const result = await response.json();
+      const result = await this.parseWebhookResponse(response);
       if (result && result.success && result.result && result.result.notionPageId) {
         entry.notionPageId = result.result.notionPageId;
         entry.syncStatus = 'synced';
@@ -198,16 +268,38 @@ export class Tracker {
         if (this.firebaseUser) {
           firebaseService.saveExpense(this.firebaseUser.uid, entry).catch((e) => console.warn('Firestore 保存 notionPageId 失敗:', e));
         }
+        syncLogger.log({
+          type: 'notion',
+          action: 'add',
+          status: 'success',
+          message: `Notion 新增記帳成功【${entry.merchantName}】NT$ ${entry.amount}`,
+          details: { notionPageId: entry.notionPageId }
+        });
         this.notifySyncUpdate({ type: 'synced', expenseId: entry.id, notionPageId: entry.notionPageId });
       } else {
+        const errMsg = (result && result.error) || 'Notion 同步失敗';
         entry.syncStatus = 'error';
         this.saveExpenses();
-        this.notifySyncUpdate({ type: 'error', expenseId: entry.id, error: result.error });
+        syncLogger.log({
+          type: 'notion',
+          action: 'add',
+          status: 'error',
+          message: `Notion 新增記帳失敗【${entry.merchantName}】: ${errMsg}`,
+          details: result
+        });
+        this.notifySyncUpdate({ type: 'error', expenseId: entry.id, error: errMsg });
       }
     } catch (err) {
       console.warn('背景同步至 Notion 失敗:', err);
       entry.syncStatus = 'error';
       this.saveExpenses();
+      syncLogger.log({
+        type: 'notion',
+        action: 'add',
+        status: 'error',
+        message: `Notion 新增連線異常【${entry.merchantName}】: ${err.message}`,
+        details: err.stack || err.message
+      });
       this.notifySyncUpdate({ type: 'error', expenseId: entry.id, error: err.message });
     }
   }
@@ -229,7 +321,25 @@ export class Tracker {
 
     // 若有 Google 登入，即時同步更新 Firestore
     if (this.firebaseUser) {
-      firebaseService.updateExpenseStatus(this.firebaseUser.uid, expenseId, expense.status, expense.actualPoints).catch((e) => console.warn('Firestore 狀態更新失敗:', e));
+      firebaseService.updateExpenseStatus(this.firebaseUser.uid, expenseId, expense.status, expense.actualPoints)
+        .then(() => {
+          syncLogger.log({
+            type: 'firestore',
+            action: 'update',
+            status: 'success',
+            message: `Firestore 狀態更新成功【${expense.merchantName}】➔ ${status}`
+          });
+        })
+        .catch((e) => {
+          syncLogger.log({
+            type: 'firestore',
+            action: 'update',
+            status: 'error',
+            message: `Firestore 狀態更新失敗【${expense.merchantName}】`,
+            details: e.message
+          });
+          console.warn('Firestore 狀態更新失敗:', e);
+        });
     }
 
     // 若該紀錄已存在 Notion Page ID，即時背景同步更新狀態；若無，嘗試重新新增同步
@@ -260,11 +370,34 @@ export class Tracker {
           actualPoints: expense.actualPoints
         })
       });
-      const data = await response.json();
-      if (!data.success) {
-        console.warn('更新 Notion 狀態失敗:', data.error);
+      const data = await this.parseWebhookResponse(response);
+      if (data && data.success) {
+        syncLogger.log({
+          type: 'notion',
+          action: 'update',
+          status: 'success',
+          message: `Notion 狀態更新成功【${expense.merchantName}】➔ ${expense.status}`,
+          details: { notionPageId: expense.notionPageId, status: expense.status, actualPoints: expense.actualPoints }
+        });
+      } else {
+        const errMsg = (data && data.error) || '未知錯誤';
+        syncLogger.log({
+          type: 'notion',
+          action: 'update',
+          status: 'error',
+          message: `Notion 狀態更新失敗【${expense.merchantName}】: ${errMsg}`,
+          details: data
+        });
+        console.warn('更新 Notion 狀態失敗:', errMsg);
       }
     } catch (err) {
+      syncLogger.log({
+        type: 'notion',
+        action: 'update',
+        status: 'error',
+        message: `Notion 狀態更新連線失敗【${expense.merchantName}】: ${err.message}`,
+        details: err.stack || err.message
+      });
       console.warn('更新 Notion 狀態失敗:', err);
     }
   }
@@ -275,16 +408,34 @@ export class Tracker {
   deleteExpense(expenseId) {
     const expense = this.expenses.find((e) => e.id === expenseId);
     if (expense && expense.notionPageId) {
-      this.deleteExpenseInCloud(expense.notionPageId);
+      this.deleteExpenseInCloud(expense.notionPageId, expense.merchantName);
     }
     if (this.firebaseUser) {
-      firebaseService.deleteExpense(this.firebaseUser.uid, expenseId).catch((e) => console.warn('Firestore 刪除失敗:', e));
+      firebaseService.deleteExpense(this.firebaseUser.uid, expenseId)
+        .then(() => {
+          syncLogger.log({
+            type: 'firestore',
+            action: 'delete',
+            status: 'success',
+            message: `Firestore 紀錄已刪除`
+          });
+        })
+        .catch((e) => {
+          syncLogger.log({
+            type: 'firestore',
+            action: 'delete',
+            status: 'error',
+            message: `Firestore 刪除失敗`,
+            details: e.message
+          });
+          console.warn('Firestore 刪除失敗:', e);
+        });
     }
     this.expenses = this.expenses.filter((e) => e.id !== expenseId);
     this.saveExpenses();
   }
 
-  async deleteExpenseInCloud(notionPageId) {
+  async deleteExpenseInCloud(notionPageId, merchantName = '') {
     const profile = store.getProfile();
     const webhookUrl = (profile.gasWebhookUrl || DEFAULT_PUBLIC_GAS_WEBHOOK || '').trim();
     if (!webhookUrl || !notionPageId) return;
@@ -300,11 +451,34 @@ export class Tracker {
           notionPageId
         })
       });
-      const data = await response.json();
-      if (!data.success) {
-        console.warn('刪除 Notion 紀錄失敗:', data.error);
+      const data = await this.parseWebhookResponse(response);
+      if (data && data.success) {
+        syncLogger.log({
+          type: 'notion',
+          action: 'delete',
+          status: 'success',
+          message: `Notion 紀錄已封存【${merchantName || notionPageId}】`,
+          details: { notionPageId }
+        });
+      } else {
+        const errMsg = (data && data.error) || '刪除失敗';
+        syncLogger.log({
+          type: 'notion',
+          action: 'delete',
+          status: 'error',
+          message: `Notion 刪除失敗: ${errMsg}`,
+          details: data
+        });
+        console.warn('刪除 Notion 紀錄失敗:', errMsg);
       }
     } catch (err) {
+      syncLogger.log({
+        type: 'notion',
+        action: 'delete',
+        status: 'error',
+        message: `Notion 刪除連線異常: ${err.message}`,
+        details: err.stack || err.message
+      });
       console.warn('刪除 Notion 紀錄失敗:', err);
     }
   }
@@ -326,7 +500,7 @@ export class Tracker {
         notionDbId: profile.notionDatabaseId || ''
       })
     });
-    const result = await response.json();
+    const result = await this.parseWebhookResponse(response);
 
     if (!result.success || !Array.isArray(result.expenses)) {
       throw new Error(result.error || '拉取資料失敗');
