@@ -206,11 +206,37 @@ sequenceDiagram
 
 ---
 
-## 📊 專案關鍵資源與連結
+## 📊 專案關鍵資源與工具控制台清單 (Key Resources & Tool URLs)
 
-- 🌐 **線上產品環境**：[https://card-matcher-2026.web.app](https://card-matcher-2026.web.app)
-- 🐙 **GitHub 原始碼庫**：[Tommy95271/card-matcher](https://github.com/Tommy95271/card-matcher)
-- ⚡ **Google Apps Script 後端原始碼**：[`gas-backend/Code.gs`](file:///d:/Personal/Cards/card-matcher/gas-backend/Code.gs)
-- 🔒 **Cloud Firestore 安全規則**：[`firestore.rules`](file:///d:/Personal/Cards/card-matcher/firestore.rules)
-- ⚙️ **前端 CI/CD 自動化部署設定**：[`.github/workflows/firebase-hosting-merge.yml`](file:///d:/Personal/Cards/card-matcher/.github/workflows/firebase-hosting-merge.yml)
-- 🤖 **GAS 後端 CI/CD 自動化部署設定**：[`.github/workflows/deploy-gas.yml`](file:///d:/Personal/Cards/card-matcher/.github/workflows/deploy-gas.yml)
+### 1. 🌐 線上產品與代碼庫
+| 資源名稱 | 說明 | 連結 URL |
+| :--- | :--- | :--- |
+| **正式環境 App** | Firebase CDN 全球線上正式站 | [https://card-matcher-2026.web.app](https://card-matcher-2026.web.app) |
+| **GitHub 儲存庫** | 原始碼管理 | [https://github.com/Tommy95271/card-matcher](https://github.com/Tommy95271/card-matcher) |
+| **GitHub Actions** | CI/CD 自動化建置與雙軌發布工作流 | [https://github.com/Tommy95271/card-matcher/actions](https://github.com/Tommy95271/card-matcher/actions) |
+| **GitHub Secrets** | CI/CD 憑證管理 (`FIREBASE_SERVICE_ACCOUNT` / `CLASPRC_JSON`) | [https://github.com/Tommy95271/card-matcher/settings/secrets/actions](https://github.com/Tommy95271/card-matcher/settings/secrets/actions) |
+
+### 2. 🔥 Firebase & Google Cloud
+| 資源名稱 | 說明 | 連結 URL |
+| :--- | :--- | :--- |
+| **Firebase 專案主頁** | Firebase 主控台儀表板 | [https://console.firebase.google.com/project/card-matcher-2026/overview](https://console.firebase.google.com/project/card-matcher-2026/overview) |
+| **Firebase Auth** | Google 帳號授權與使用者名單 | [https://console.firebase.google.com/project/card-matcher-2026/authentication/users](https://console.firebase.google.com/project/card-matcher-2026/authentication/users) |
+| **Cloud Firestore** | 即時 NoSQL 資料庫 (`users/{uid}/expenses`) | [https://console.firebase.google.com/project/card-matcher-2026/firestore](https://console.firebase.google.com/project/card-matcher-2026/firestore) |
+| **Firebase Hosting** | 靜態網站 CDN 託管與版本歷程 | [https://console.firebase.google.com/project/card-matcher-2026/hosting](https://console.firebase.google.com/project/card-matcher-2026/hosting) |
+| **GCP IAM 服務帳號** | CI/CD 服務帳號金鑰管理 | [https://console.cloud.google.com/iam-admin/serviceaccounts?project=card-matcher-2026](https://console.cloud.google.com/iam-admin/serviceaccounts?project=card-matcher-2026) |
+
+### 3. ⚡ Google Apps Script & Clasp
+| 資源名稱 | 說明 | 連結 URL |
+| :--- | :--- | :--- |
+| **GAS 雲端專案編輯器** | 線上檢視 Code.gs 與執行紀錄日誌 | [https://script.google.com/d/1sfiLrrxSj7vkVbLJDknk4r1F5yLPS0EBU6uEaCdIggdIt3nwB-XPd-c7/edit](https://script.google.com/d/1sfiLrrxSj7vkVbLJDknk4r1F5yLPS0EBU6uEaCdIggdIt3nwB-XPd-c7/edit) |
+| **GAS 專案儀表板** | Google Apps Script 個人專案列表 | [https://script.google.com/home](https://script.google.com/home) |
+| **GAS API 設定開關** | 使用 clasp 前**必須開啟**的 API 權限 | [https://script.google.com/home/usersettings](https://script.google.com/home/usersettings) |
+| **Google Clasp NPM** | `@google/clasp` 官方 NPM 套件 | [https://www.npmjs.com/package/@google/clasp](https://www.npmjs.com/package/@google/clasp) |
+| **Google Clasp GitHub** | Google 官方 `clasp` 原始碼倉庫 | [https://github.com/google/clasp](https://github.com/google/clasp) |
+
+### 4. 📝 Notion 開發者資源
+| 資源名稱 | 說明 | 連結 URL |
+| :--- | :--- | :--- |
+| **Notion 內部整合管理** | 申請、檢視與管理 Notion API 金鑰 | [https://www.notion.so/profile/integrations](https://www.notion.so/profile/integrations) |
+| **Notion API 官方文件** | Notion REST API 開發者規格手冊 | [https://developers.notion.com/reference/intro](https://developers.notion.com/reference/intro) |
+

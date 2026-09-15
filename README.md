@@ -144,6 +144,35 @@ npx @google/clasp deploy -i <DEPLOYMENT_ID> -d "Release Description"
 - 📜 **[從 0 到 1 完整開發歷程與架構演進史 (Development Journey)](./docs/development-journey.md)**：包含各階段架構演進、技術瓶頸攻堅與 ADR 架構決策記錄。
 - 📊 **[Notion 資料庫欄位結構與定義 (Database Schema)](./docs/database-schema.md)**：包含特約店家與記帳對帳庫詳細欄位規格。
 - ⚙️ **[Notion 整合與金鑰設定手冊 (Notion Setup Guide)](./docs/notion-setup-guide.md)**：Notion API 金鑰與資料庫分享教學。
+- ⚡ **[GAS 後端專屬設定手冊 (GAS Backend README)](./gas-backend/README.md)**：Google Apps Script 與 clasp 部署指引。
+
+---
+
+## 🔗 雲端服務控制台與外部工具資源庫 (Cloud Consoles & Tool URLs)
+
+### 1. 🌐 線上產品與代碼庫
+- **線上正式環境**：[https://card-matcher-2026.web.app](https://card-matcher-2026.web.app)
+- **GitHub 原始碼庫**：[https://github.com/Tommy95271/card-matcher](https://github.com/Tommy95271/card-matcher)
+- **GitHub Actions CI/CD**：[https://github.com/Tommy95271/card-matcher/actions](https://github.com/Tommy95271/card-matcher/actions)
+- **GitHub Secrets 管理**：[https://github.com/Tommy95271/card-matcher/settings/secrets/actions](https://github.com/Tommy95271/card-matcher/settings/secrets/actions)
+
+### 2. 🔥 Firebase & Google Cloud
+- **Firebase 主控制台**：[https://console.firebase.google.com/project/card-matcher-2026/overview](https://console.firebase.google.com/project/card-matcher-2026/overview)
+- **Firebase 身份驗證 (Auth)**：[https://console.firebase.google.com/project/card-matcher-2026/authentication/users](https://console.firebase.google.com/project/card-matcher-2026/authentication/users)
+- **Cloud Firestore 資料庫**：[https://console.firebase.google.com/project/card-matcher-2026/firestore](https://console.firebase.google.com/project/card-matcher-2026/firestore)
+- **Firebase Hosting 託管發布**：[https://console.firebase.google.com/project/card-matcher-2026/hosting](https://console.firebase.google.com/project/card-matcher-2026/hosting)
+- **GCP IAM 服務帳號**：[https://console.cloud.google.com/iam-admin/serviceaccounts?project=card-matcher-2026](https://console.cloud.google.com/iam-admin/serviceaccounts?project=card-matcher-2026)
+
+### 3. ⚡ Google Apps Script & Clasp
+- **Google Apps Script 雲端專案編輯器**：[https://script.google.com/d/1sfiLrrxSj7vkVbLJDknk4r1F5yLPS0EBU6uEaCdIggdIt3nwB-XPd-c7/edit](https://script.google.com/d/1sfiLrrxSj7vkVbLJDknk4r1F5yLPS0EBU6uEaCdIggdIt3nwB-XPd-c7/edit)
+- **Google Apps Script API 權限設定 (使用 clasp 前必開)**：[https://script.google.com/home/usersettings](https://script.google.com/home/usersettings)
+- **GAS 儀表板總覽**：[https://script.google.com/home](https://script.google.com/home)
+- **Google `@google/clasp` 官方 NPM**：[https://www.npmjs.com/package/@google/clasp](https://www.npmjs.com/package/@google/clasp)
+- **Google `clasp` 官方 GitHub**：[https://github.com/google/clasp](https://github.com/google/clasp)
+
+### 4. 📝 Notion 開發者資源
+- **Notion 內部整合管理 (API Keys)**：[https://www.notion.so/profile/integrations](https://www.notion.so/profile/integrations)
+- **Notion API 官方文件**：[https://developers.notion.com/reference/intro](https://developers.notion.com/reference/intro)
 
 ---
 
