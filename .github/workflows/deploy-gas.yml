@@ -1,0 +1,39 @@
+name: 🚀 部署至 Google Apps Script (CI/CD)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'gas-backend/**'
+      - '.github/workflows/deploy-gas.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy_gas:
+    name: 📤 推送並發布 GAS 程式碼
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 檢出程式碼庫 (Checkout)
+        uses: actions/checkout@v4
+
+      - name: 🟢 設定 Node.js 環境
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 📦 安裝 Google Clasp CLI
+        run: npm install -g @google/clasp
+
+      - name: 🔑 設定 Google Apps Script 授權憑證
+        run: |
+          echo '${{ secrets.CLASPRC_JSON }}' > ~/.clasprc.json
+
+      - name: 📤 推送程式碼至 Google Apps Script
+        working-directory: gas-backend
+        run: clasp push --force
+
+      - name: 🚀 發布至現有 Webhook 部署 (Update Deployment)
+        working-directory: gas-backend
+        run: |
+          clasp deploy -i AKfycbywAMmhP29lGDx7WN_H5JghdWtack82dYYFtwTpW5rGWHlu1HI2tn81xDDyhhWjssMv -d "CI/CD Auto Deploy - $GITHUB_SHA"
