@@ -53,10 +53,16 @@ class Store {
       const data = localStorage.getItem(STORAGE_KEY);
       if (data) {
         const parsed = JSON.parse(data);
+        const savedUrl = parsed.gasWebhookUrl || '';
+        // 自動重設/遷移舊版無效的 Webhook 網址至最新端點
+        const gasWebhookUrl = (!savedUrl || savedUrl.includes('AKfycbywAMmhP29lGDx7WN_H5JghdWtack82dYYFtwTpW5rGWHlu1HI2tn81xDDyhhWjssMv'))
+          ? DEFAULT_PUBLIC_GAS_WEBHOOK
+          : savedUrl;
+
         return {
           ...DEFAULT_PROFILE,
           ...parsed,
-          gasWebhookUrl: parsed.gasWebhookUrl || DEFAULT_PUBLIC_GAS_WEBHOOK
+          gasWebhookUrl
         };
       }
     } catch (e) {
