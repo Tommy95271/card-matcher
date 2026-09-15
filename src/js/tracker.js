@@ -231,12 +231,35 @@ export class Tracker {
     return newEntry;
   }
 
+  /**
+   * 取得具辨識度之記帳人識別標籤 (登入姓名/Email 或持久化訪客裝置代碼)
+   */
+  getUserIdentifier() {
+    if (this.firebaseUser) {
+      const name = this.firebaseUser.displayName || '';
+      const email = this.firebaseUser.email || '';
+      if (name && email) return `${name} (${email})`;
+      if (email) return email;
+      if (name) return name;
+    }
+
+    // 訪客模式：產生或取得持久化裝置識別碼
+    let deviceId = localStorage.getItem('card_matcher_device_id_v1');
+    if (!deviceId) {
+      deviceId = Math.random().toString(36).substring(2, 6).toUpperCase();
+      try { localStorage.setItem('card_matcher_device_id_v1', deviceId); } catch (e) {}
+    }
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent || '');
+    const clientType = isMobile ? '行動裝置' : '電腦端';
+    return `訪客 (裝置 #${deviceId} • ${clientType})`;
+  }
+
   addExpense(params) {
     return this.logExpense(params);
   }
 
   /**
-   * 背景非同步同步單筆消費至 Google Apps Script
+   * 背景非同步同步單筆消費至 Google Apps Script 中央 Notion
    */
   async syncExpenseToCloud(entry) {
     const profile = store.getProfile();
@@ -247,6 +270,15 @@ export class Tracker {
     this.saveExpenses();
     this.notifySyncUpdate({ type: 'syncing', expenseId: entry.id });
 
+    const userIdentifier = this.getUserIdentifier();
+    const payloadData = {
+      ...entry,
+      userIdentifier,
+      userEmail: this.firebaseUser?.email || '',
+      userName: this.firebaseUser?.displayName || '',
+      userId: this.firebaseUser?.uid || ''
+    };
+
     try {
       const response = await fetch(webhookUrl, {
         method: 'POST',
@@ -255,7 +287,8 @@ export class Tracker {
           action: 'add_expense',
           notionApiKey: profile.notionApiKey || '',
           notionDbId: profile.notionDatabaseId || '',
-          data: entry
+          userIdentifier,
+          data: payloadData
         })
       });
 

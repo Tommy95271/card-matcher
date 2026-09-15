@@ -180,11 +180,17 @@ function handleAddExpense(data, payload) {
   if (data.status === 'verified') statusInNotion = '🟢 已入帳';
   else if (data.status === 'discrepancy') statusInNotion = '🔴 漏給需申訴';
 
+  // 取得記帳人標籤 (Google 登入姓名/Email 或具辨識度訪客標籤)
+  const userTag = (data.userIdentifier || data.userName || data.userEmail || payload.userIdentifier || '訪客 (本機端)').trim().slice(0, 100);
+
   const body = {
     parent: { database_id: config.expenseDbId },
     properties: {
       '消費項目': {
         title: [{ text: { content: data.merchantName || '一般消費' } }]
+      },
+      '記帳人': {
+        select: { name: userTag.replace(/,/g, '') }
       },
       '消費日期': {
         date: { start: data.date || Utilities.formatDate(new Date(), 'Asia/Taipei', 'yyyy-MM-dd') }
@@ -209,6 +215,9 @@ function handleAddExpense(data, payload) {
       },
       '核對狀態': {
         select: { name: statusInNotion }
+      },
+      '紀錄 ID': {
+        rich_text: [{ text: { content: data.id || '' } }]
       },
       '備註': {
         rich_text: [{ text: { content: data.notes || '' } }]
@@ -361,9 +370,14 @@ function handleFetchExpenses(payload) {
       schemeName = schemeRaw.split(' (')[0];
     }
 
+    const userTag = (props['記帳人'] && props['記帳人'].select) ? props['記帳人'].select.name : '';
+    const recordId = getRichText(props['紀錄 ID']);
+
     return {
-      id: `exp_notion_${page.id.replace(/-/g, '').slice(0, 8)}`,
+      id: recordId || `exp_notion_${page.id.replace(/-/g, '').slice(0, 8)}`,
       notionPageId: page.id,
+      clientRecordId: recordId,
+      userIdentifier: userTag,
       date: date,
       merchantName: merchantName,
       amount: amount,

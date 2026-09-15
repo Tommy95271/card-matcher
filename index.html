@@ -443,56 +443,27 @@
         </div>
       </div>
 
-      <!-- Notion 雲端同步設定 (模式 3) -->
+      <!-- 中央 Notion 雲端同步展示區 (模式 3) -->
       <div class="settings-section">
-        <h3 class="settings-section-title">📝 Notion 私人資料庫同步 (進階玩家選用)</h3>
+        <h3 class="settings-section-title">📊 中央 Notion 雲端對帳庫 (所有使用者資料即時同步)</h3>
         <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
-          直接貼上您的 Notion 記帳庫網址與 API Key，消費紀錄將自動秒寫入您的 Notion 筆記儀表板中。
+          系統已全自動整合中央 Notion 記帳庫，所有登入使用者與訪客的消費皆會自動標註「記帳人」並即時秒寫入 Notion 儀表板，無需手動輸入金鑰。
         </p>
 
         <div class="cloud-sync-card">
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            <div>
-              <label for="notion-db-url" style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); display: block; margin-bottom: 4px;">
-                1. Notion 資料庫網址 (貼上整串網址自動解析)：
-              </label>
-              <input 
-                type="text" 
-                id="notion-db-url" 
-                placeholder="https://www.notion.so/workspace/3dbdc85d... 或 32 位元 ID" 
-                class="form-input" 
-                style="width: 100%; font-size: 0.85rem;"
-              />
-              <div id="notion-parsed-id-hint" style="font-size: 0.72rem; color: var(--brand-primary-light); margin-top: 3px; display: none;"></div>
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.4rem;">🟢</span>
+              <div>
+                <div style="font-weight: 600; font-size: 0.88rem; color: var(--text-primary);">中央 Notion 帳本連線狀態：已就緒</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">
+                  支援跨卡別、自動點數試算、核對狀態雙向同步與「記帳人」人員歸屬分組
+                </div>
+              </div>
             </div>
-
-            <div>
-              <label for="notion-api-key" style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); display: block; margin-bottom: 4px;">
-                2. Notion 整合金鑰 (Internal Integration Secret)：
-              </label>
-              <input 
-                type="password" 
-                id="notion-api-key" 
-                placeholder="ntn_..." 
-                class="form-input" 
-                style="width: 100%; font-size: 0.85rem;"
-              />
-            </div>
-
-            <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px;">
-              <button type="button" id="notion-test-btn" class="btn-secondary" style="padding: 6px 14px; font-size: 0.8rem;">🧪 測試並儲存連線</button>
-            </div>
-          </div>
-          
-          <div id="notion-status-msg" class="cloud-sync-status-msg"></div>
-
-          <div class="cloud-sync-help" style="margin-top: 12px;">
-            <strong>💡 如何取得 Notion 授權金鑰？（只要 30 秒）</strong>
-            <ol style="margin-top: 4px; padding-left: 18px; line-height: 1.6;">
-              <li>開啟 <a href="https://www.notion.so/my-integrations" target="_blank" rel="noopener noreferrer">notion.so/my-integrations</a> 點擊「New integration」建立一個連線並複製 <code>ntn_...</code> 金鑰。</li>
-              <li>在您的 Notion【💳 2026 刷卡記帳與點數對帳庫】頁面右上角點擊 <code>···</code> ➜ 選擇「Connect to」➜ 勾選您剛建立的 Integration。</li>
-              <li>複製該 Notion 頁面網址貼到上方第 1 欄即可！</li>
-            </ol>
+            <a href="https://notion.so" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="padding: 6px 12px; font-size: 0.78rem; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
+              📝 開啟 Notion ↗
+            </a>
           </div>
         </div>
       </div>

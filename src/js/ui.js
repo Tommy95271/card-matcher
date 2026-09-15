@@ -82,13 +82,6 @@ export class UI {
     this.copySyncLogsBtn = document.getElementById('copy-sync-logs-btn');
     this.clearSyncLogsBtn = document.getElementById('clear-sync-logs-btn');
 
-    // Cloud Sync & Notion DOM 元素
-    this.notionDbUrlInput = document.getElementById('notion-db-url');
-    this.notionApiKeyInput = document.getElementById('notion-api-key');
-    this.notionParsedIdHint = document.getElementById('notion-parsed-id-hint');
-    this.notionTestBtn = document.getElementById('notion-test-btn');
-    this.notionStatusMsg = document.getElementById('notion-status-msg');
-
     // Dispute DOM 元素
     this.disputeModal = document.getElementById('dispute-modal');
     this.disputeCloseBtn = document.getElementById('dispute-close-btn');
@@ -472,71 +465,6 @@ export class UI {
           this.showToast('🎉 已成功從 Notion 同步最新對帳資料！');
         } catch (err) {
           this.showToast(`❌ 同步失敗: ${err.message}`);
-        }
-      });
-    }
-
-    // Notion 網址輸入智慧解析
-    if (this.notionDbUrlInput) {
-      this.notionDbUrlInput.addEventListener('input', (e) => {
-        const val = e.target.value.trim();
-        const parsedId = extractNotionDatabaseId(val);
-        if (this.notionParsedIdHint) {
-          if (parsedId && parsedId !== val) {
-            this.notionParsedIdHint.textContent = `🎯 已自動解析 Database ID: ${parsedId}`;
-            this.notionParsedIdHint.style.display = 'block';
-          } else if (parsedId && parsedId.length === 32) {
-            this.notionParsedIdHint.textContent = `✅ 32 位元 Database ID 有效`;
-            this.notionParsedIdHint.style.display = 'block';
-          } else {
-            this.notionParsedIdHint.style.display = 'none';
-          }
-        }
-      });
-    }
-
-    // 測試並儲存 Notion 連線
-    if (this.notionTestBtn) {
-      this.notionTestBtn.addEventListener('click', async () => {
-        const dbUrl = (this.notionDbUrlInput.value || '').trim();
-        const apiKey = (this.notionApiKeyInput.value || '').trim();
-        const gasUrl = (this.gasWebhookInput.value || '').trim();
-
-        const dbId = extractNotionDatabaseId(dbUrl);
-
-        if (!dbUrl || !dbId) {
-          this.notionStatusMsg.className = 'cloud-sync-status-msg error';
-          this.notionStatusMsg.textContent = '❌ 請貼上 Notion 資料庫網址或 32 位元 ID！';
-          return;
-        }
-
-        if (!apiKey) {
-          this.notionStatusMsg.className = 'cloud-sync-status-msg error';
-          this.notionStatusMsg.textContent = '❌ 請輸入 Notion API Key (以 ntn_ 開頭)！';
-          return;
-        }
-
-        this.notionTestBtn.disabled = true;
-        this.notionTestBtn.textContent = '⏳ 測試連線中...';
-        this.notionStatusMsg.className = 'cloud-sync-status-msg';
-        this.notionStatusMsg.style.display = 'none';
-
-        try {
-          // 儲存至本機
-          store.setNotionConfig(apiKey, dbUrl);
-          if (gasUrl) store.setGasWebhookUrl(gasUrl);
-
-          const res = await tracker.testConnection(gasUrl, apiKey, dbId);
-          this.notionStatusMsg.className = 'cloud-sync-status-msg success';
-          this.notionStatusMsg.textContent = `✅ 連線成功！已連通【${res.databaseTitle || 'Notion 記帳庫'}】`;
-          this.showToast('🎉 Notion 資料庫連線測試成功並已儲存！');
-        } catch (err) {
-          this.notionStatusMsg.className = 'cloud-sync-status-msg error';
-          this.notionStatusMsg.textContent = `❌ 連線失敗：${err.message}`;
-          this.showToast('❌ Notion 連線失敗，請檢查金鑰與頁面連線權限');
-        } finally {
-          this.notionTestBtn.disabled = false;
-          this.notionTestBtn.textContent = '🧪 測試並儲存連線';
         }
       });
     }
@@ -1217,27 +1145,6 @@ export class UI {
 
     // 載入 Firebase 登入狀態
     this.renderSettingsAuthStatus(firebaseService.currentUser);
-
-    // 載入 Notion 設定
-    if (this.notionDbUrlInput) {
-      this.notionDbUrlInput.value = profile.notionDatabaseUrl || profile.notionDatabaseId || '';
-    }
-    if (this.notionApiKeyInput) {
-      this.notionApiKeyInput.value = profile.notionApiKey || '';
-    }
-    if (this.notionParsedIdHint) {
-      if (profile.notionDatabaseId) {
-        this.notionParsedIdHint.textContent = `🎯 已解析 Database ID: ${profile.notionDatabaseId}`;
-        this.notionParsedIdHint.style.display = 'block';
-      } else {
-        this.notionParsedIdHint.style.display = 'none';
-      }
-    }
-    if (this.notionStatusMsg) {
-      this.notionStatusMsg.className = 'cloud-sync-status-msg';
-      this.notionStatusMsg.style.display = 'none';
-      this.notionStatusMsg.textContent = '';
-    }
 
     this.cardsConfigList.innerHTML = cards.map((card) => {
       const userCard = profile.cards[card.id] || { enabled: true, tier: card.defaultTier };

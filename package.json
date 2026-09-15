@@ -9,7 +9,8 @@
     "preview": "vite preview --host --port 3000",
     "seed:notion": "node scripts/seed-notion.js",
     "sync:notion": "node scripts/sync-notion.js",
-    "sync:expenses": "node scripts/sync-expenses.js"
+    "sync:expenses": "node scripts/sync-expenses.js",
+    "sync:all-notion": "node scripts/sync-all-to-notion.js"
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
