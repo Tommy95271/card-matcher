@@ -41,6 +41,47 @@ function getConfig(payload) {
 }
 
 /**
+ * 核心網路中繼器：呼叫 Notion API 並自動處理頻率限制 (HTTP 429) 與指數退避重試
+ */
+function fetchNotionWithRetry(url, options, maxRetries) {
+  const retries = maxRetries || 3;
+  let attempt = 0;
+
+  while (attempt < retries) {
+    attempt++;
+    const response = UrlFetchApp.fetch(url, options);
+    const code = response.getResponseCode();
+
+    // 成功回應 (HTTP 200~299)
+    if (code >= 200 && code < 300) {
+      return response;
+    }
+
+    // 遇到頻率限制 (HTTP 429 Too Many Requests) 或伺服器暫時波動 (502/503/504)
+    if (code === 429 || (code >= 502 && code <= 504)) {
+      if (attempt >= retries) {
+        throw new Error(`Notion API 觸發頻率限制或伺服器異常 (${code})，已重試 ${retries} 次仍失敗: ${response.getContentText()}`);
+      }
+
+      // 嘗試讀取 Notion 回傳的 Retry-After Header (秒數)，若無則採用指數退避 (500ms -> 1000ms -> 2000ms)
+      const headers = response.getAllHeaders();
+      let delayMs = Math.pow(2, attempt - 1) * 500;
+      if (headers['Retry-After'] || headers['retry-after']) {
+        const retrySec = parseFloat(headers['Retry-After'] || headers['retry-after']) || 1;
+        delayMs = Math.max(delayMs, retrySec * 1000);
+      }
+
+      console.warn(`[Notion Rate Limit] 觸發 HTTP ${code}，將於 ${delayMs}ms 後進行第 ${attempt} 次重試...`);
+      Utilities.sleep(delayMs);
+      continue;
+    }
+
+    // 其他不可重試的錯誤 (如 400 Bad Request, 401 Unauthorized, 404 Not Found)
+    throw new Error(`Notion API 錯誤 (${code}): ${response.getContentText()}`);
+  }
+}
+
+/**
  * 處理 POST 請求 (新增記帳、更新核對狀態、刪除紀錄、連線測試)
  */
 function doPost(e) {
@@ -175,7 +216,7 @@ function handleAddExpense(data, payload) {
     }
   };
 
-  const response = UrlFetchApp.fetch('https://api.notion.com/v1/pages', {
+  const response = fetchNotionWithRetry('https://api.notion.com/v1/pages', {
     method: 'post',
     contentType: 'application/json',
     headers: {
@@ -186,13 +227,7 @@ function handleAddExpense(data, payload) {
     muteHttpExceptions: true
   });
 
-  const code = response.getResponseCode();
-  const resText = response.getContentText();
-  if (code >= 300) {
-    throw new Error(`Notion API 錯誤 (${code}): ${resText}`);
-  }
-
-  const resJson = JSON.parse(resText);
+  const resJson = JSON.parse(response.getContentText());
   return {
     notionPageId: resJson.id,
     createdTime: resJson.created_time
@@ -222,7 +257,7 @@ function handleUpdateStatus(notionPageId, status, actualPoints, payload) {
     };
   }
 
-  const response = UrlFetchApp.fetch(`https://api.notion.com/v1/pages/${notionPageId}`, {
+  fetchNotionWithRetry(`https://api.notion.com/v1/pages/${notionPageId}`, {
     method: 'patch',
     contentType: 'application/json',
     headers: {
@@ -232,12 +267,6 @@ function handleUpdateStatus(notionPageId, status, actualPoints, payload) {
     payload: JSON.stringify({ properties: properties }),
     muteHttpExceptions: true
   });
-
-  const code = response.getResponseCode();
-  const resText = response.getContentText();
-  if (code >= 300) {
-    throw new Error(`Notion API 更新錯誤 (${code}): ${resText}`);
-  }
 
   return { success: true, notionPageId: notionPageId };
 }
@@ -249,7 +278,7 @@ function handleDeleteExpense(notionPageId, payload) {
   if (!notionPageId) throw new Error('缺少 notionPageId');
   const config = getConfig(payload);
 
-  const response = UrlFetchApp.fetch(`https://api.notion.com/v1/pages/${notionPageId}`, {
+  fetchNotionWithRetry(`https://api.notion.com/v1/pages/${notionPageId}`, {
     method: 'patch',
     contentType: 'application/json',
     headers: {
@@ -260,12 +289,6 @@ function handleDeleteExpense(notionPageId, payload) {
     muteHttpExceptions: true
   });
 
-  const code = response.getResponseCode();
-  const resText = response.getContentText();
-  if (code >= 300) {
-    throw new Error(`Notion API 刪除錯誤 (${code}): ${resText}`);
-  }
-
   return { success: true, deleted: true };
 }
 
@@ -275,7 +298,7 @@ function handleDeleteExpense(notionPageId, payload) {
 function handleFetchExpenses(payload) {
   const config = getConfig(payload);
 
-  const response = UrlFetchApp.fetch(`https://api.notion.com/v1/databases/${config.expenseDbId}/query`, {
+  const response = fetchNotionWithRetry(`https://api.notion.com/v1/databases/${config.expenseDbId}/query`, {
     method: 'post',
     contentType: 'application/json',
     headers: {
@@ -289,13 +312,7 @@ function handleFetchExpenses(payload) {
     muteHttpExceptions: true
   });
 
-  const code = response.getResponseCode();
-  const resText = response.getContentText();
-  if (code >= 300) {
-    throw new Error(`Notion 查詢錯誤 (${code}): ${resText}`);
-  }
-
-  const resJson = JSON.parse(resText);
+  const resJson = JSON.parse(response.getContentText());
   const results = resJson.results || [];
 
   return results.map(function(page) {
@@ -372,7 +389,7 @@ function handleFetchExpenses(payload) {
  */
 function handleTestConnection(payload) {
   const config = getConfig(payload);
-  const response = UrlFetchApp.fetch(`https://api.notion.com/v1/databases/${config.expenseDbId}`, {
+  const response = fetchNotionWithRetry(`https://api.notion.com/v1/databases/${config.expenseDbId}`, {
     method: 'get',
     headers: {
       'Authorization': 'Bearer ' + config.apiKey,

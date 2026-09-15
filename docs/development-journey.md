@@ -114,20 +114,54 @@ timeline
 
 ## 🎯 架構決策記錄 (Architecture Decision Records, ADR)
 
-### ADR-001: 為什麼選擇 Google Apps Script 作為 Notion Relay？
-- **背景**：Notion API 不允許瀏覽器直接跨域請求（CORS 限制）。
-- **決策**：採用 Google Apps Script Web App。
+### ADR-001: 為什麼選擇 Vanilla JS + Vite 而非 React / Vue / Angular？
+- **背景**：需要打造反應敏捷、載入極速的行動端工具型 Web App。
+- **決策**：採用原生現代 JavaScript (ES Modules) + 原生 CSS，搭配 Vite 作為建置工具。
 - **效益**：
-  - 免費、零伺服器維護成本、高可用性。
-  - 能安全地在伺服器端調用 Notion REST API，完美支援所有手機與電腦瀏覽器。
+  1. **零執行時負擔（Zero Runtime Overhead）**：無需載入數百 KB 的框架底層代碼，手機載入時間縮短至 0.2 秒以內。
+  2. **毫秒級熱更新 (HMR)**：Vite 利用瀏覽器原生模組，存檔即瞬間更新。
+  3. **長期穩定性**：遵循原生 Web 標準，永無框架大版本升級斷代或廢棄 API 的維護風險。
 
-### ADR-002: 為什麼採用雙軌同步策略（Firestore + Notion）？
-- **背景**：一般用戶追求「0 門檻跨裝置同步」，進階用戶追求「資料完全掌握在自己的 Notion」。
-- **決策**：設計可獨立亦可共存的雙軌架構。
+---
+
+### ADR-002: 為什麼選擇 Cloud Firestore 而非舊版 Firebase Realtime Database？
+- **背景**：需要儲存使用者的多筆消費與對帳狀態，並支援即時雙向推播。
+- **決策**：選用 Google 主推的新一代 NoSQL 資料庫 **Cloud Firestore**。
 - **效益**：
-  - 登入 Google 即可享有 Firestore 即時多裝置同步。
-  - 設定 Notion 即可備份至私人筆記庫。
-  - 兩者同時開啟時，系統無縫並行雙向寫入。
+  1. **文件/集合階層架構**：天然支援多租戶隔離（`users/{uid}/expenses/{id}`），結構遠比單一龐大 JSON 樹清晰。
+  2. **複合查詢與排序**：原生支援同時依「日期倒序 + 狀態篩選」複合檢索（`orderBy('date', 'desc')`）。
+  3. **台灣在地機房 (`asia-east1`)**：伺服器位於彰化，延遲極低、存取極速。
+  4. **細粒度安全規則**：透過 `firestore.rules` 嚴格限制 `request.auth.uid == userId`。
+
+---
+
+### ADR-003: 為什麼選擇 Google Apps Script (GAS) 作為 Notion Relay 而非 Firebase Cloud Functions？
+- **背景**：Notion REST API 不允許瀏覽器前端跨域發送請求 (CORS)，必須透過伺服器端中繼轉發。
+- **決策**：採用 Google Apps Script Web App 伺服器中繼站。
+- **效益**：
+  1. **100% 永久零成本且免綁信用卡**：Firebase Cloud Functions 要求專案升級為 Blaze 方案（必須綁定信用卡）才能對外連網呼叫 Notion API；而 GAS 免綁卡、完全免費。
+  2. **開源與他人複製門檻極低**：一般朋友或社群使用者只需複製程式碼即可免費部署自己的中繼站，不需至 GCP 註冊開發者帳號。
+  3. **免伺服器維護**：Google 自動託管，具備極高可用性。
+
+---
+
+### ADR-004: 為什麼採用雙軌同步策略（Firestore + Notion）？
+- **背景**：大眾用戶追求「免申請 Token、0 門檻跨裝置同步」；進階用戶追求「資料完全掌握在私人 Notion」。
+- **決策**：設計可獨立運作亦可並行雙向寫入的架構。
+- **效益**：
+  1. 登入 Google 即可享有 Firestore 毫秒級跨裝置即時同步。
+  2. 貼上 Notion 資料庫網址即可備份至個人筆記庫。
+  3. 實作雙向 ID 持久化保護鎖，避免 Firestore 與 Notion 異步寫入時發生競態覆蓋。
+
+---
+
+### ADR-005: 為什麼將託管從 GitHub Pages 遷移至 Firebase Hosting？
+- **背景**：GitHub Pages 採用子目錄二級網址，且無法與 Firebase 生態系無縫整合。
+- **決策**：遷移至 Firebase Hosting。
+- **效益**：
+  1. **專屬獨立根網域**：提供乾淨頂層網域（`card-matcher-2026.web.app`），徹底解決 SPA 路由 Base 路徑問題。
+  2. **同源 Edge CDN 邊緣加速**：與 Firebase Auth / Firestore 同處 Google 全球骨幹網路，快取與存取速度顯著提升。
+  3. **自動化 CI/CD**：透過 Google Cloud IAM Service Account 與 GitHub Actions，達成 `git push` 即全自動建置發布。
 
 ---
 
