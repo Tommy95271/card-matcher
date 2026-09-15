@@ -1685,11 +1685,15 @@
   border-radius: var(--radius-xl);
   padding: 14px 16px;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.2);
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   z-index: 99999;
+}
+
+.pwa-update-toast.show {
+  display: flex;
   animation: pwaSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 

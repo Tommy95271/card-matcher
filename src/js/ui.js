@@ -264,12 +264,41 @@ export class UI {
     if (this.logModalCloseBtn) {
       this.logModalCloseBtn.addEventListener('click', () => this.closeLogModal());
     }
-    if (this.logCancelBtn) {
-      this.logCancelBtn.addEventListener('click', () => this.closeLogModal());
-    }
     if (this.logExpenseModal) {
       this.logExpenseModal.addEventListener('click', (e) => {
         if (e.target === this.logExpenseModal) this.closeLogModal();
+      });
+    }
+
+    // PWA 更新橫幅按鈕事件
+    const pwaUpdateToast = document.getElementById('pwa-update-toast');
+    const pwaReloadBtn = document.getElementById('pwa-reload-btn');
+    const pwaDismissBtn = document.getElementById('pwa-dismiss-btn');
+
+    if (pwaDismissBtn && pwaUpdateToast) {
+      pwaDismissBtn.addEventListener('click', () => {
+        pwaUpdateToast.classList.remove('show');
+        pwaUpdateToast.style.display = 'none';
+      });
+    }
+
+    if (pwaReloadBtn) {
+      pwaReloadBtn.addEventListener('click', () => {
+        pwaReloadBtn.disabled = true;
+        pwaReloadBtn.textContent = '🔄 更新中...';
+        if (pwaUpdateToast) pwaUpdateToast.style.opacity = '0.7';
+
+        if (typeof this.pendingPwaReloadCallback === 'function') {
+          try {
+            this.pendingPwaReloadCallback();
+          } catch (err) {
+            console.warn('pendingPwaReloadCallback error:', err);
+          }
+        }
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 200);
       });
     }
 
@@ -1344,41 +1373,11 @@ export class UI {
   // ==========================================
   showPwaUpdatePrompt(onReload) {
     const toast = document.getElementById('pwa-update-toast');
-    const reloadBtn = document.getElementById('pwa-reload-btn');
-    const dismissBtn = document.getElementById('pwa-dismiss-btn');
     if (!toast) return;
 
+    this.pendingPwaReloadCallback = onReload;
+    toast.classList.add('show');
     toast.style.display = 'flex';
-
-    if (reloadBtn) {
-      reloadBtn.onclick = () => {
-        reloadBtn.disabled = true;
-        reloadBtn.textContent = '🔄 更新中...';
-        toast.style.opacity = '0.7';
-
-        if (typeof onReload === 'function') {
-          try {
-            onReload();
-          } catch (err) {
-            console.warn('onReload error, fallback to page reload:', err);
-            window.location.reload();
-          }
-        } else {
-          window.location.reload();
-        }
-
-        // 雙重保證：400ms 後若頁面尚未重載，強制執行 reload
-        setTimeout(() => {
-          window.location.reload();
-        }, 400);
-      };
-    }
-
-    if (dismissBtn) {
-      dismissBtn.onclick = () => {
-        toast.style.display = 'none';
-      };
-    }
   }
 
   showToast(msg) {
