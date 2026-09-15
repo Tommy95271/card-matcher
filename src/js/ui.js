@@ -35,6 +35,11 @@ export class UI {
     this.userLogoutBtn = document.getElementById('user-logout-btn');
     this.settingsAuthStatus = document.getElementById('settings-auth-status');
 
+    // Logout Confirmation Modal DOM 元素
+    this.logoutModal = document.getElementById('logout-modal');
+    this.logoutCancelBtn = document.getElementById('logout-cancel-btn');
+    this.logoutConfirmBtn = document.getElementById('logout-confirm-btn');
+
     // 導覽列與記帳對帳按鈕
     this.quickLogBtn = document.getElementById('quick-log-btn');
     this.trackerBtn = document.getElementById('tracker-btn');
@@ -301,21 +306,32 @@ export class UI {
         const merchant = chip.dataset.merchant || '';
         const amount = chip.dataset.amount || '';
         const notes = chip.dataset.notes || '';
+        const cardId = chip.dataset.cardId || '';
+        const schemeName = chip.dataset.schemeName || '';
+        const rate = chip.dataset.rate || '';
 
         this.logMerchantInput.value = merchant;
         this.logAmountInput.value = amount;
         if (notes) this.logNotesInput.value = notes;
 
-        // 智慧比對該通路最優卡片與方案
-        const profile = store.getProfile();
-        const results = this.engine.search(merchant, 'all', profile);
-        if (results && results.length > 0 && results[0].bestCard) {
-          const best = results[0].bestCard;
+        // 智慧帶入或比對該通路最優卡片與方案
+        if (cardId && schemeName) {
           this.rebuildCardSelect({
-            cardId: best.cardId,
-            schemeName: best.schemeName,
-            rate: best.rate
+            cardId,
+            schemeName,
+            rate
           });
+        } else {
+          const profile = store.getProfile();
+          const results = this.engine.search(merchant, 'all', profile);
+          if (results && results.length > 0 && results[0].bestCard) {
+            const best = results[0].bestCard;
+            this.rebuildCardSelect({
+              cardId: best.cardId,
+              schemeName: best.schemeName,
+              rate: best.rate
+            });
+          }
         }
         this.updateLiveCalculation();
         this.logAmountInput.focus();
@@ -349,6 +365,10 @@ export class UI {
 
       // 按 Escape 鍵關閉所有開啟中的彈窗
       if (e.key === 'Escape') {
+        if (this.logoutModal && this.logoutModal.classList.contains('open')) {
+          this.closeLogoutModal();
+          return;
+        }
         if (this.disputeModal && this.disputeModal.classList.contains('open')) {
           this.closeDisputeModal();
           return;
@@ -474,7 +494,20 @@ export class UI {
       this.googleLoginBtn.addEventListener('click', () => this.handleGoogleLogin());
     }
     if (this.userLogoutBtn) {
-      this.userLogoutBtn.addEventListener('click', () => this.handleLogout());
+      this.userLogoutBtn.addEventListener('click', () => this.openLogoutModal());
+    }
+
+    // Logout Confirmation Modal 事件
+    if (this.logoutCancelBtn) {
+      this.logoutCancelBtn.addEventListener('click', () => this.closeLogoutModal());
+    }
+    if (this.logoutConfirmBtn) {
+      this.logoutConfirmBtn.addEventListener('click', () => this.confirmLogout());
+    }
+    if (this.logoutModal) {
+      this.logoutModal.addEventListener('click', (e) => {
+        if (e.target === this.logoutModal) this.closeLogoutModal();
+      });
     }
 
     // Dispute 申訴 Modal
@@ -500,8 +533,16 @@ export class UI {
   }
 
   applyTheme(theme) {
+    // 0ms 零延遲切換：短暫關閉全局 transition 避免重算重度模糊
+    document.documentElement.classList.add('theme-switching');
     document.documentElement.setAttribute('data-theme', theme);
     this.themeToggleBtn.innerHTML = theme === 'dark' ? '🌙' : '☀️';
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove('theme-switching');
+      });
+    });
   }
 
   renderTodaySelectors() {
@@ -737,6 +778,9 @@ export class UI {
     this.logAmountInput.value = prefill.amount || '';
     this.logNotesInput.value = prefill.notes || '';
 
+    // 動態計算並渲染使用者最常用的 5 筆預設 Chips
+    this.renderDynamicPresetChips();
+
     // 建立卡片與方案選單
     this.rebuildCardSelect(prefill);
     this.updateLiveCalculation();
@@ -746,6 +790,119 @@ export class UI {
     } else {
       this.logAmountInput.focus();
     }
+  }
+
+  renderDynamicPresetChips() {
+    const presetListEl = document.getElementById('preset-chips-list');
+    if (!presetListEl) return;
+
+    // 1. 取得所有歷史消費紀錄
+    const allExpenses = tracker.expenses || [];
+    
+    // 2. 統計各店家消費次數與最常出現的金額/卡片
+    const merchantMap = {};
+    allExpenses.forEach((exp) => {
+      const name = (exp.merchantName || '').trim();
+      if (!name) return;
+      if (!merchantMap[name]) {
+        merchantMap[name] = {
+          merchantName: name,
+          count: 0,
+          amounts: {},
+          cards: {},
+          lastNotes: exp.notes || ''
+        };
+      }
+      merchantMap[name].count += 1;
+      
+      const amt = String(exp.amount || '');
+      if (amt) {
+        merchantMap[name].amounts[amt] = (merchantMap[name].amounts[amt] || 0) + 1;
+      }
+      
+      if (exp.cardId) {
+        const key = `${exp.cardId}|${exp.schemeName || ''}|${exp.rate || ''}`;
+        merchantMap[name].cards[key] = (merchantMap[name].cards[key] || 0) + 1;
+      }
+    });
+
+    // 3. 依使用頻率排序
+    const sortedMerchants = Object.values(merchantMap).sort((a, b) => b.count - a.count);
+
+    // 4. 取出前 5 筆動態常用組合
+    const topPresets = sortedMerchants.slice(0, 5).map((item) => {
+      let topAmt = '';
+      let maxAmtCount = 0;
+      for (const [amt, cnt] of Object.entries(item.amounts)) {
+        if (cnt > maxAmtCount) {
+          maxAmtCount = cnt;
+          topAmt = amt;
+        }
+      }
+
+      let topCardKey = '';
+      let maxCardCount = 0;
+      for (const [cardKey, cnt] of Object.entries(item.cards)) {
+        if (cnt > maxCardCount) {
+          maxCardCount = cnt;
+          topCardKey = cardKey;
+        }
+      }
+      const [cardId, schemeName, rate] = topCardKey ? topCardKey.split('|') : ['', '', ''];
+
+      let icon = '⚡';
+      if (item.merchantName.includes('7-11') || item.merchantName.includes('7-ELEVEN') || item.merchantName.includes('全家') || item.merchantName.includes('超商')) icon = '🏪';
+      else if (item.merchantName.includes('全聯') || item.merchantName.includes('家樂福') || item.merchantName.includes('超市')) icon = '🛒';
+      else if (item.merchantName.includes('Uber') || item.merchantName.includes('foodpanda') || item.merchantName.includes('外送')) icon = '🍱';
+      else if (item.merchantName.includes('星巴克') || item.merchantName.includes('咖啡') || item.merchantName.includes('茶')) icon = '☕';
+      else if (item.merchantName.includes('油') || item.merchantName.includes('中油')) icon = '⛽';
+      else if (item.merchantName.includes('蝦皮') || item.merchantName.includes('momo') || item.merchantName.includes('PChome')) icon = '📦';
+      else if (item.merchantName.includes('博客來') || item.merchantName.includes('書')) icon = '📚';
+      else if (item.merchantName.includes('日本') || item.merchantName.includes('日幣') || item.merchantName.includes('機票')) icon = '🛫';
+
+      return {
+        merchantName: item.merchantName,
+        amount: topAmt || '',
+        notes: item.lastNotes,
+        cardId,
+        schemeName,
+        rate,
+        label: `${icon} ${item.merchantName}${topAmt ? ' $' + topAmt : ''}`
+      };
+    });
+
+    // 5. 若不足 5 筆，使用精選預設補足 5 筆
+    const defaultFallbacks = [
+      { merchantName: 'Uber Eats', amount: '250', notes: '午餐外送', label: '🍱 Uber Eats $250' },
+      { merchantName: '全聯福利中心', amount: '500', notes: '日常採買', label: '🛒 全聯 $500' },
+      { merchantName: '7-ELEVEN', amount: '120', notes: '超商消費', label: '🏪 7-11 $120' },
+      { merchantName: '星巴克', amount: '165', notes: '咖啡下午茶', label: '☕ 星巴克 $165' },
+      { merchantName: '台灣中油', amount: '1000', notes: '汽車加油', label: '⛽ 中油 $1000' }
+    ];
+
+    const finalPresets = [...topPresets];
+    for (const fb of defaultFallbacks) {
+      if (finalPresets.length >= 5) break;
+      if (!finalPresets.some((p) => p.merchantName === fb.merchantName)) {
+        finalPresets.push(fb);
+      }
+    }
+
+    // 6. 渲染 DOM
+    presetListEl.innerHTML = finalPresets.map((p) => `
+      <button 
+        type="button" 
+        class="preset-chip" 
+        data-merchant="${p.merchantName}" 
+        data-amount="${p.amount || ''}" 
+        data-notes="${p.notes || ''}"
+        data-card-id="${p.cardId || ''}"
+        data-scheme-name="${p.schemeName || ''}"
+        data-rate="${p.rate || ''}"
+        title="快速帶入【${p.merchantName}】${p.amount ? 'NT$' + p.amount : ''}">
+        ${p.label}
+      </button>
+    `).join('');
   }
 
   closeLogModal() {
@@ -1087,7 +1244,24 @@ export class UI {
     }
   }
 
-  async handleLogout() {
+  handleLogout() {
+    this.openLogoutModal();
+  }
+
+  openLogoutModal() {
+    if (this.logoutModal) {
+      this.logoutModal.classList.add('open');
+    }
+  }
+
+  closeLogoutModal() {
+    if (this.logoutModal) {
+      this.logoutModal.classList.remove('open');
+    }
+  }
+
+  async confirmLogout() {
+    this.closeLogoutModal();
     try {
       await firebaseService.logout();
       this.showToast('👋 已安全登出 Google 帳號');

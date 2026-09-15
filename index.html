@@ -470,6 +470,22 @@
     </div>
   </div>
 
+  <!-- Logout Confirmation Modal -->
+  <div id="logout-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card modal-card-sm" style="max-width: 400px;">
+      <div class="modal-header">
+        <h3 class="modal-title">🚪 確認登出帳號？</h3>
+      </div>
+      <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px;">
+        登出後將切換為訪客模式，您的雲端資料仍會安全保存在 Google 帳號中。
+      </p>
+      <div class="modal-actions" style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button type="button" id="logout-cancel-btn" class="btn-secondary">取消</button>
+        <button type="button" id="logout-confirm-btn" class="btn-danger">確認登出</button>
+      </div>
+    </div>
+  </div>
+
   <!-- PWA Instant Update Toast -->
   <div id="pwa-update-toast" class="pwa-update-toast" aria-live="polite">
     <div class="pwa-update-content">
