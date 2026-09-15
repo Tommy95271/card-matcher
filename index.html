@@ -443,29 +443,32 @@
         </div>
       </div>
 
-      <!-- 中央 Notion 雲端同步展示區 (模式 3) -->
+      <!-- 系統版本與開發日誌 -->
       <div class="settings-section">
-        <h3 class="settings-section-title">📊 中央 Notion 雲端對帳庫 (所有使用者資料即時同步)</h3>
+        <h3 class="settings-section-title">📜 系統版本與開發日誌</h3>
         <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
-          系統已全自動整合中央 Notion 記帳庫，所有登入使用者與訪客的消費皆會自動標註「記帳人」並即時秒寫入 Notion 儀表板，無需手動輸入金鑰。
+          查看 2026 信用卡查詢系統的完整版本更新歷史、新功能亮點與優化紀錄。
         </p>
+        <button type="button" id="open-changelog-btn" class="btn-secondary" style="width: 100%; justify-content: center; display: inline-flex; align-items: center; gap: 8px;">
+          <span>📜</span>
+          <span>查看完整開發與版本日誌 (Changelog)</span>
+        </button>
+      </div>
+    </div>
+  </div>
 
-        <div class="cloud-sync-card">
-          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-              <span style="font-size: 1.4rem;">🟢</span>
-              <div>
-                <div style="font-weight: 600; font-size: 0.88rem; color: var(--text-primary);">中央 Notion 帳本連線狀態：已就緒</div>
-                <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">
-                  支援跨卡別、自動點數試算、核對狀態雙向同步與「記帳人」人員歸屬分組
-                </div>
-              </div>
-            </div>
-            <a href="https://notion.so" target="_blank" rel="noopener noreferrer" class="btn-secondary" style="padding: 6px 12px; font-size: 0.78rem; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">
-              📝 開啟 Notion ↗
-            </a>
-          </div>
+  <!-- Changelog Modal Drawer -->
+  <div id="changelog-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card modal-card-large" style="max-width: 680px;">
+      <div class="modal-header">
+        <div class="tracker-modal-title-area">
+          <h2 class="modal-title">📜 系統開發與更新日誌</h2>
+          <span class="tracker-subtitle">持續精進，打造極致典雅且好用的信用卡查詢體驗</span>
         </div>
+        <button id="changelog-close-btn" class="modal-close-btn" aria-label="關閉">✕</button>
+      </div>
+      <div id="changelog-timeline-list" class="changelog-timeline">
+        <!-- 由 ui.js 動態渲染版本時間軸 -->
       </div>
     </div>
   </div>

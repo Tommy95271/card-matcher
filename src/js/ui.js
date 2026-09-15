@@ -2,6 +2,7 @@ import { store, extractNotionDatabaseId } from './store.js';
 import { tracker } from './tracker.js';
 import { firebaseService } from './firebase.js';
 import { syncLogger } from './logger.js';
+import { CHANGELOG_DATA } from '../data/changelog.js';
 
 export class UI {
   constructor(engine) {
@@ -26,6 +27,12 @@ export class UI {
     this.settingsModal = document.getElementById('settings-modal');
     this.modalCloseBtn = document.getElementById('modal-close-btn');
     this.cardsConfigList = document.getElementById('cards-config-list');
+
+    // 開發日誌 (Changelog) DOM 元素
+    this.openChangelogBtn = document.getElementById('open-changelog-btn');
+    this.changelogModal = document.getElementById('changelog-modal');
+    this.changelogCloseBtn = document.getElementById('changelog-close-btn');
+    this.changelogTimelineList = document.getElementById('changelog-timeline-list');
 
     // Google Auth & Firebase DOM 元素
     this.googleLoginBtn = document.getElementById('google-login-btn');
@@ -243,6 +250,19 @@ export class UI {
       if (e.target === this.settingsModal) this.closeSettingsModal();
     });
 
+    // 開發日誌 (Changelog) Modal 開關
+    if (this.openChangelogBtn) {
+      this.openChangelogBtn.addEventListener('click', () => this.openChangelogModal());
+    }
+    if (this.changelogCloseBtn) {
+      this.changelogCloseBtn.addEventListener('click', () => this.closeChangelogModal());
+    }
+    if (this.changelogModal) {
+      this.changelogModal.addEventListener('click', (e) => {
+        if (e.target === this.changelogModal) this.closeChangelogModal();
+      });
+    }
+
     // Tracker 模態視窗與記帳事件
     if (this.trackerBtn) {
       this.trackerBtn.addEventListener('click', () => this.openTrackerModal());
@@ -365,6 +385,10 @@ export class UI {
 
       // 按 Escape 鍵關閉所有開啟中的彈窗
       if (e.key === 'Escape') {
+        if (this.changelogModal && this.changelogModal.classList.contains('open')) {
+          this.closeChangelogModal();
+          return;
+        }
         if (this.logoutModal && this.logoutModal.classList.contains('open')) {
           this.closeLogoutModal();
           return;
@@ -1508,6 +1532,42 @@ export class UI {
   closeAboutModal() {
     if (!this.aboutModal) return;
     this.aboutModal.classList.remove('open');
+  }
+
+  // ==========================================
+  // 📜 系統開發與版本日誌 (Changelog Modal)
+  // ==========================================
+  openChangelogModal() {
+    if (!this.changelogModal) return;
+    this.renderChangelog();
+    this.changelogModal.classList.add('open');
+  }
+
+  closeChangelogModal() {
+    if (!this.changelogModal) return;
+    this.changelogModal.classList.remove('open');
+  }
+
+  renderChangelog() {
+    if (!this.changelogTimelineList) return;
+
+    this.changelogTimelineList.innerHTML = CHANGELOG_DATA.map((item) => `
+      <div class="changelog-version-card">
+        <div class="changelog-header">
+          <span class="changelog-version-badge">🏷️ ${item.version}</span>
+          <span class="changelog-date">📅 ${item.date}</span>
+        </div>
+        <div class="changelog-version-title">${item.title}</div>
+        <div class="changelog-highlights-list">
+          ${item.highlights.map((h) => `
+            <div class="changelog-highlight-item">
+              <span class="changelog-tag tag-${h.tag}">${h.label}</span>
+              <span>${h.desc}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `).join('');
   }
 
   // ==========================================
