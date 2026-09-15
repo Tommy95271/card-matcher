@@ -72,11 +72,6 @@
       </div>
     </header>
 
-    <!-- Hero Tagline -->
-    <section class="hero-section">
-      <div class="hero-tagline">消費前搜一下，秒知刷哪張回饋最高！</div>
-    </section>
-
     <!-- Search Section -->
     <section class="search-container">
       <div class="search-input-wrapper">
@@ -445,33 +440,6 @@
           <div id="settings-auth-status" class="settings-auth-status">
             <!-- 由 ui.js 動態渲染登入狀態 -->
           </div>
-
-          <details class="custom-firebase-details" style="margin-top: 14px; border-top: 1px dashed var(--glass-border); padding-top: 10px;">
-            <summary style="font-size: 0.8rem; color: var(--text-muted); cursor: pointer; user-select: none;">
-              ⚙️ 自訂 Firebase 專案金鑰 (進階自架使用者選用)
-            </summary>
-            <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
-              <div>
-                <label style="font-size: 0.75rem; color: var(--text-secondary);">API Key:</label>
-                <input type="text" id="fb-cfg-api-key" placeholder="AIzaSy..." class="form-input" style="padding: 6px 10px; font-size: 0.8rem; width: 100%;" />
-              </div>
-              <div>
-                <label style="font-size: 0.75rem; color: var(--text-secondary);">Project ID:</label>
-                <input type="text" id="fb-cfg-project-id" placeholder="your-project-id" class="form-input" style="padding: 6px 10px; font-size: 0.8rem; width: 100%;" />
-              </div>
-              <div>
-                <label style="font-size: 0.75rem; color: var(--text-secondary);">Auth Domain:</label>
-                <input type="text" id="fb-cfg-auth-domain" placeholder="your-project-id.firebaseapp.com" class="form-input" style="padding: 6px 10px; font-size: 0.8rem; width: 100%;" />
-              </div>
-              <div>
-                <label style="font-size: 0.75rem; color: var(--text-secondary);">App ID:</label>
-                <input type="text" id="fb-cfg-app-id" placeholder="1:123456789:web:abcdef" class="form-input" style="padding: 6px 10px; font-size: 0.8rem; width: 100%;" />
-              </div>
-              <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px;">
-                <button type="button" id="fb-cfg-save-btn" class="btn-primary" style="padding: 6px 14px; font-size: 0.8rem;">💾 儲存自訂金鑰</button>
-              </div>
-            </div>
-          </details>
         </div>
       </div>
 
@@ -479,7 +447,7 @@
       <div class="settings-section">
         <h3 class="settings-section-title">📝 Notion 私人資料庫同步 (進階玩家選用)</h3>
         <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">
-          直接貼上您的 Notion 記帳庫網址與 API Key，消費紀錄將自動秒寫入您的 Notion 筆記儀表板中（無需自行架設後端）。
+          直接貼上您的 Notion 記帳庫網址與 API Key，消費紀錄將自動秒寫入您的 Notion 筆記儀表板中。
         </p>
 
         <div class="cloud-sync-card">
@@ -526,21 +494,6 @@
               <li>複製該 Notion 頁面網址貼到上方第 1 欄即可！</li>
             </ol>
           </div>
-
-          <details class="custom-gas-details" style="margin-top: 12px; border-top: 1px dashed var(--glass-border); padding-top: 8px;">
-            <summary style="font-size: 0.75rem; color: var(--text-muted); cursor: pointer; user-select: none;">
-              ⚙️ 自訂 Google Apps Script Webhook 中繼站網址 (選用)
-            </summary>
-            <div style="margin-top: 8px;">
-              <input 
-                type="url" 
-                id="gas-webhook-url" 
-                placeholder="https://script.google.com/macros/s/.../exec" 
-                class="form-input" 
-                style="width: 100%; font-size: 0.8rem;"
-              />
-            </div>
-          </details>
         </div>
       </div>
     </div>

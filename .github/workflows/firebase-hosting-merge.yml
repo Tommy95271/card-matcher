@@ -24,6 +24,15 @@ jobs:
 
       - name: 🏗️ 建置前端靜態網頁 (Build)
         run: npm run build
+        env:
+          VITE_GAS_WEBHOOK_URL: ${{ secrets.VITE_GAS_WEBHOOK_URL || 'https://script.google.com/macros/s/AKfycbywAMmhP29lGDx7WN_H5JghdWtack82dYYFtwTpW5rGWHlu1HI2tn81xDDyhhWjssMv/exec' }}
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY || 'AIzaSyAvpRxdpI5piKkBwmSRCqhS-HIFC2Sr08s' }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN || 'card-matcher-2026.firebaseapp.com' }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID || 'card-matcher-2026' }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET || 'card-matcher-2026.firebasestorage.app' }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID || '475785989950' }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID || '1:475785989950:web:a000298f1601ba9558666f' }}
+
 
       - name: 🚀 發布至 Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0

@@ -20,14 +20,14 @@ import {
   writeBatch
 } from 'firebase/firestore';
 
-// 預設 Firebase 設定 (支援透過 Vite 環境變數或 LocalStorage 自訂覆蓋)
+// 預設 Firebase 設定 (透過 Vite 環境變數注入)
 const DEFAULT_FIREBASE_CONFIG = {
-  apiKey: import.meta.env?.VITE_FIREBASE_API_KEY || 'AIzaSyAvpRxdpI5piKkBwmSRCqhS-HIFC2Sr08s',
-  authDomain: import.meta.env?.VITE_FIREBASE_AUTH_DOMAIN || 'card-matcher-2026.firebaseapp.com',
-  projectId: import.meta.env?.VITE_FIREBASE_PROJECT_ID || 'card-matcher-2026',
-  storageBucket: import.meta.env?.VITE_FIREBASE_STORAGE_BUCKET || 'card-matcher-2026.firebasestorage.app',
-  messagingSenderId: import.meta.env?.VITE_FIREBASE_MESSAGING_SENDER_ID || '475785989950',
-  appId: import.meta.env?.VITE_FIREBASE_APP_ID || '1:475785989950:web:a000298f1601ba9558666f'
+  apiKey: import.meta.env?.VITE_FIREBASE_API_KEY || '',
+  authDomain: import.meta.env?.VITE_FIREBASE_AUTH_DOMAIN || '',
+  projectId: import.meta.env?.VITE_FIREBASE_PROJECT_ID || '',
+  storageBucket: import.meta.env?.VITE_FIREBASE_STORAGE_BUCKET || '',
+  messagingSenderId: import.meta.env?.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
+  appId: import.meta.env?.VITE_FIREBASE_APP_ID || ''
 };
 
 class FirebaseService {

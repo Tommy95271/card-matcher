@@ -13,7 +13,7 @@ export function extractNotionDatabaseId(input) {
 }
 
 const STORAGE_KEY = 'card_matcher_user_profile_v1';
-export const DEFAULT_PUBLIC_GAS_WEBHOOK = 'https://script.google.com/macros/s/AKfycbywAMmhP29lGDx7WN_H5JghdWtack82dYYFtwTpW5rGWHlu1HI2tn81xDDyhhWjssMv/exec';
+export const DEFAULT_PUBLIC_GAS_WEBHOOK = import.meta.env?.VITE_GAS_WEBHOOK_URL || '';
 
 const DEFAULT_PROFILE = {
   theme: 'dark',

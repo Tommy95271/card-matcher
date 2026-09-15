@@ -34,11 +34,6 @@ export class UI {
     this.userName = document.getElementById('user-name');
     this.userLogoutBtn = document.getElementById('user-logout-btn');
     this.settingsAuthStatus = document.getElementById('settings-auth-status');
-    this.fbCfgApiKey = document.getElementById('fb-cfg-api-key');
-    this.fbCfgProjectId = document.getElementById('fb-cfg-project-id');
-    this.fbCfgAuthDomain = document.getElementById('fb-cfg-auth-domain');
-    this.fbCfgAppId = document.getElementById('fb-cfg-app-id');
-    this.fbCfgSaveBtn = document.getElementById('fb-cfg-save-btn');
 
     // 導覽列與記帳對帳按鈕
     this.quickLogBtn = document.getElementById('quick-log-btn');
@@ -93,9 +88,6 @@ export class UI {
     this.notionParsedIdHint = document.getElementById('notion-parsed-id-hint');
     this.notionTestBtn = document.getElementById('notion-test-btn');
     this.notionStatusMsg = document.getElementById('notion-status-msg');
-    this.gasWebhookInput = document.getElementById('gas-webhook-url');
-    this.gasTestBtn = document.getElementById('gas-test-btn');
-    this.gasStatusMsg = document.getElementById('gas-status-msg');
 
     // Dispute DOM 元素
     this.disputeModal = document.getElementById('dispute-modal');
@@ -549,22 +541,12 @@ export class UI {
       });
     }
 
-    if (this.gasWebhookInput) {
-      this.gasWebhookInput.addEventListener('change', (e) => {
-        store.setGasWebhookUrl(e.target.value);
-        this.showToast('💾 已儲存自訂中繼站網址設定');
-      });
-    }
-
     // Google Auth 事件
     if (this.googleLoginBtn) {
       this.googleLoginBtn.addEventListener('click', () => this.handleGoogleLogin());
     }
     if (this.userLogoutBtn) {
       this.userLogoutBtn.addEventListener('click', () => this.handleLogout());
-    }
-    if (this.fbCfgSaveBtn) {
-      this.fbCfgSaveBtn.addEventListener('click', () => this.handleSaveFirebaseConfig());
     }
 
     // Dispute 申訴 Modal
@@ -1187,23 +1169,6 @@ export class UI {
     }
   }
 
-  handleSaveFirebaseConfig() {
-    const config = {
-      apiKey: (this.fbCfgApiKey.value || '').trim(),
-      projectId: (this.fbCfgProjectId.value || '').trim(),
-      authDomain: (this.fbCfgAuthDomain.value || '').trim(),
-      appId: (this.fbCfgAppId.value || '').trim()
-    };
-
-    if (!config.apiKey || !config.projectId) {
-      this.showToast('❌ 請至少填寫 API Key 與 Project ID！');
-      return;
-    }
-
-    firebaseService.saveConfig(config);
-    this.showToast('💾 已儲存自訂 Firebase 設定並重新初始化！');
-  }
-
   renderSettingsAuthStatus(user) {
     if (!this.settingsAuthStatus) return;
 
@@ -1250,15 +1215,10 @@ export class UI {
     const profile = store.getProfile();
     const cards = this.engine.cards;
 
-    // 載入 Firebase 登入狀態與自訂設定
+    // 載入 Firebase 登入狀態
     this.renderSettingsAuthStatus(firebaseService.currentUser);
-    const fbCfg = firebaseService.getSavedConfig();
-    if (this.fbCfgApiKey) this.fbCfgApiKey.value = fbCfg.apiKey || '';
-    if (this.fbCfgProjectId) this.fbCfgProjectId.value = fbCfg.projectId || '';
-    if (this.fbCfgAuthDomain) this.fbCfgAuthDomain.value = fbCfg.authDomain || '';
-    if (this.fbCfgAppId) this.fbCfgAppId.value = fbCfg.appId || '';
 
-    // 載入 Notion 與中繼站設定
+    // 載入 Notion 設定
     if (this.notionDbUrlInput) {
       this.notionDbUrlInput.value = profile.notionDatabaseUrl || profile.notionDatabaseId || '';
     }
@@ -1277,15 +1237,6 @@ export class UI {
       this.notionStatusMsg.className = 'cloud-sync-status-msg';
       this.notionStatusMsg.style.display = 'none';
       this.notionStatusMsg.textContent = '';
-    }
-
-    if (this.gasWebhookInput) {
-      this.gasWebhookInput.value = profile.gasWebhookUrl || '';
-    }
-    if (this.gasStatusMsg) {
-      this.gasStatusMsg.className = 'cloud-sync-status-msg';
-      this.gasStatusMsg.style.display = 'none';
-      this.gasStatusMsg.textContent = '';
     }
 
     this.cardsConfigList.innerHTML = cards.map((card) => {
