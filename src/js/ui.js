@@ -273,6 +273,115 @@ export class UI {
       });
     }
 
+    // 常用記帳快速範本 (Preset Chips) 點擊事件
+    const presetChipsList = document.getElementById('preset-chips-list');
+    if (presetChipsList) {
+      presetChipsList.addEventListener('click', (e) => {
+        const chip = e.target.closest('.preset-chip');
+        if (!chip) return;
+        const merchant = chip.dataset.merchant || '';
+        const amount = chip.dataset.amount || '';
+        const notes = chip.dataset.notes || '';
+
+        this.logMerchantInput.value = merchant;
+        this.logAmountInput.value = amount;
+        if (notes) this.logNotesInput.value = notes;
+
+        // 智慧比對該通路最優卡片與方案
+        const profile = store.getProfile();
+        const results = this.engine.search(merchant, 'all', profile);
+        if (results && results.length > 0 && results[0].bestCard) {
+          const best = results[0].bestCard;
+          this.rebuildCardSelect({
+            cardId: best.cardId,
+            schemeName: best.schemeName,
+            rate: best.rate
+          });
+        }
+        this.updateLiveCalculation();
+        this.logAmountInput.focus();
+        this.logAmountInput.select();
+      });
+    }
+
+    // 當在記帳視窗手動輸入店家名稱時，智慧動態比對推薦方案
+    if (this.logMerchantInput) {
+      this.logMerchantInput.addEventListener('input', (e) => {
+        const merchant = (e.target.value || '').trim();
+        if (!merchant) return;
+        const profile = store.getProfile();
+        const results = this.engine.search(merchant, 'all', profile);
+        if (results && results.length > 0 && results[0].bestCard) {
+          const best = results[0].bestCard;
+          this.rebuildCardSelect({
+            cardId: best.cardId,
+            schemeName: best.schemeName,
+            rate: best.rate
+          });
+          this.updateLiveCalculation();
+        }
+      });
+    }
+
+    // 全域鍵盤快捷鍵 (Power-User Shortcuts)
+    document.addEventListener('keydown', (e) => {
+      const target = e.target;
+      const isInput = target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT');
+
+      // 按 Escape 鍵關閉所有開啟中的彈窗
+      if (e.key === 'Escape') {
+        if (this.disputeModal && this.disputeModal.classList.contains('open')) {
+          this.closeDisputeModal();
+          return;
+        }
+        if (this.syncLogsModal && this.syncLogsModal.classList.contains('open')) {
+          this.closeSyncLogsModal();
+          return;
+        }
+        if (this.logExpenseModal && this.logExpenseModal.classList.contains('open')) {
+          this.closeLogModal();
+          return;
+        }
+        if (this.trackerModal && this.trackerModal.classList.contains('open')) {
+          this.closeTrackerModal();
+          return;
+        }
+        if (this.settingsModal && this.settingsModal.classList.contains('open')) {
+          this.closeSettingsModal();
+          return;
+        }
+        if (this.aboutModal && this.aboutModal.classList.contains('open')) {
+          this.closeAboutModal();
+          return;
+        }
+        return;
+      }
+
+      // 若使用者正在表單輸入框內打字，不觸發字母快捷鍵
+      if (isInput) return;
+
+      // 按 '/' 聚焦搜尋框
+      if (e.key === '/') {
+        e.preventDefault();
+        if (this.searchInput) {
+          this.searchInput.focus();
+          this.searchInput.select();
+        }
+      }
+
+      // 按 'n' 或 'N' 開啟「⚡ 記一筆」
+      if (e.key === 'n' || e.key === 'N') {
+        e.preventDefault();
+        this.openLogModal();
+      }
+
+      // 按 't' / 'T' 或 'l' / 'L' 開啟「📊 點數對帳查核中心」
+      if (e.key === 't' || e.key === 'T' || e.key === 'l' || e.key === 'L') {
+        e.preventDefault();
+        this.openTrackerModal();
+      }
+    });
+
     // 即時計算預期點數
     this.logAmountInput.addEventListener('input', () => this.updateLiveCalculation());
     this.logCardSelect.addEventListener('change', () => this.updateLiveCalculation());
@@ -635,14 +744,7 @@ export class UI {
   // ==========================================
   // 記帳 Log Modal 相關方法
   // ==========================================
-  openLogModal(prefill = {}) {
-    const todayStr = new Date().toISOString().slice(0, 10);
-    this.logDateInput.value = prefill.date || todayStr;
-    this.logMerchantInput.value = prefill.merchantName || '';
-    this.logAmountInput.value = prefill.amount || '';
-    this.logNotesInput.value = prefill.notes || '';
-
-    // 建立卡片與方案選單
+  rebuildCardSelect(prefill = {}) {
     const cards = this.engine.cards;
     const profile = store.getProfile();
     let optionsHtml = '';
@@ -654,7 +756,7 @@ export class UI {
       if (card.schemes && card.schemes.length) {
         card.schemes.forEach((s) => {
           const rate = s.rate || (s.fixedRate ? s.fixedRate : (userCard.tier === 'level3' ? 3.3 : (userCard.tier === 'level2' ? 3.0 : 0.3)));
-          const isSelected = (prefill.cardId === card.id && prefill.schemeName && prefill.schemeName.includes(s.name));
+          const isSelected = (prefill.cardId === card.id && prefill.schemeName && (prefill.schemeName.includes(s.name) || s.name.includes(prefill.schemeName)));
           optionsHtml += `
             <option value="${card.id}|${s.name}|${rate}|${card.name}|${card.bank}" ${isSelected ? 'selected' : ''}>
               ${card.icon} ${card.bank} ${card.name} - ${s.name} (${rate}%)
@@ -674,6 +776,17 @@ export class UI {
     });
 
     this.logCardSelect.innerHTML = optionsHtml;
+  }
+
+  openLogModal(prefill = {}) {
+    const todayStr = new Date().toISOString().slice(0, 10);
+    this.logDateInput.value = prefill.date || todayStr;
+    this.logMerchantInput.value = prefill.merchantName || '';
+    this.logAmountInput.value = prefill.amount || '';
+    this.logNotesInput.value = prefill.notes || '';
+
+    // 建立卡片與方案選單
+    this.rebuildCardSelect(prefill);
     this.updateLiveCalculation();
     this.logExpenseModal.classList.add('open');
     if (!prefill.merchantName) {
@@ -1224,6 +1337,36 @@ export class UI {
   closeAboutModal() {
     if (!this.aboutModal) return;
     this.aboutModal.classList.remove('open');
+  }
+
+  // ==========================================
+  // 🚀 PWA 即時無感版本更新通知
+  // ==========================================
+  showPwaUpdatePrompt(onReload) {
+    const toast = document.getElementById('pwa-update-toast');
+    const reloadBtn = document.getElementById('pwa-reload-btn');
+    const dismissBtn = document.getElementById('pwa-dismiss-btn');
+    if (!toast) return;
+
+    toast.style.display = 'flex';
+
+    if (reloadBtn) {
+      reloadBtn.onclick = () => {
+        reloadBtn.disabled = true;
+        reloadBtn.textContent = '🔄 更新中...';
+        if (typeof onReload === 'function') {
+          onReload();
+        } else {
+          window.location.reload();
+        }
+      };
+    }
+
+    if (dismissBtn) {
+      dismissBtn.onclick = () => {
+        toast.style.display = 'none';
+      };
+    }
   }
 
   showToast(msg) {

@@ -501,6 +501,22 @@ sequenceDiagram
     </ul>
   </section>
 
+  <!-- Phase 6 -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num-tag">Phase 6</span> 第六階段：常用消費智慧範本、全域快捷鍵與 PWA 無感熱更新</h2>
+    <h3>6.1 痛點與解決方案</h3>
+    <ul>
+      <li><strong>常用消費一鍵帶入 (Quick Presets)</strong>：記帳彈窗加入常用快捷膠囊（🍱 Uber Eats $250、🛒 全聯 $500、⛽ 中油 $1000、☕ 星巴克 $165、📦 momo $1200 等），點擊 1 秒自動帶入店家、金額並選取最佳方案。</li>
+      <li><strong>PWA 即時無感版本熱更新 (Zero-Restart Update)</strong>：
+        <ul>
+          <li>Service Worker 支援 <code>SKIP_WAITING</code> 與 <code>visibilitychange</code> 偵測。</li>
+          <li>發布新版本時，自動浮現 <strong>「🚀 發現新版本更新！[⚡ 立即套用]」</strong> 橫幅，點擊無感熱重載，徹底免去殺 App 重開困擾。</li>
+        </ul>
+      </li>
+      <li><strong>全域快捷鍵</strong>：支援 <code>/</code> 聚焦搜尋、<code>N</code> 開啟記帳、<code>T</code>/<code>L</code> 開啟對帳中心、<code>Escape</code> 關閉所有彈窗。</li>
+    </ul>
+  </section>
+
   <!-- ADRs -->
   <section class="section-card">
     <h2 class="section-title"><span class="num-tag">ADR</span> 架構決策記錄 (Architecture Decision Records)</h2>
@@ -545,6 +561,23 @@ sequenceDiagram
       • <strong>雙軌自動化發布</strong>：只要 <code>git push origin main</code>，前端自動發布至 Firebase Hosting，後端 GAS 自動透過 <code>clasp push</code> 與 <code>clasp deploy</code> 上傳部署。<br>
       • <strong>固定 Webhook URL</strong>：自動升級原有部署作業，使用者 Webhook 網址永遠維持不變。
     </div>
+
+    <div class="alert-box alert-success">
+      <strong>ADR-007：為什麼採用 PWA Service Worker 監聽與 SKIP_WAITING 熱更新機制？</strong><br>
+      • <strong>無感更新體驗</strong>：使用者切換回 App 即主動向雲端查詢版本差異。<br>
+      • <strong>告別手動殺 App</strong>：點擊「立即套用」即瞬間刷新接管最新版，徹底解決手機端 PWA 快取不釋放問題。
+    </div>
+  </section>
+
+  <!-- Future Roadmap -->
+  <section class="section-card">
+    <h2 class="section-title"><span class="num-tag">Roadmap</span> 未來演進路線圖 (Future Roadmap / TODO List)</h2>
+    <ul>
+      <li><strong>Option 1：對帳中心統計圖表與月度報表 (Analytics Dashboard)</strong>：提供當月累積消費總計、小樹點/台新Point/現金折抵各卡小計與已入帳進度條。</li>
+      <li><strong>Option 3：Notion 連線健檢診斷器 (Notion Schema Doctor)</strong>：提供一鍵診斷 Notion 資料庫欄位結構與屬性型態。</li>
+      <li><strong>Option 4：離線累積批次重試同步 (Batch Sync Retry)</strong>：一鍵補傳所有未同步至 Notion 的歷史記帳紀錄。</li>
+      <li><strong>Option 5：記帳資料匯出 CSV / Excel</strong>：提供一鍵備份對帳紀錄為試算表檔案。</li>
+    </ul>
   </section>
 
   <!-- Key Resources & Tool URLs -->

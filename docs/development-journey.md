@@ -143,6 +143,28 @@ sequenceDiagram
 
 ---
 
+## ⚡ 第六階段：常用消費智慧範本、全域快捷鍵與 PWA 無感熱更新
+
+### 6.1 痛點分析
+- **記帳步驟冗長**：每次記錄常去通路（如 Uber Eats、全聯、中油、星巴克）都需要重複輸入名稱、金額與選擇方案。
+- **手機 PWA 每次更新必須手動重開**：Service Worker 快取雖然能加速載入，但在手機安裝為 PWA 後，常因為舊 Worker 持續控制頁面，使用者必須手動殺掉 App 重開才能吃到最新版本。
+
+### 6.2 最佳化解決方案
+1. **常用消費快速範本 (Quick Preset Chips)**：
+   - 在「⚡ 快速記一筆」彈窗頂部加入常用快捷膠囊（`🍱 Uber Eats $250`、`🛒 全聯 $500`、`⛽ 中油 $1000`、`☕ 星巴克 $165`、`📦 momo $1200`、`🏪 7-11 $120`、`📚 博客來 $650`）。
+   - 點擊後 1 秒自動帶入店家、金額、備註，並觸發智慧比對演算法自動選取回饋率最高之卡片方案。
+2. **PWA 即時無感版本熱更新 (Instant Zero-Restart PWA Updates)**：
+   - Service Worker 支援 `SKIP_WAITING` 訊息接管指令。
+   - 監聽 `visibilitychange`（使用者切換回 App 前景時主動檢查）與 `updatefound` 事件。
+   - 當 GitHub Actions 發布新版本時，首頁自動彈出 **「🚀 發現新版本更新！[⚡ 立即套用]」** 浮動橫幅，使用者點擊即可無感熱重載套用最新功能，徹底告別殺 App 重開的困擾！
+3. **Power-User 全域鍵盤快捷鍵**：
+   - `/`：快速聚焦搜尋框。
+   - `N`：快速開啟「⚡ 記一筆」記帳彈窗。
+   - `T` / `L`：快速開啟「📊 點數對帳查核中心」。
+   - `Escape`：一鍵關閉所有開啟中的彈窗。
+
+---
+
 ## 🎯 架構決策記錄 (Architecture Decision Records, ADR)
 
 ### ADR-001: 為什麼選擇 Vanilla JS + Vite 而非 React / Vue / Angular？
@@ -203,6 +225,24 @@ sequenceDiagram
   1. **程式碼即基礎設施 (Code as Single Source of Truth)**：`gas-backend/Code.gs` 與 `appsscript.json` 本地化，每一次修改均受 Git Commit 嚴密追蹤。
   2. **雙軌一鍵自動化發布**：只要 `git push origin main`，前端自動發布至 Firebase Hosting，後端 GAS 自動透過 `clasp push` 與 `clasp deploy` 發布至 Google 雲端。
   3. **固定 Webhook URL (Zero Reconfiguration)**：透過指定原有 Deployment ID，自動升級線上 Web App 版本，使用者既有的 Webhook URL 永遠無需重新設定。
+
+---
+
+### ADR-007: 為什麼採用 PWA Service Worker 監聽與 SKIP_WAITING 熱更新機制？
+- **背景**：PWA 預設由 Service Worker 快取所有靜態資源，當伺服器發布新版本時，舊 Worker 仍會鎖定頁面，造成行動端必須手動強制重啟 App 才能吃到最新程式碼。
+- **決策**：整合 `visibilitychange` 與 `SKIP_WAITING` 雙向通知機制，搭配專屬更新橫幅。
+- **效益**：
+  1. **無感更新體驗**：切換回 App 即主動向雲端查詢版本差異。
+  2. **主動提示**：使用者點擊「立即套用」即瞬間刷新，無需關閉重開手機 App。
+
+---
+
+## 🔮 未來演進路線圖 (Future Roadmap / TODO List)
+
+- [ ] **Option 1: 對帳中心統計圖表與月度報表 (Analytics Dashboard)**：在對帳中心頂部提供當月累積刷卡額、各卡別點數小計（小樹點/台新Point/現金折抵）與入帳率進度條。
+- [ ] **Option 3: Notion 連線健檢診斷器 (Notion Schema Doctor)**：在設定頁面提供一鍵檢測 Notion 資料庫結構與欄位名稱/型態是否齊全相容。
+- [ ] **Option 4: 離線累積批次重試同步 (Batch Sync Retry)**：提供一鍵補傳所有未同步至 Notion 的歷史記帳紀錄。
+- [ ] **Option 5: 記帳資料匯出 CSV / Excel**：提供匯出功能，讓純本地端或 Firestore 使用者一鍵備份對帳明細。
 
 ---
 

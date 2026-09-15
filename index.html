@@ -161,6 +161,22 @@
         <button id="log-modal-close-btn" class="modal-close-btn" aria-label="關閉">✕</button>
       </div>
       <form id="log-expense-form" class="log-form">
+        <!-- Quick Preset Chips -->
+        <div class="preset-chips-section">
+          <div class="preset-chips-header">
+            <span class="preset-chips-title">⚡ 常用快速帶入：</span>
+          </div>
+          <div class="preset-chips-scroll" id="preset-chips-list">
+            <button type="button" class="preset-chip" data-merchant="Uber Eats" data-amount="250" data-notes="午餐外送">🍱 Uber Eats $250</button>
+            <button type="button" class="preset-chip" data-merchant="全聯福利中心" data-amount="500" data-notes="日常採買">🛒 全聯 $500</button>
+            <button type="button" class="preset-chip" data-merchant="台灣中油" data-amount="1000" data-notes="汽車加油">⛽ 中油 $1000</button>
+            <button type="button" class="preset-chip" data-merchant="星巴克" data-amount="165" data-notes="咖啡下午茶">☕ 星巴克 $165</button>
+            <button type="button" class="preset-chip" data-merchant="momo購物網" data-amount="1200" data-notes="網購">📦 momo $1200</button>
+            <button type="button" class="preset-chip" data-merchant="7-ELEVEN" data-amount="120" data-notes="超商消費">🏪 7-11 $120</button>
+            <button type="button" class="preset-chip" data-merchant="博客來" data-amount="650" data-notes="購書">📚 博客來 $650</button>
+          </div>
+        </div>
+
         <div class="form-group">
           <label for="log-date">消費日期：</label>
           <input type="date" id="log-date" required class="form-input" />
@@ -505,6 +521,21 @@
           </details>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- PWA Instant Update Toast -->
+  <div id="pwa-update-toast" class="pwa-update-toast" aria-live="polite">
+    <div class="pwa-update-content">
+      <span class="pwa-update-icon">🚀</span>
+      <div class="pwa-update-text">
+        <span class="pwa-update-title">發現新版本更新！</span>
+        <span class="pwa-update-desc">最新功能已準備就緒，點擊即可無感升級</span>
+      </div>
+    </div>
+    <div class="pwa-update-actions">
+      <button type="button" id="pwa-reload-btn" class="pwa-reload-btn">⚡ 立即套用</button>
+      <button type="button" id="pwa-dismiss-btn" class="pwa-dismiss-btn" aria-label="稍後">✕</button>
     </div>
   </div>
 

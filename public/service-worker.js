@@ -1,4 +1,4 @@
-const CACHE_NAME = 'card-matcher-v2026-rwd-1';
+const CACHE_NAME = 'card-matcher-v2026-rwd-2';
 
 const ASSETS_TO_CACHE = [
   '/',
@@ -10,7 +10,6 @@ const ASSETS_TO_CACHE = [
 ];
 
 self.addEventListener('install', (event) => {
-  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(ASSETS_TO_CACHE).catch((err) => {
@@ -33,6 +32,13 @@ self.addEventListener('activate', (event) => {
     })
   );
   self.clients.claim();
+});
+
+// 監聽前端發送的 SKIP_WAITING 指令，讓新版 Service Worker 立即接管控制權
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 // Network-First for HTML/navigation, Cache-First for static assets
@@ -71,3 +77,4 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+
