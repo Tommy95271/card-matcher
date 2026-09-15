@@ -93,6 +93,13 @@ timeline
 - 建立 `.github/workflows/firebase-hosting-merge.yml`：
   - 只要 `git push origin main`，GitHub Actions 雲端虛擬機全自動執行 `npm ci` ➔ `npm run build` ➔ `Firebase Hosting Deploy`。
 
+### 4.3 GitHub Actions ⇄ Google Apps Script 自動化部署管道
+- 採用 Google 官方 `@google/clasp` CLI 工具。
+- 將 OAuth 憑證以加密密鑰寫入 GitHub Secrets（`CLASPRC_JSON`）。
+- 建立 `.github/workflows/deploy-gas.yml`：
+  - 當 `gas-backend/` 程式碼有任何異動推送到 `main` 時，GitHub Actions 自動安裝 clasp ➔ 注入憑證 ➔ `clasp push --force` ➔ `clasp deploy` 更新現有 Webhook 部署。
+  - **成果**：後端程式碼從此不需手動複製貼上到網頁編輯器，推送 Git 即全自動完成 Google 雲端部署！
+
 ---
 
 ## 📱 第五階段：行動端 RWD 極致適配 (iPhone 13 窄螢幕最佳化)
