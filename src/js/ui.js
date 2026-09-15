@@ -536,7 +536,16 @@ export class UI {
     // 0ms 零延遲切換：短暫關閉全局 transition 避免重算重度模糊
     document.documentElement.classList.add('theme-switching');
     document.documentElement.setAttribute('data-theme', theme);
+    if (document.body) {
+      document.body.setAttribute('data-theme', theme);
+    }
     this.themeToggleBtn.innerHTML = theme === 'dark' ? '🌙' : '☀️';
+
+    // 同步更新行動裝置瀏覽器頂部狀態列 theme-color
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', theme === 'dark' ? '#0f1217' : '#f6f8fa');
+    }
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {

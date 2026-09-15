@@ -212,13 +212,13 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  background: rgba(244, 63, 94, 0.08);
-  border: 1px solid rgba(244, 63, 94, 0.25);
+  background: var(--pitfall-bg);
+  border: 1px solid var(--pitfall-border);
   border-radius: var(--radius-md);
   padding: 12px 14px;
   margin-bottom: 14px;
   font-size: 0.85rem;
-  color: #fda4af;
+  color: var(--pitfall-text);
   line-height: 1.5;
 }
 
@@ -229,8 +229,8 @@
 
 /* Best Match Card (Quiet Luxury Banner) */
 .best-card-banner {
-  background: var(--bg-secondary);
-  border: 1px solid rgba(16, 185, 129, 0.35);
+  background: var(--banner-best-bg);
+  border: 1px solid var(--banner-best-border);
   border-radius: var(--radius-md);
   padding: 16px;
   margin-bottom: 14px;
