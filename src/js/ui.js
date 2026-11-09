@@ -4,6 +4,19 @@ import { firebaseService } from './firebase.js';
 import { syncLogger } from './logger.js';
 import { CHANGELOG_DATA } from '../data/changelog.js';
 
+/**
+ * 安全 HTML 轉義函式，防範 Stored / DOM-based XSS 跨站腳本攻擊
+ */
+export function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 export class UI {
   constructor(engine) {
     this.engine = engine;
@@ -697,10 +710,11 @@ export class UI {
     this.resultsCountEl.textContent = `共找到 ${results.length} 個適用通路`;
 
     if (results.length === 0) {
+      const safeQuery = escapeHtml(this.currentQuery);
       this.resultsContainer.innerHTML = `
         <div class="empty-state">
           <div class="empty-state-icon">💡</div>
-          <div class="empty-state-title">未找到名為「${this.currentQuery}」的專屬特約紀錄</div>
+          <div class="empty-state-title">未找到名為「${safeQuery}」的專屬特約紀錄</div>
           <div class="empty-state-desc" style="max-width: 520px; margin: 0 auto 16px;">
             銀行許多方案採<strong>「大類別全通路認定 (MCC 特店類別)」</strong>（例如：全台實體餐廳只要有刷卡機一律適用【台新好饗刷 3.3%】或【國泰 CUBE 樂饗購 3.0%~3.3%】）。
           </div>
@@ -716,7 +730,7 @@ export class UI {
             </button>
           </div>
           <p style="margin-top: 14px; font-size: 0.8rem; color: var(--text-muted);">
-            ✨ 您也可以隨時在您的 Notion 資料庫中新增「${this.currentQuery}」，執行同步後即會出現在此處！
+            ✨ 您也可以隨時在您的 Notion 資料庫中新增「${safeQuery}」，執行同步後即會出現在此處！
           </p>
         </div>
       `;
@@ -1069,19 +1083,19 @@ export class UI {
       }
     }
 
-    // 6. 渲染 DOM
+    // 6. 渲染 DOM (透過 escapeHtml 杜絕 XSS 注入)
     presetListEl.innerHTML = finalPresets.map((p) => `
       <button 
         type="button" 
         class="preset-chip" 
-        data-merchant="${p.merchantName}" 
-        data-amount="${p.amount || ''}" 
-        data-notes="${p.notes || ''}"
-        data-card-id="${p.cardId || ''}"
-        data-scheme-name="${p.schemeName || ''}"
-        data-rate="${p.rate || ''}"
-        title="快速帶入【${p.merchantName}】${p.amount ? 'NT$' + p.amount : ''}">
-        ${p.label}
+        data-merchant="${escapeHtml(p.merchantName)}" 
+        data-amount="${escapeHtml(p.amount || '')}" 
+        data-notes="${escapeHtml(p.notes || '')}"
+        data-card-id="${escapeHtml(p.cardId || '')}"
+        data-scheme-name="${escapeHtml(p.schemeName || '')}"
+        data-rate="${escapeHtml(p.rate || '')}"
+        title="快速帶入【${escapeHtml(p.merchantName)}】${p.amount ? 'NT$' + p.amount : ''}">
+        ${escapeHtml(p.label)}
       </button>
     `).join('');
   }
@@ -1266,9 +1280,17 @@ export class UI {
 
     this.trackerLedgerList.innerHTML = filteredExpenses.map((exp) => {
       const statusClass = exp.status;
+      const safeUnit = escapeHtml(exp.unit || '點');
+      const safeRewardName = escapeHtml(exp.rewardName || '');
+      const safeMerchant = escapeHtml(exp.merchantName);
+      const safeBank = escapeHtml(exp.bank);
+      const safeCardName = escapeHtml(exp.cardName);
+      const safeSchemeName = escapeHtml(exp.schemeName);
+      const safeNotes = exp.notes ? `• 📝 ${escapeHtml(exp.notes)}` : '';
+
       let statusLabel = '🟡 待核對';
       if (exp.status === 'verified') statusLabel = '🟢 已入帳';
-      else if (exp.status === 'discrepancy') statusLabel = `🔴 漏給 (實收: ${exp.actualPoints || 0}${exp.unit})`;
+      else if (exp.status === 'discrepancy') statusLabel = `🔴 漏給 (實收: ${escapeHtml(exp.actualPoints || 0)}${safeUnit})`;
 
       let syncBadgeHtml = '';
       if (exp.syncStatus === 'synced' || exp.notionPageId) {
@@ -1286,17 +1308,17 @@ export class UI {
           <div class="expense-item-main">
             <div class="expense-merchant-info">
               <div style="display: flex; align-items: center;">
-                <span class="expense-merchant-name">${exp.merchantName}</span>
+                <span class="expense-merchant-name">${safeMerchant}</span>
                 ${syncBadgeHtml}
               </div>
               <div class="expense-meta">
-                📅 ${exp.date} • 💳 ${exp.bank} ${exp.cardName} (${exp.schemeName} ${exp.rate}%)
-                ${exp.notes ? `• 📝 ${exp.notes}` : ''}
+                📅 ${exp.date} • 💳 ${safeBank} ${safeCardName} (${safeSchemeName} ${exp.rate}%)
+                ${safeNotes}
               </div>
             </div>
             <div class="expense-amount-area">
-              <div class="expense-amount-num">NT$ ${exp.amount.toLocaleString()}</div>
-              <div class="expense-points-expected">預期: +${exp.expectedPoints} ${exp.unit}${exp.rewardName}</div>
+              <div class="expense-amount-num">NT$ ${Number(exp.amount || 0).toLocaleString()}</div>
+              <div class="expense-points-expected">預期: +${exp.expectedPoints} ${safeUnit}${safeRewardName}</div>
             </div>
           </div>
           <div class="expense-item-footer">
@@ -1724,7 +1746,7 @@ export class UI {
         detailsHtml = `
           <details class="log-details-collapsible">
             <summary>🔍 查看除錯詳情 (Details)</summary>
-            <pre class="log-details-content">${detailsStr.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
+            <pre class="log-details-content">${escapeHtml(detailsStr)}</pre>
           </details>
         `;
       }
@@ -1736,9 +1758,9 @@ export class UI {
               <span class="log-badge ${typeClass}">${typeLabel}</span>
               <span class="log-badge ${statusPillClass}">${statusLabel}</span>
             </div>
-            <span class="log-time">${log.timeFormatted || log.timestamp.substring(11, 19)}</span>
+            <span class="log-time">${escapeHtml(log.timeFormatted || log.timestamp.substring(11, 19))}</span>
           </div>
-          <div class="log-message">${log.message.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+          <div class="log-message">${escapeHtml(log.message)}</div>
           ${detailsHtml}
         </div>
       `;
@@ -1816,7 +1838,7 @@ export class UI {
 
     const toast = document.createElement('div');
     toast.className = 'toast';
-    toast.innerHTML = `<span>✨</span><span>${msg}</span>`;
+    toast.innerHTML = `<span>✨</span><span>${escapeHtml(msg)}</span>`;
     container.appendChild(toast);
 
     setTimeout(() => {

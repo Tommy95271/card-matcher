@@ -3,6 +3,28 @@
  */
 export const CHANGELOG_DATA = [
   {
+    version: 'v2026.4.3',
+    date: '2026-11-09',
+    title: '全域資安加固 (Firestore 多租戶隔離、XSS 注入防護與安全防禦 Headers)',
+    highlights: [
+      {
+        tag: 'security',
+        label: '🛡️ Firestore 租戶權限隔離',
+        desc: '重構安全規則 (firestore.rules)，將 expenses 與 profile 嚴格限制為僅本人 UID 可讀寫，杜絕匿名爬取與跨租戶未授權竄改 (IDOR)。'
+      },
+      {
+        tag: 'security',
+        label: '🔒 XSS 跨站腳本注入防護',
+        desc: '引進全域 escapeHtml 安全轉義機制，全面防禦記帳備註、自訂店家名稱與同步日誌的 Stored / DOM-based XSS 攻擊。'
+      },
+      {
+        tag: 'security',
+        label: '🌐 安全性 HTTP Headers 部署',
+        desc: '在 Firebase Hosting 注入 X-Content-Type-Options: nosniff、X-Frame-Options: DENY 與 Referrer-Policy 標頭，阻擋點擊劫持與 MIME 探測。'
+      }
+    ]
+  },
+  {
     version: 'v2026.4.2',
     date: '2026-11-09',
     title: '特殊支付通路重點標記與指定行動支付防呆提醒',
