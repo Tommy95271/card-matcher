@@ -2050,7 +2050,8 @@
       "Seven"
     ],
     "categories": [
-      "general"
+      "general",
+      "四大超商"
     ],
     "categoryName": "四大超商",
     "isPitfall": true,
@@ -2081,7 +2082,14 @@
         "rate": 3,
         "notes": "回饋 3%"
       }
-    }
+    },
+    "disallowPhysicalCard": true,
+    "requiredPayments": [
+      "台新 Pay",
+      "OPEN錢包",
+      "icash Pay"
+    ],
+    "paymentNotice": "勿刷實體卡！門市直接感應或插卡通常列入「超商排除條款」（0% 回饋）。請打開 APP 出示指定行動支付條碼結帳。"
   },
   {
     "id": "m_3dbdc85d",
@@ -2093,7 +2101,8 @@
       "全家超商"
     ],
     "categories": [
-      "general"
+      "general",
+      "四大超商"
     ],
     "categoryName": "四大超商",
     "isPitfall": true,
@@ -2124,7 +2133,13 @@
         "rate": 3,
         "notes": "回饋 3%"
       }
-    }
+    },
+    "disallowPhysicalCard": true,
+    "requiredPayments": [
+      "台新 Pay",
+      "全盈+PAY"
+    ],
+    "paymentNotice": "勿刷實體卡！超商門市實體刷卡多數銀行不回饋。請出示【台新 Pay】或【全盈+PAY】條碼結帳。"
   },
   {
     "id": "m_3dbdc85d",
@@ -2169,7 +2184,13 @@
         "rate": 0,
         "notes": "回饋 0%"
       }
-    }
+    },
+    "disallowPhysicalCard": true,
+    "requiredPayments": [
+      "全支付",
+      "PX Pay"
+    ],
+    "paymentNotice": "全台最大刷卡雷區！實體信用卡或 Apple Pay 99% 排除回饋，請務必綁定【全支付】或【PX Pay】掃碼結帳。"
   },
   {
     "id": "m_3dbdc85d",
@@ -4500,6 +4521,108 @@
         "schemeName": "回饋方案",
         "rate": 3,
         "notes": "回饋 3%"
+      }
+    }
+  },
+  {
+    "id": "m_hilife",
+    "name": "萊爾富便利商店 (Hi-Life)",
+    "aliases": [
+      "萊爾富便利商店 (Hi-Life)",
+      "萊爾富",
+      "Hi-Life",
+      "Hilife",
+      "萊爾富超商"
+    ],
+    "categories": [
+      "四大超商",
+      "general"
+    ],
+    "categoryName": "四大超商",
+    "disallowPhysicalCard": true,
+    "requiredPayments": [
+      "台新 Pay",
+      "HiPay"
+    ],
+    "paymentNotice": "勿刷實體卡！超商直接刷卡多數銀行不回饋。請使用【台新 Pay】或【HiPay】條碼結帳。",
+    "isPitfall": true,
+    "pitfallWarning": "門市直接刷實體卡多數銀行不回饋！請使用指定行動支付出示條碼。",
+    "paymentAdvice": "📱 優先使用 台新 Pay (天天刷 3.3%) 或 兆豐 BT21 (行動支付 3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "general",
+        "schemeName": "一般消費",
+        "rate": 0.3,
+        "notes": "一般消費 0.3%"
+      },
+      "taishin_richart": {
+        "schemeId": "daily",
+        "schemeName": "天天刷",
+        "rate": 3.3,
+        "notes": "天天刷 (須台新 Pay)"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 0,
+        "notes": "超商排除 0%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "行動支付",
+        "rate": 3,
+        "notes": "指定行動支付 3%"
+      }
+    }
+  },
+  {
+    "id": "m_okmart",
+    "name": "OK 超商 (OK Mart)",
+    "aliases": [
+      "OK 超商 (OK Mart)",
+      "OK超商",
+      "OKMart",
+      "OK Mart",
+      "OK便利商店"
+    ],
+    "categories": [
+      "四大超商",
+      "general"
+    ],
+    "categoryName": "四大超商",
+    "disallowPhysicalCard": true,
+    "requiredPayments": [
+      "台新 Pay",
+      "OK Pay"
+    ],
+    "paymentNotice": "勿刷實體卡！超商直接刷卡多數銀行不回饋。請使用【台新 Pay】或【OK Pay】條碼結帳。",
+    "isPitfall": true,
+    "pitfallWarning": "門市直接刷實體卡多數銀行不回饋！請出示指定行動支付條碼。",
+    "paymentAdvice": "📱 優先使用 台新 Pay (天天刷 3.3%) 或 兆豐 BT21 (行動支付 3.0%)",
+    "schemes": {
+      "cathay_cube": {
+        "schemeId": "general",
+        "schemeName": "一般消費",
+        "rate": 0.3,
+        "notes": "一般消費 0.3%"
+      },
+      "taishin_richart": {
+        "schemeId": "daily",
+        "schemeName": "天天刷",
+        "rate": 3.3,
+        "notes": "天天刷 (須台新 Pay)"
+      },
+      "esun_ubear": {
+        "schemeId": "general",
+        "schemeName": "回饋方案",
+        "rate": 0,
+        "notes": "超商排除 0%"
+      },
+      "mega_bt21": {
+        "schemeId": "mobile_pay",
+        "schemeName": "行動支付",
+        "rate": 3,
+        "notes": "指定行動支付 3%"
       }
     }
   }

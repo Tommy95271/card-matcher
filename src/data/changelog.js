@@ -3,6 +3,28 @@
  */
 export const CHANGELOG_DATA = [
   {
+    version: 'v2026.4.2',
+    date: '2026-11-09',
+    title: '特殊支付通路重點標記與指定行動支付防呆提醒',
+    highlights: [
+      {
+        tag: 'feat',
+        label: '🚨 勿刷實體卡警示',
+        desc: '針對超商（7-11/全家/萊爾富/OK）與全聯等不支援直接刷實體卡或 0% 排除之通路，新增高能見度「特殊支付限定橫幅」與徽章（如 台新 Pay / 全盈+PAY）。'
+      },
+      {
+        tag: 'ux',
+        label: '📱 方案與結帳聯動',
+        desc: '卡片推薦方案旁直接標註必備行動支付方式，並在「⚡ 記一筆」時自動預填備註與提供即時防呆提示，避免櫃檯誤掏實體卡。'
+      },
+      {
+        tag: 'data',
+        label: '🏪 四大超商與量販資料擴充',
+        desc: '補齊萊爾富與 OK 超商特約資料，結構化建立 disallowPhysicalCard 與 requiredPayments 欄位。'
+      }
+    ]
+  },
+  {
     version: 'v2026.4.1',
     date: '2026-09-15',
     title: '介面極簡降噪與典雅視覺重構',

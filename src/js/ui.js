@@ -80,6 +80,7 @@ export class UI {
     this.logCardSelect = document.getElementById('log-card-select');
     this.logCalcDisplay = document.getElementById('log-calc-display');
     this.logNotesInput = document.getElementById('log-notes');
+    this.logPaymentWarning = document.getElementById('log-payment-warning');
 
     // Tracker Ledger DOM 元素
     this.trackerModal = document.getElementById('tracker-modal');
@@ -432,21 +433,30 @@ export class UI {
       });
     }
 
-    // 當在記帳視窗手動輸入店家名稱時，智慧動態比對推薦方案
+    // 當在記帳視窗手動輸入店家名稱時，智慧動態比對推薦方案與特殊支付提醒
     if (this.logMerchantInput) {
       this.logMerchantInput.addEventListener('input', (e) => {
         const merchant = (e.target.value || '').trim();
-        if (!merchant) return;
+        if (!merchant) {
+          if (this.logPaymentWarning) this.logPaymentWarning.style.display = 'none';
+          return;
+        }
         const profile = store.getProfile();
         const results = this.engine.search(merchant, 'all', profile);
-        if (results && results.length > 0 && results[0].bestCard) {
-          const best = results[0].bestCard;
-          this.rebuildCardSelect({
-            cardId: best.cardId,
-            schemeName: best.schemeName,
-            rate: best.rate
-          });
-          this.updateLiveCalculation();
+        if (results && results.length > 0) {
+          const firstResult = results[0];
+          if (firstResult.bestCard) {
+            const best = firstResult.bestCard;
+            this.rebuildCardSelect({
+              cardId: best.cardId,
+              schemeName: best.schemeName,
+              rate: best.rate
+            });
+            this.updateLiveCalculation();
+          }
+          this.updateLogPaymentWarning(firstResult.merchant);
+        } else {
+          if (this.logPaymentWarning) this.logPaymentWarning.style.display = 'none';
         }
       });
     }
@@ -722,11 +732,13 @@ export class UI {
         const cardId = btn.dataset.cardId;
         const schemeName = btn.dataset.schemeName;
         const rate = btn.dataset.rate;
+        const requiredPayments = btn.dataset.requiredPayments;
         this.openLogModal({
           merchantName,
           cardId,
           schemeName,
-          rate
+          rate,
+          notes: requiredPayments ? `以 ${requiredPayments} 結帳` : ''
         });
       });
     });
@@ -734,6 +746,28 @@ export class UI {
 
   renderMerchantCard(evalResult, profile) {
     const { merchant, bestCard, allCards } = evalResult;
+
+    // 特殊支付限制提示（勿刷實體信用卡）
+    let paymentAlertHtml = '';
+    if (merchant.disallowPhysicalCard || (merchant.requiredPayments && merchant.requiredPayments.length > 0)) {
+      const pills = (merchant.requiredPayments || []).map((p) => `<span class="payment-method-pill">📲 ${p}</span>`).join('');
+      paymentAlertHtml = `
+        <div class="payment-restriction-banner">
+          <div class="payment-restriction-header">
+            <span class="payment-restriction-icon">🚨</span>
+            <div class="payment-restriction-title-wrap">
+              <div class="payment-restriction-title">勿刷實體信用卡！此通路限定特定支付方式</div>
+              <div class="payment-restriction-sub">門市直接拿實體卡感應或插卡通常列入「排除條款」（0% 回饋或無法刷卡）</div>
+            </div>
+          </div>
+          <div class="payment-restriction-body">
+            <span class="payment-restriction-label">結帳請出示：</span>
+            <div class="payment-method-pills">${pills}</div>
+          </div>
+          ${merchant.paymentNotice ? `<div class="payment-restriction-notice">${merchant.paymentNotice}</div>` : ''}
+        </div>
+      `;
+    }
 
     // 雷區警語 HTML (醒目高對比，重要防呆限制)
     const pitfallHtml = merchant.isPitfall && merchant.pitfallWarning ? `
@@ -754,6 +788,10 @@ export class UI {
         ? `<div class="simulation-note">⚡ 若維持今日鎖定方案實拿 <strong>${bestCard.actualTodayRate}%</strong>（切換至 <strong>${bestCard.schemeName}</strong> 享最高 <strong>${bestCard.rate}%</strong>）</div>`
         : '';
 
+      const requiredPayTag = (merchant.requiredPayments && merchant.requiredPayments.length > 0)
+        ? `<span class="required-pay-inline-tag">（限定以 ${merchant.requiredPayments.join('/')} 結帳）</span>`
+        : '';
+
       bestHeroHtml = `
         <div class="best-card-banner">
           <div class="best-card-header-row">
@@ -765,6 +803,7 @@ export class UI {
                 data-card-id="${bestCard.cardId}"
                 data-scheme-name="${bestCard.schemeName}"
                 data-rate="${bestCard.rate}"
+                data-required-payments="${(merchant.requiredPayments || []).join('/')}"
                 title="以此方案快速記一筆">
                 ⚡ 記一筆
               </button>
@@ -776,7 +815,7 @@ export class UI {
               <span class="best-card-icon">${bestCard.icon}</span>
               <div>
                 <div class="best-card-name">${bestCard.bank} ${bestCard.cardName}</div>
-                <div class="best-scheme-name">適用方案：${bestCard.schemeName}</div>
+                <div class="best-scheme-name">適用方案：${bestCard.schemeName}${requiredPayTag}</div>
               </div>
             </div>
             <div class="best-rate-badge">
@@ -813,6 +852,7 @@ export class UI {
                     data-card-id="${c.cardId}"
                     data-scheme-name="${c.schemeName}"
                     data-rate="${c.rate}"
+                    data-required-payments="${(merchant.requiredPayments || []).join('/')}"
                     title="以此卡記一筆">
                     ⚡ 記
                   </button>
@@ -838,6 +878,7 @@ export class UI {
             <span class="category-tag">${merchant.categoryName}</span>
           </div>
         </div>
+        ${paymentAlertHtml}
         ${pitfallHtml}
         ${bestHeroHtml}
         ${otherCardsHtml}
@@ -887,7 +928,23 @@ export class UI {
     this.logDateInput.value = prefill.date || todayStr;
     this.logMerchantInput.value = prefill.merchantName || '';
     this.logAmountInput.value = prefill.amount || '';
-    this.logNotesInput.value = prefill.notes || '';
+
+    // 檢查是否有特殊支付提醒 (若無指定 notes 且該店家有限定支付，自動預填)
+    let matchedMerchant = null;
+    if (prefill.merchantName) {
+      const profile = store.getProfile();
+      const results = this.engine.search(prefill.merchantName, 'all', profile);
+      if (results && results.length > 0) {
+        matchedMerchant = results[0].merchant;
+      }
+    }
+    this.updateLogPaymentWarning(matchedMerchant);
+
+    let initialNotes = prefill.notes || '';
+    if (!initialNotes && matchedMerchant && matchedMerchant.requiredPayments && matchedMerchant.requiredPayments.length > 0) {
+      initialNotes = `以 ${matchedMerchant.requiredPayments.join('/')} 結帳`;
+    }
+    this.logNotesInput.value = initialNotes;
 
     // 動態計算並渲染使用者最常用的 5 筆預設 Chips
     this.renderDynamicPresetChips();
@@ -900,6 +957,19 @@ export class UI {
       this.logMerchantInput.focus();
     } else {
       this.logAmountInput.focus();
+    }
+  }
+
+  updateLogPaymentWarning(merchant) {
+    if (!this.logPaymentWarning) return;
+    if (merchant && (merchant.disallowPhysicalCard || (merchant.requiredPayments && merchant.requiredPayments.length > 0))) {
+      const pays = (merchant.requiredPayments || []).join(' / ') || '指定行動支付';
+      this.logPaymentWarning.innerHTML = `
+        <span>🚨 <strong>勿刷實體信用卡！</strong> 此通路結帳需使用【${pays}】方享回饋。</span>
+      `;
+      this.logPaymentWarning.style.display = 'block';
+    } else {
+      this.logPaymentWarning.style.display = 'none';
     }
   }
 

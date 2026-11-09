@@ -268,6 +268,139 @@
   letter-spacing: 0.2px;
 }
 
+/* Payment Restriction Banner (勿刷實體卡！限定支付特別須知) */
+.payment-restriction-banner {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1.5px solid rgba(239, 68, 68, 0.38);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 2px 12px rgba(239, 68, 68, 0.07);
+}
+
+[data-theme="light"] .payment-restriction-banner {
+  background: #fff5f5;
+  border-color: #fca5a5;
+}
+
+.payment-restriction-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.payment-restriction-icon {
+  font-size: 1.25rem;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.payment-restriction-title-wrap {
+  flex: 1;
+}
+
+.payment-restriction-title {
+  font-size: 0.92rem;
+  font-weight: 750;
+  color: #f87171;
+  letter-spacing: 0.2px;
+  line-height: 1.35;
+}
+
+[data-theme="light"] .payment-restriction-title {
+  color: #dc2626;
+}
+
+.payment-restriction-sub {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+.payment-restriction-body {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 4px 0 2px;
+}
+
+.payment-restriction-label {
+  font-size: 0.8rem;
+  font-weight: 650;
+  color: var(--text-primary);
+}
+
+.payment-method-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.payment-method-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(99, 102, 241, 0.16);
+  border: 1px solid rgba(99, 102, 241, 0.45);
+  color: #a5b4fc;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+[data-theme="light"] .payment-method-pill {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+  color: #4338ca;
+}
+
+.payment-restriction-notice {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  border-top: 1px dashed rgba(239, 68, 68, 0.25);
+  padding-top: 6px;
+  margin-top: 2px;
+}
+
+/* Inline Required Pay Tag in Scheme */
+.required-pay-inline-tag {
+  color: #f87171;
+  font-weight: 700;
+  font-size: 0.8rem;
+  margin-left: 6px;
+}
+
+[data-theme="light"] .required-pay-inline-tag {
+  color: #dc2626;
+}
+
+/* Modal Payment Warning */
+.log-payment-warning {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: var(--radius-sm);
+  color: #f87171;
+  font-size: 0.8rem;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+[data-theme="light"] .log-payment-warning {
+  background: #fff5f5;
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+
 /* Best Match Card (Quiet Luxury Banner) */
 .best-card-banner {
   background: var(--banner-best-bg);
