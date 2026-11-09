@@ -127,38 +127,16 @@ function doPost(e) {
 }
 
 /**
- * 處理 GET 請求 (拉取最新記帳清單、健康檢查)
+ * 處理 GET 請求 (僅作為伺服器健康檢查 Ping，嚴格禁止在 URL Query 傳遞敏感金鑰)
  */
 function doGet(e) {
-  try {
-    const params = (e && e.parameter) ? e.parameter : {};
-    const action = params.action || 'ping';
-
-    if (action === 'fetch_expenses' || action === 'test_connection') {
-      const payload = {
-        notionApiKey: params.notionApiKey,
-        notionDbId: params.notionDbId || params.notionExpensesDbId
-      };
-      if (action === 'test_connection') {
-        const testRes = handleTestConnection(payload);
-        return createJsonResponse({ success: true, result: testRes });
-      }
-      const expenses = handleFetchExpenses(payload);
-      return createJsonResponse({ success: true, count: expenses.length, expenses: expenses });
-    }
-
-    return createJsonResponse({
-      success: true,
-      service: 'Card Matcher Universal Notion GAS Relay API',
-      status: 'active',
-      timestamp: new Date().toISOString()
-    });
-  } catch (error) {
-    return createJsonResponse({
-      success: false,
-      error: error.message || error.toString()
-    });
-  }
+  return createJsonResponse({
+    success: true,
+    service: 'Card Matcher Universal Notion GAS Relay API',
+    status: 'active',
+    version: '2026.4.3',
+    timestamp: new Date().toISOString()
+  });
 }
 
 /**

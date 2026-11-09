@@ -174,15 +174,17 @@ export class Tracker {
     bank = '',
     notes = ''
   }) {
-    const parsedAmount = parseFloat(amount) || 0;
-    const parsedRate = parseFloat(rate) || 0;
+    // 邊界防護：金額限制在 1 ~ 10,000,000 之間，防止異常負數、溢位或天文數字
+    const rawAmount = parseFloat(amount) || 0;
+    const parsedAmount = Math.min(Math.max(0, Math.round(rawAmount)), 10000000);
+    const parsedRate = Math.min(Math.max(0, parseFloat(rate) || 0), 100);
     const { expectedPoints, unit, rewardName } = this.calculateReward(parsedAmount, parsedRate, cardId);
 
     const newEntry = {
       id: 'exp_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
-      merchantName: (merchantName || '').trim(),
-      cardName: (cardName || '').trim(),
-      schemeName: (schemeName || '').trim(),
+      merchantName: (merchantName || '').trim().slice(0, 100),
+      cardName: (cardName || '').trim().slice(0, 100),
+      schemeName: (schemeName || '').trim().slice(0, 100),
       rate: parsedRate,
       amount: parsedAmount,
       expectedPoints: expectedPoints,
@@ -190,7 +192,7 @@ export class Tracker {
       unit,
       rewardName,
       date: date || new Date().toISOString().split('T')[0],
-      notes: (notes || '').trim(),
+      notes: (notes || '').trim().slice(0, 300),
       status: 'pending',
       cardId,
       bank,
