@@ -1772,6 +1772,11 @@ export class UI {
   // ==========================================
   openAboutModal() {
     if (!this.aboutModal) return;
+    const appVersion = typeof __APP_VERSION__ !== 'undefined' ? __APP_VERSION__ : '1.0.1';
+    const versionBadge = document.getElementById('about-modal-version-badge');
+    if (versionBadge) versionBadge.textContent = `v${appVersion}`;
+    const versionFooter = document.getElementById('about-app-version');
+    if (versionFooter) versionFooter.textContent = `版本：v${appVersion} • MIT License`;
     this.aboutModal.classList.add('open');
   }
 

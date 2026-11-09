@@ -3,6 +3,28 @@
  */
 export const CHANGELOG_DATA = [
   {
+    version: 'v1.0.1',
+    date: '2026-11-09',
+    title: '語意化版本號 (SemVer) 系統與左上角彈窗動態徽章',
+    highlights: [
+      {
+        tag: 'feat',
+        label: '🏷️ 語意化版本號 (SemVer)',
+        desc: '正式建立 MAJOR.MINOR.PATCH 規範，以 package.json 為單一真實來源，每次 commit 依變更性質自動遞增。'
+      },
+      {
+        tag: 'ui',
+        label: '✨ 左上角彈窗即時版號',
+        desc: '點擊左上角 💳 按鈕的「關於專案」彈窗，標題即時展示翠綠色版號微膠囊徽章，底部同步顯示正式版號。'
+      },
+      {
+        tag: 'arch',
+        label: '🚀 Vite 動態編譯注入',
+        desc: '透過 Vite define __APP_VERSION__ 自動將版本號編譯注入前端與 Service Worker PWA 快取識別碼。'
+      }
+    ]
+  },
+  {
     version: 'v2026.4.3',
     date: '2026-11-09',
     title: '全域資安加固 (Firestore 多租戶隔離、XSS 注入防護與安全防禦 Headers)',

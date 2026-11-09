@@ -1,6 +1,6 @@
 {
   "name": "card-matcher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "2026 信用卡最佳方案與商店查詢系統 (純靜態 PWA + Notion 整合)",
   "type": "module",
   "scripts": {
